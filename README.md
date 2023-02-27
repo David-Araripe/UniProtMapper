@@ -1,1 +1,1 @@
-# uniprot_id_mapping
+# UniProtMapping
