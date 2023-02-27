@@ -1,0 +1,137 @@
+{
+    "UniProt": [
+        "UniProtKB-Swiss-Prot",
+        "UniProtKB_AC-ID",
+        "UniParc",
+        "UniRef50",
+        "UniRef90",
+        "UniRef100",
+        "Gene_Name",
+        "CRC64"
+    ],
+    "Sequence databases": [
+        "CCDS",
+        "EMBL-GenBank-DDBJ",
+        "EMBL-GenBank-DDBJ CDS",
+        "GI_number",
+        "PIR",
+        "RefSeq Nucleotide",
+        "RefSeq Protein"
+    ],
+    "3D structure databases": [
+        "PDB"
+    ],
+    "Protein-protein interaction databases": [
+        "BioGRID",
+        "ComplexPortal",
+        "DIP",
+        "STRING"
+    ],
+    "Chemistry": [
+        "ChEMBL",
+        "DrugBank",
+        "GuidetoPHARMACOLOGY",
+        "SwissLipids"
+    ],
+    "Protein family/group databases": [
+        "Allergome",
+        "CLAE",
+        "ESTHER",
+        "MEROPS",
+        "PeroxiBase",
+        "REBASE",
+        "TCDB"
+    ],
+    "PTM databases": [
+        "GlyConnect"
+    ],
+    "Genetic variation databases": [
+        "BioMuta",
+        "DMDM"
+    ],
+    "2D gel databases": [
+        "World-2DPAGE"
+    ],
+    "Proteomic databases": [
+        "CPTAC",
+        "ProteomicsDB"
+    ],
+    "Protocols and materials databases": [
+        "DNASU"
+    ],
+    "Genome annotation databases": [
+        "Ensembl",
+        "Ensembl_Genomes",
+        "Ensembl_Genomes_Protein",
+        "Ensembl_Genomes_Transcript",
+        "Ensembl_Protein",
+        "Ensembl_Transcript",
+        "GeneID",
+        "KEGG",
+        "PATRIC",
+        "UCSC",
+        "WBParaSite",
+        "WBParaSite_Transcript-Protein"
+    ],
+    "Organism-specific databases": [
+        "ArachnoServer",
+        "Araport",
+        "CGD",
+        "ConoServer",
+        "dictyBase",
+        "EchoBASE",
+        "euHCVdb",
+        "FlyBase",
+        "GeneCards",
+        "GeneReviews",
+        "HGNC",
+        "LegioList",
+        "Leproma",
+        "MaizeGDB",
+        "MGI",
+        "MIM",
+        "neXtProt",
+        "OpenTargets",
+        "Orphanet",
+        "PharmGKB",
+        "PomBase",
+        "PseudoCAP",
+        "RGD",
+        "SGD",
+        "TubercuList",
+        "VEuPathDB",
+        "VGNC",
+        "WormBase",
+        "WormBase_Protein",
+        "WormBase_Transcript",
+        "Xenbase",
+        "ZFIN"
+    ],
+    "Phylogenomic databases": [
+        "eggNOG",
+        "GeneTree",
+        "HOGENOM",
+        "OMA",
+        "OrthoDB",
+        "TreeFam"
+    ],
+    "Enzyme and pathway databases": [
+        "BioCyc",
+        "PlantReactome",
+        "Reactome",
+        "UniPathway"
+    ],
+    "Miscellaneous": [
+        "ChiTaRS",
+        "GeneWiki",
+        "GenomeRNAi",
+        "PHI-base"
+    ],
+    "Gene expression databases": [
+        "CollecTF"
+    ],
+    "Family and domain databases": [
+        "DisProt",
+        "IDEAL"
+    ]
+}

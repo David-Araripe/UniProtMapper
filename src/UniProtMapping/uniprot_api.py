@@ -14,7 +14,8 @@ import numpy as np
 import pandas as pd
 import requests
 from requests.adapters import HTTPAdapter, Retry
-from utils import (
+
+from .utils import (
     flatten_list_getunique,
     search_comments,
     search_keys_inlist,
