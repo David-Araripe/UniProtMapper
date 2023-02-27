@@ -1,0 +1,1 @@
+# uniprot_id_mapping
