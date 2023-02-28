@@ -26,7 +26,7 @@ from .utils import (
 # https://www.uniprot.org/help/id_mapping#submitting-an-id-mapping-job
 
 
-class UniProtMapping:
+class UniProtMapper:
     """Class for mapping UniProt IDs to other databases.
 
     Returns:
