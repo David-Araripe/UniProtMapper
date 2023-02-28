@@ -2,12 +2,15 @@
 import json
 import re
 import zlib
+from typing import List
 from xml.etree import ElementTree
 
 import numpy as np
 
+# Source https://www.uniprot.org/help/api_queries
 
-def search_keys_inlist(list_of_dicts, desiredkey):
+
+def search_keys_inlist(list_of_dicts: List[dict], desiredkey: str):
     for diction in list_of_dicts:
         if desiredkey in diction:
             return diction[desiredkey]
@@ -16,8 +19,8 @@ def search_keys_inlist(list_of_dicts, desiredkey):
 
 def search_comments(dict_comments, comment_type):
     """
-    Function to search comment types within the uniprot json respose
-    retrieved from `UniProtMapping.uniprot_id_mapping()` function
+    SEarch comment types within UniProt json respose
+    retrieved from `UniProtMapper.uniprot_id_mapping()`.
     """
     has_comment = False
     for i in dict_comments:
@@ -32,16 +35,16 @@ def search_comments(dict_comments, comment_type):
 
 
 def search_uniprot_crossrefs(uniprot_dict: dict, target_dbs: list):
-    """Function to search a certain database within the dictionary
-    retrieved from UniProt with the function `fetch_from_uniprot`.
+    """Search crossreferences within the "UniProtKB-Swiss-Prot" json
+    response retrieved from from `UniProtMapper.uniprot_id_mapping()`.
 
     Args:
         uniprot_dict: Retrieved dictionary from UniProt.
         target_dbs: Database that you want to retrieve the information from.
 
-    response will be retrieved in a dictionary with a key for each
-    of the `target_dbs` and values as a list of strings with the forma:
-    '`id`~properties[key]~properties[value]'
+    Returns:
+        Dictionary with a key for each of the `target_dbs` and values as a list
+        of strings formatted as: '`id`~properties[key]~properties[value]'
     """
     #
     to_retrieve = {t: [] for t in target_dbs}
@@ -61,23 +64,21 @@ def search_uniprot_crossrefs(uniprot_dict: dict, target_dbs: list):
 
 
 def flatten_list_getunique(nested_list):
-    """
-    Flattens a list and returns the unique values
-    """
+    """Flattens a list and returns the unique values"""
     unflat = [element for sublist in nested_list for element in sublist]
     unflat_unique = list(np.unique(np.array(unflat)))
     return ", ".join(unflat_unique)
 
+
 def decode_results(response, file_format, compressed):
+    """Decodes the response from the UniProt API."""
     if compressed:
         decompressed = zlib.decompress(response.content, 16 + zlib.MAX_WBITS)
         if file_format == "json":
             j = json.loads(decompressed.decode("utf-8"))
             return j
         elif file_format == "tsv":
-            return [
-                line for line in decompressed.decode("utf-8").split("\n") if line
-            ]
+            return [line for line in decompressed.decode("utf-8").split("\n") if line]
         elif file_format == "xlsx":
             return [decompressed]
         elif file_format == "xml":
@@ -94,22 +95,25 @@ def decode_results(response, file_format, compressed):
         return [response.text]
     return response.text
 
+
 def get_xml_namespace(element):
+    """Get the namespace of an XML element."""
     m = re.match(r"\{(.*)\}", element.tag)
     return m.groups()[0] if m else ""
 
+
 def merge_xml_results(xml_results):
+    """Merge XML results from UniProt API."""
     merged_root = ElementTree.fromstring(xml_results[0])
     for result in xml_results[1:]:
         root = ElementTree.fromstring(result)
         for child in root.findall("{http://uniprot.org/uniprot}entry"):
             merged_root.insert(-1, child)
-    ElementTree.register_namespace(
-        "", get_xml_namespace(merged_root[0])
-    )
+    ElementTree.register_namespace("", get_xml_namespace(merged_root[0]))
     return ElementTree.tostring(merged_root, encoding="utf-8", xml_declaration=True)
 
+
 def print_progress_batches(batch_index, size, total):
+    """Prints the progress of a batch process."""
     n_fetched = min((batch_index + 1) * size, total)
     print(f"Fetched: {n_fetched} / {total}")
-        

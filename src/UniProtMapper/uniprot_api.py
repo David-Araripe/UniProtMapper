@@ -5,7 +5,7 @@ import re
 import time
 from collections import defaultdict
 from pathlib import Path
-from typing import List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
 from urllib.parse import parse_qs, urlencode, urlparse
 
 import numpy as np
@@ -294,24 +294,20 @@ class UniProtMapper:
         ids: List[str],
         from_db: str = "UniProtKB_AC-ID",
         to_db: str = "UniProtKB-Swiss-Prot",
-    ):
-        """
-        Function to map Uniprot identifiers into other databases.
-        Returns dictionary with query ids as keys and the respective
-        mapped identifications.
+    ) -> Dict[Dict]:
+        """Map Uniprot identifiers to other databases.
 
         Args:
-            ids: list of uniprot accession IDs to be mapped.
-                (can be changed for querying other identifiers).
-            from_db: identifier type of the `ids`.
-            to_db: identifier type to be obtained.
-            species: list of species you want to get data from.
-                    Scientific name of species should be used.
-                    Can used `all` to retrieve everything.
+            ids: list of IDs to be mapped.
+            from_db: original database from the `ids`. Defaults to "UniProtKB_AC-ID".
+            to_db: identifier type to be obtained. Response is much more complex for
+                "UniProtKB-Swiss-Prot". For this, see self.uniprot_swissprot_parser().
+                Defaults to "UniProtKB-Swiss-Prot".
 
-            Function currently used to map:
-            >>> from_db='UniProtKB_AC-ID', to_db=('PDB' | 'Ensembl' | 'GeneID' | 'ChEMBL')
-            >>> from_db='Gene_Name', to_db='UniProtKB-Swiss-Prot'
+        Returns:
+            Dictionary with query ids as keys and the respective identifications.
+            For conversion to a dataframe, use
+        >>> pd.DataFrame.from_dict(<returned value>, orient='index')
         """
         self._check_dbs(from_db, to_db)
         # Save query parameters to allow parsing of the response.
@@ -332,18 +328,18 @@ class UniProtMapper:
 
     def uniprot_swissprot_parser(
         self,
-        json_r=None,
-        include_crossrefs: list = ["TCDB", "GO", "PRO"],
+        json_r: dict = None,
+        include_crossrefs: list = ["TCDB", "GO"],
     ) -> dict:
         """
-        Function to parse the json_r object returned from uniprot_id_mapping
-        and to retrieve a defined set of information from the results.
+        Parse the json response from `uniprot_id_mapping(to_db='UniProtKB-Swiss-Prot')`
+        and return a dictionary with the specified information.
 
         Args:
             json_r: json_r object returned from uniprot_id_mapping.
             include_crossrefs: UniProt cross references to be fetched.
-                returned keyname will be `f'{ID}_crossref'.
-                Defaults to ["TCDB", "GO", "PRO"].
+                keyname set to `f'{ID}_crossref'. Defaults to ["TCDB", "GO"].
+                List of available cross references found in `self._supported_abbrev_dbs`
 
         Returns:
             Dictionary with the information of the target.
@@ -357,6 +353,8 @@ class UniProtMapper:
             raise ValueError(
                 "uniprot_swissprot_parser only parses UniProtKB-Swiss-Prot responses"
             )
+        # TODO: Abstract away these functions so I can retrieve the information separately
+        # according to the use's needs. Cans set an extra argument for this.
         d = defaultdict(str)
         if json_r is None:
             json_r = self.results
