@@ -125,9 +125,9 @@ class UniProtMapper:
             elif isinstance(organism, list):
                 organism = "|".join(organism)
             else:
-                raise ValueError(f"organism must be a string or a list of strings.")
+                raise ValueError("organism must be a string or a list of strings.")
             parsed_df = parsed_df.query(
-                f"organism.str.contains(@organism, regex=True, case=@case)"
+                "organism.str.contains(@organism, regex=True, case=@case)"
             ).reset_index(drop=True)
 
         queried_arr = np.array(ids)
@@ -139,7 +139,8 @@ class UniProtMapper:
     def _check_dbs(self, from_db, to_db):
         if from_db not in self._supported_dbs:
             print(
-                'To types of supported databases, check the "supported_dbs_with_types" attribute.'
+                "To types of supported databases, check the "
+                '"supported_dbs_with_types" attribute.'
             )
             raise ValueError(
                 f"{from_db} not available. "
@@ -147,7 +148,8 @@ class UniProtMapper:
             )
         if to_db not in self._supported_dbs:
             print(
-                'To types of supported databases, check the "supported_dbs_with_types" attribute.'
+                "To types of supported databases, check the "
+                '"supported_dbs_with_types" attribute.'
             )
             raise ValueError(
                 f"{to_db} not available. "
@@ -331,6 +333,8 @@ class UniProtMapper:
         json_r: dict = None,
         include_crossrefs: list = ["TCDB", "GO"],
     ) -> dict:
+        # TODO: modify this function to use the class I defined under:
+        # .json_getter.SwissProtParser()
         """
         Parse the json response from `uniprot_id_mapping(to_db='UniProtKB-Swiss-Prot')`
         and return a dictionary with the specified information.
@@ -353,7 +357,7 @@ class UniProtMapper:
             raise ValueError(
                 "uniprot_swissprot_parser only parses UniProtKB-Swiss-Prot responses"
             )
-        # TODO: Abstract away these functions so I can retrieve the information separately
+        # TODO: Abstract away these functions so I can retrieve information separately
         # according to the use's needs. Cans set an extra argument for this.
         d = defaultdict(str)
         if json_r is None:

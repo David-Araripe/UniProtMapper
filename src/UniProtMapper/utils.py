@@ -19,7 +19,7 @@ def search_keys_inlist(list_of_dicts: List[dict], desiredkey: str):
 
 def search_comments(dict_comments, comment_type):
     """
-    SEarch comment types within UniProt json respose
+    Search comment types within UniProt json respose
     retrieved from `UniProtMapper.uniprot_id_mapping()`.
     """
     has_comment = False
