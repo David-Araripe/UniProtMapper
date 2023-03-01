@@ -113,7 +113,7 @@ def merge_xml_results(xml_results):
     return ElementTree.tostring(merged_root, encoding="utf-8", xml_declaration=True)
 
 
-def print_progress_batches(batch_index, size, total):
+def print_progress_batches(batch_index, size, retrieved, failed):
     """Prints the progress of a batch process."""
-    n_fetched = min((batch_index + 1) * size, total)
-    print(f"Fetched: {n_fetched} / {total}")
+    n_fetched = min((batch_index + 1) * size, retrieved)
+    print(f"Fetched: {n_fetched} / {retrieved + failed}")

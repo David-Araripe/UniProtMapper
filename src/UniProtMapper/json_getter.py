@@ -3,6 +3,8 @@ import json
 from collections import defaultdict
 from pathlib import Path
 
+import numpy as np
+
 from .utils import (
     flatten_list_getunique,
     search_comments,
@@ -14,26 +16,24 @@ from .utils import (
 class SwissProtParser:
     """Retrieve specified information UniProtKB-Swiss-Prot json response."""
 
-    def __init__(self, query_info=None, query_crossrefs=None) -> None:
+    def __init__(self, toquery: list = None, crossrefs: list = None) -> None:
         """Initialize the class with the information to be retrieved
         and the crossreferences to be searched.
 
         Args:
-            query_info: Fields annotated in UniProt. See supported in
+            toquery: Fields annotated in UniProt. See supported in
                 self._supported_fields(). Defaults to None.
-            query_crossrefs: UniProt crossreferences to be retrieved.
+            crossrefs: UniProt crossreferences to be retrieved.
                 Defaults to None.
         """
-        if query_crossrefs not in self._supported_crossrefs:
-            raise ValueError(f"Crossreferences must in: {self._supported_crossrefs}")
-        if query_info not in self._supported_fields:
-            raise ValueError(f"Fields must in: {self._supported_fields}")
         # Where the retrieved information will be stored
-        self.query_crossrefs = query_crossrefs
         self._crossrefs_path = (
-            Path(__file__).absolute().parent / "uniprot_abbrev_crossrefs.json"
+            Path(__file__).absolute().parent / "data/uniprot_abbrev_crossrefs.json"
         )
-        self.query_info = self._supported_fields if query_info is None else query_info
+        self.crossrefs = crossrefs
+        self._check_support("crossrefs")
+        self.toquery = self._supported_fields if toquery is None else toquery
+        self._check_support("toquery")
         self.d = defaultdict(str)  # Where the information gets stored for parsing
         pass
 
@@ -64,48 +64,63 @@ class SwissProtParser:
     def __call__(self, json_r) -> dict:
         return self.parse_response(json_r)
 
+    def _check_support(self, field: str) -> None:
+        if field == "crossrefs":
+            if self.crossrefs is None:
+                return
+            supported = np.array(self._supported_crossrefs)
+            touse = np.array(self.crossrefs)
+            if not np.isin(touse, supported).all():
+                raise ValueError(f"Crossreferences must be specified to query {field}")
+        if field == "toquery":
+            supported = np.array(self._supported_fields)
+            touse = np.array(self.toquery)
+            if not np.isin(touse, supported).all():
+                raise ValueError(f"Fields must be specified to query {field}")
+
     def parse_response(self, json_r) -> dict:
         self.d.update(json_r)
         filtered_dict = dict()
 
-        if "accession" in self.query_info:
+        if "accession" in self.toquery:
             filtered_dict.update({"accession": self._get_accession()})
 
-        if "organism" in self.query_info:
+        if "organism" in self.toquery:
             filtered_dict.update({"organism": self._get_organism()})
 
-        if "fullName" in self.query_info:
+        if "fullName" in self.toquery:
             filtered_dict.update({"fullName": self._get_fullName()})
 
-        if any(["disease" in self.query_info, "disease_descr" in self.query_info]):
+        if any(["disease" in self.toquery, "disease_descr" in self.toquery]):
             disease, disease_desc = self._get_disease_info()
-            if "disease" in self.query_info:
+            if "disease" in self.toquery:
                 filtered_dict.update({"disease": disease})
-            if "disease_descr" in self.query_info:
+            if "disease_descr" in self.toquery:
                 filtered_dict.update({"disease_descr": disease_desc})
 
-        if "shortName" in self.query_info:
+        if "shortName" in self.toquery:
             filtered_dict.update({"shortName": self._get_shortName()})
 
-        if "geneName" in self.query_info:
+        if "geneName" in self.toquery:
             filtered_dict.update({"geneName": self._get_geneName()})
 
-        if "tissueExpression" in self.query_info:
+        if "tissueExpression" in self.toquery:
             filtered_dict.update({"tissueExpression": self._get_tissueExpression()})
 
-        if "cellLocation" in self.query_info:
+        if "cellLocation" in self.toquery:
             filtered_dict.update({"cellLocation": self._get_cellLocation()})
 
-        if "sequence" in self.query_info:
+        if "sequence" in self.toquery:
             filtered_dict.update({"sequence": self._get_sequence()})
 
-        if "function" in self.query_info:
+        if "function" in self.toquery:
             filtered_dict.update({"function": self._get_function()})
 
-        crossrefs = search_uniprot_crossrefs(self.d, self.query_crossrefs)
-        filtered_dict.update(
-            {f"{key}_crossref": value for key, value in crossrefs.items()}
-        )
+        if self.crossrefs is not None:
+            crossrefs = search_uniprot_crossrefs(self.d, self.crossrefs)
+            filtered_dict.update(
+                {f"{key}_crossref": value for key, value in crossrefs.items()}
+            )
         self.d = defaultdict(str)
         return filtered_dict
 

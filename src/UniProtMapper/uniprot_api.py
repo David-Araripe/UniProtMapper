@@ -3,9 +3,8 @@
 import json
 import re
 import time
-from collections import defaultdict
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import List, Optional, Tuple
 from urllib.parse import parse_qs, urlencode, urlparse
 
 import numpy as np
@@ -13,15 +12,8 @@ import pandas as pd
 import requests
 from requests.adapters import HTTPAdapter, Retry
 
-from .utils import (
-    decode_results,
-    flatten_list_getunique,
-    merge_xml_results,
-    print_progress_batches,
-    search_comments,
-    search_keys_inlist,
-    search_uniprot_crossrefs,
-)
+from .json_getter import SwissProtParser
+from .utils import decode_results, merge_xml_results, print_progress_batches
 
 # Code source:
 # https://www.uniprot.org/help/id_mapping#submitting-an-id-mapping-job
@@ -60,11 +52,8 @@ class UniProtMapper:
         self.session = requests.Session()
         self._setup_session()
         self._re_next_link = re.compile(r'<(.+)>; rel="next"')
-        self._abbrev_dbs_path = (
-            Path(__file__).absolute().parent / "uniprot_abbrev_crossrefs.json"
-        )
         self._mapping_dbs_path = (
-            Path(__file__).absolute().parent / "uniprot_mapping_dbs.json"
+            Path(__file__).absolute().parent / "data/uniprot_mapping_dbs.json"
         )
         # use these to implement parsing methods for the response.
         self._todb = None
@@ -97,8 +86,38 @@ class UniProtMapper:
         self,
         ids: List[str],
         organism: Optional[List[str]] = None,
+        uniprot_info: Optional[list] = None,
+        crossref_dbs: Optional[list] = None,
         case: bool = False,
     ) -> Tuple[pd.DataFrame, list]:
+        """Get orthologs from UniProt IDs by mapping to OrthoDB and back to
+        UniProtKB-Swiss-Prot.
+
+        Args:
+            ids: list of UniProt IDs.
+            organism: used to query the resulting dataframe for the species. If set
+                to None, all species will be returned. Defaults to None.
+            uniprot_info: information to be retrieved from UniProtKB-Swiss-Prot.
+                If None, all supported fields are retrieved. Defaults to None.
+            crossref_dbs: retrieve info from cross-referenced databases. If none, won't
+                return any. Supported dbs in `SwissProtParser._supported_crossrefs`.
+                Defaults to None.
+            case: case sensitivity for organism query. Defaults to False.
+
+        Raises:
+            ValueError: if organism is not a string or a list of strings.
+
+        Returns:
+            Tuple[pd.DataFrame, list]: a tuple with the resulting dataframe and a list.
+        """
+        if organism is not None:
+            if isinstance(organism, str):
+                pass
+            elif isinstance(organism, list):
+                organism = "|".join(organism)
+            else:
+                raise ValueError("organism must be a string or a list of strings.")
+
         case = case
         to_ortho_r, failed_r = self.uniprot_id_mapping(ids, to_db="OrthoDB")
 
@@ -111,8 +130,9 @@ class UniProtMapper:
         from_ortho_r, failed_r = self.uniprot_id_mapping(ortho_ids, from_db="OrthoDB")
 
         parsed_results = {}
+        parser = SwissProtParser(toquery=uniprot_info, crossrefs=crossref_dbs)
         for idx in from_ortho_r.keys():
-            parsed_r = self.uniprot_swissprot_parser(from_ortho_r[idx]["to"])
+            parsed_r = parser(from_ortho_r[idx]["to"])
             parsed_r.update({"orthodb_id": from_ortho_r[idx]["from"]})
             parsed_r.update({"original_id": ortho_mapping[from_ortho_r[idx]["from"]]})
             parsed_results.update({idx: parsed_r})
@@ -120,12 +140,6 @@ class UniProtMapper:
         parsed_df = pd.DataFrame.from_dict(parsed_results, orient="index")
 
         if organism is not None:
-            if isinstance(organism, str):
-                pass
-            elif isinstance(organism, list):
-                organism = "|".join(organism)
-            else:
-                raise ValueError("organism must be a string or a list of strings.")
             parsed_df = parsed_df.query(
                 "organism.str.contains(@organism, regex=True, case=@case)"
             ).reset_index(drop=True)
@@ -137,6 +151,7 @@ class UniProtMapper:
         return parsed_results, failed
 
     def _check_dbs(self, from_db, to_db):
+        return
         if from_db not in self._supported_dbs:
             print(
                 "To types of supported databases, check the "
@@ -170,16 +185,6 @@ class UniProtMapper:
         dbs_dict = self.supported_dbs_with_types
         return sorted(
             [dbs_dict[k][i] for k in dbs_dict for i in range(len(dbs_dict[k]))]
-        )
-
-    @property
-    def _supported_abbrev_dbs(self) -> list:
-        """Abbreviations of the databases. Used to retrieve cross references
-        from the UniProtKB-Swiss-Prot responses."""
-        with open(self._abbrev_dbs_path, "r") as f:
-            dbs_dict = json.load(f)
-        return sorted(
-            [dbs_dict["results"][i]["abbrev"] for i in range(len(dbs_dict["results"]))]
         )
 
     def _setup_retries(self, total_retries, backoff_factor) -> None:
@@ -269,11 +274,14 @@ class UniProtMapper:
         request = self.session.get(url)
         self.check_response(request)
         results = decode_results(request, file_format, compressed)
-        total = int(request.headers["x-total-results"])
-        print_progress_batches(0, size, total)
+        failed = len(results.get("failedIds", []))
+        if failed > 0:
+            print(f"Failed to map {failed} ID(s).")
+        retrieved = int(request.headers["x-total-results"])
+        print_progress_batches(0, size, retrieved, failed)
         for i, batch in enumerate(self.get_batch(request, file_format, compressed), 1):
             results = self.combine_batches(results, batch, file_format)
-            print_progress_batches(i, size, total)
+            print_progress_batches(i, size, retrieved, failed)
         if file_format == "xml":
             return merge_xml_results(results)
         return results
@@ -296,7 +304,7 @@ class UniProtMapper:
         ids: List[str],
         from_db: str = "UniProtKB_AC-ID",
         to_db: str = "UniProtKB-Swiss-Prot",
-    ) -> Dict[Dict]:
+    ) -> dict:
         """Map Uniprot identifiers to other databases.
 
         Args:
@@ -327,131 +335,3 @@ class UniProtMapper:
                 failed_r = None
             self.results = r_dict
             return r_dict, failed_r
-
-    def uniprot_swissprot_parser(
-        self,
-        json_r: dict = None,
-        include_crossrefs: list = ["TCDB", "GO"],
-    ) -> dict:
-        # TODO: modify this function to use the class I defined under:
-        # .json_getter.SwissProtParser()
-        """
-        Parse the json response from `uniprot_id_mapping(to_db='UniProtKB-Swiss-Prot')`
-        and return a dictionary with the specified information.
-
-        Args:
-            json_r: json_r object returned from uniprot_id_mapping.
-            include_crossrefs: UniProt cross references to be fetched.
-                keyname set to `f'{ID}_crossref'. Defaults to ["TCDB", "GO"].
-                List of available cross references found in `self._supported_abbrev_dbs`
-
-        Returns:
-            Dictionary with the information of the target.
-        """
-        include_crossrefs = np.array(include_crossrefs)
-        if not np.isin(include_crossrefs, self._supported_abbrev_dbs).all():
-            raise ValueError(
-                f"include_crossrefs must be in {self._supported_abbrev_dbs}"
-            )
-        if self._todb != "UniProtKB-Swiss-Prot":
-            raise ValueError(
-                "uniprot_swissprot_parser only parses UniProtKB-Swiss-Prot responses"
-            )
-        # TODO: Abstract away these functions so I can retrieve information separately
-        # according to the use's needs. Cans set an extra argument for this.
-        d = defaultdict(str)
-        if json_r is None:
-            json_r = self.results
-        d.update(json_r)
-
-        accession = d["primaryAccession"]
-        organism = d["organism"]["scientificName"]
-        namekeys = d["proteinDescription"].keys()
-        # Some UniProt entries have only submissionNames but no recommendedName
-        # see as examples: 'Q72547', 'A1Z199', 'Q91ZM7', 'Q9YQ12'
-        if "recommendedName" in namekeys:
-            fullname = d["proteinDescription"]["recommendedName"]["fullName"]["value"]
-        elif "submissionNames" in namekeys:
-            fullname = d["proteinDescription"]["submissionNames"][0]["fullName"][
-                "value"
-            ]
-        else:
-            fullname = ""
-
-        comment = search_comments(d["comments"], "DISEASE")
-        if comment != "":
-            disease_info = comment.keys()
-            # Sometimes there's no annotation for "disease", but only notes
-            # For an example: Q02880
-            if "disease" in disease_info:
-                disease = comment["disease"].get("diseaseId", "")
-                disease_desc = comment["disease"].get("description", "")
-            else:
-                disease = ""
-                disease_desc = ""
-        else:
-            disease = ""
-            disease_desc = ""
-
-        # shortName might be found under different keys
-        descriptions = d["proteinDescription"].keys()
-        shortname = ""
-        if "recommendedName" in descriptions:
-            avail_names = d["proteinDescription"]["recommendedName"].keys()
-            if "shortNames" in avail_names:
-                shortname = d["proteinDescription"]["recommendedName"]["shortNames"][0][
-                    "value"
-                ]
-        if ("alternativeNames" in descriptions) and (shortname == ""):
-            shortname = search_keys_inlist(
-                d["proteinDescription"]["alternativeNames"], "shortNames"
-            )
-            if shortname != "":
-                shortname = shortname[0]["value"]
-
-        if "genes" in d.keys():
-            genename = search_keys_inlist(d["genes"], "geneName")
-            genename = genename["value"] if genename != "" else ""
-        else:
-            genename = ""
-
-        tissue_specif = search_comments(d["comments"], "TISSUE SPECIFICITY")
-        if tissue_specif != "":
-            tissue_specif = tissue_specif["texts"][0]["value"]
-
-        prot_function = search_comments(d["comments"], "FUNCTION")
-        if prot_function != "":
-            # Check this won't raise errors
-            prot_function = prot_function["texts"][0]["value"]
-
-        # adding TCDB cross references if available - contains the protein function
-        crossrefs = search_uniprot_crossrefs(d, include_crossrefs)
-
-        sequence = d["sequence"]["value"]
-        cell_location = search_comments(d["comments"], "SUBCELLULAR LOCATION")
-        if cell_location != "":
-            cell_location = cell_location["subcellularLocations"]
-            cell_location = flatten_list_getunique(
-                [
-                    cell_location[x]["location"]["value"].split(", ")
-                    for x in range(len(cell_location))
-                ]
-            )
-
-        target_info_dict = {
-            "accession": accession,
-            "organism": organism,
-            "fullName": fullname,
-            "disease": disease,
-            "disease_descr": disease_desc,
-            "shortName": shortname,
-            "geneName": genename,
-            "tissueExpression": tissue_specif,
-            "cellLocation": cell_location,
-            "sequence": sequence,
-            "function": prot_function,
-        }
-        target_info_dict.update(
-            {f"{key}_crossref": value for key, value in crossrefs.items()}
-        )
-        return target_info_dict
