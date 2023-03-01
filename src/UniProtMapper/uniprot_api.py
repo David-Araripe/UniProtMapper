@@ -147,11 +147,9 @@ class UniProtMapper:
         queried_arr = np.array(ids)
         retrieved = parsed_df["original_id"].unique()
         failed = np.compress(~np.isin(queried_arr, retrieved), queried_arr).tolist()
-
-        return parsed_results, failed
+        return parsed_df, failed
 
     def _check_dbs(self, from_db, to_db):
-        return
         if from_db not in self._supported_dbs:
             print(
                 "To types of supported databases, check the "
