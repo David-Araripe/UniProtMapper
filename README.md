@@ -1,10 +1,13 @@
-# UniProtMapping
+[![Linting Ruff](https://img.shields.io/badge/Linting%20-Ruff-red?style=flat-square)](https://github.com/charliermarsh/ruff)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-black?style=flat-square)](https://github.com/psf/black)
 [![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat-square&labelColor=ef8336)](https://pycqa.github.io/isort/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](https://opensource.org/licenses/MIT)
 
-A Python wrapper for the UniProt Mapping RESTful API.
+# UniProtMapping
 
-Map UniProt IDs other identifiers and parse UniProt-SwissProt responses.
+A Python wrapper for the [UniProt Mapping](https://www.uniprot.org/id-mapping) RESTful API.
+
+➡️ Map UniProt IDs other identifiers and parse UniProt-SwissProt responses.
 
 ## Installation
 
@@ -112,7 +115,7 @@ result, failed = mapper.uniprot_ids_to_orthologs(
 )
 
 # Fetched results contain all retrieved species.
-# Filtering is done after the response is obtained
+# Filtering by organism is done on the full response.
 >>> Fetched: 3 / 3
 >>> Fetched: 349 / 349
 ```
