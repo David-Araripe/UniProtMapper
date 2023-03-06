@@ -3,7 +3,7 @@
 import json
 import re
 import time
-from typing import List, Optional, Tuple
+from typing import List, Optional, Tuple, Union
 from urllib.parse import parse_qs, urlencode, urlparse
 
 import numpy as np
@@ -62,7 +62,7 @@ class UniProtMapper:
 
     def __call__(
         self,
-        ids: List[str],
+        ids: Union[List[str], str],
         from_db: str = "UniProtKB_AC-ID",
         to_db: str = "UniProtKB-Swiss-Prot",
         parser: SwissProtParser = None,
@@ -71,7 +71,7 @@ class UniProtMapper:
         Wrapper for the UniProt ID mapping API.
 
         Args:
-            ids: List of UniProt IDs.
+            ids: single id (str) or list of IDs to be mapped.
             from_db: Original database from the `ids`. Defaults to "UniProtKB_AC-ID".
             to_db: Database to retrieve information from.
                 Defaults to "UniProtKB-Swiss-Prot".
@@ -84,69 +84,6 @@ class UniProtMapper:
         # __call__ is a wrapper to the uniprot_id_mapping function
         return self.uniprot_id_mapping(ids, from_db=from_db, to_db=to_db, parser=parser)
 
-    def uniprot_ids_to_orthologs(
-        self,
-        ids: List[str],
-        organism: Optional[List[str]] = None,
-        uniprot_info: Optional[list] = None,
-        crossref_dbs: Optional[list] = None,
-        case: bool = False,
-    ) -> Tuple[pd.DataFrame, list]:
-        """Get orthologs from UniProt IDs by mapping to OrthoDB and back to
-        UniProtKB-Swiss-Prot.
-
-        Args:
-            ids: list of UniProt IDs.
-            organism: used to query the resulting dataframe for the species. If set
-                to None, all species will be returned. Defaults to None.
-            uniprot_info: information to be retrieved from UniProtKB-Swiss-Prot.
-                If None, all supported fields are retrieved. Defaults to None.
-            crossref_dbs: retrieve info from cross-referenced databases. If none, won't
-                return any. Supported dbs in `SwissProtParser._supported_crossrefs`.
-                Defaults to None.
-            case: case sensitivity for organism query. Defaults to False.
-
-        Raises:
-            ValueError: if organism is not a string or a list of strings.
-
-        Returns:
-            Tuple[pd.DataFrame, list]: a tuple with the resulting dataframe and a list.
-        """
-        if organism is not None:
-            if isinstance(organism, str):
-                pass
-            elif isinstance(organism, list):
-                organism = "|".join(organism)
-            else:
-                raise ValueError("organism must be a string or a list of strings.")
-
-        case = case
-        to_ortho_r, failed_r = self.uniprot_id_mapping(ids, to_db="OrthoDB")
-
-        ortho_mapping = {
-            to_ortho_r[idx]["to"]: to_ortho_r[idx]["from"]
-            for idx in range(len(to_ortho_r))
-        }
-
-        ortho_ids = [to_ortho_r[k]["to"] for k in to_ortho_r]
-        parser = SwissProtParser(toquery=uniprot_info, crossrefs=crossref_dbs)
-        ortho_r, failed_r = self.uniprot_id_mapping(
-            ortho_ids, from_db="OrthoDB", parser=parser
-        )
-        for idx in ortho_r.keys():
-            ortho_r[idx].update({"orthodb_id": ortho_r[idx]["from"]})
-            ortho_r[idx].update({"original_id": ortho_mapping[ortho_r[idx]["from"]]})
-        parsed_df = pd.DataFrame.from_dict(ortho_r, orient="index")
-
-        if organism is not None:
-            parsed_df = parsed_df.query(
-                "organism.str.contains(@organism, regex=True, case=@case)"
-            ).reset_index(drop=True)
-
-        queried_arr = np.array(ids)
-        retrieved = parsed_df["original_id"].unique()
-        failed = np.compress(~np.isin(queried_arr, retrieved), queried_arr).tolist()
-        return parsed_df, failed
 
     def _check_dbs(self, from_db, to_db):
         if from_db not in self._supported_dbs:
@@ -298,7 +235,7 @@ class UniProtMapper:
 
     def uniprot_id_mapping(
         self,
-        ids: List[str],
+        ids: Union[List[str], str],
         from_db: str = "UniProtKB_AC-ID",
         to_db: str = "UniProtKB-Swiss-Prot",
         parser: SwissProtParser = None,
@@ -306,7 +243,7 @@ class UniProtMapper:
         """Map Uniprot identifiers to other databases.
 
         Args:
-            ids: list of IDs to be mapped.
+            ids: single id (str) or list of IDs to be mapped.
             from_db: original database from the `ids`. Defaults to "UniProtKB_AC-ID".
             to_db: identifier type to be obtained. Response is much more complex for
                 "UniProtKB-Swiss-Prot". For this, see self.uniprot_swissprot_parser().
@@ -319,6 +256,8 @@ class UniProtMapper:
         >>> pd.DataFrame.from_dict(<returned value>, orient='index')
         """
         self._check_dbs(from_db, to_db)
+        if isinstance(ids, str):
+            ids = [ids]
         # Save query parameters to allow parsing of the response.
         self._todb = to_db
         self._fromdb = from_db
@@ -339,3 +278,67 @@ class UniProtMapper:
                 failed_r = None
             self.results = r_dict
             return r_dict, failed_r
+
+    def uniprot_ids_to_orthologs(
+        self,
+        ids: Union[List[str], str],
+        organism: Optional[List[str]] = None,
+        uniprot_info: Optional[list] = None,
+        crossref_dbs: Optional[list] = None,
+        case: bool = False,
+    ) -> Tuple[pd.DataFrame, list]:
+        """Get orthologs from UniProt IDs by mapping to OrthoDB and back to
+        UniProtKB-Swiss-Prot.
+
+        Args:
+            ids: single id (str) or list of IDs to be mapped.
+            organism: used to query the resulting dataframe for the species. If set
+                to None, all species will be returned. Defaults to None.
+            uniprot_info: information to be retrieved from UniProtKB-Swiss-Prot.
+                If None, all supported fields are retrieved. Defaults to None.
+            crossref_dbs: retrieve info from cross-referenced databases. If none, won't
+                return any. Supported dbs in `SwissProtParser._supported_crossrefs`.
+                Defaults to None.
+            case: case sensitivity for organism query. Defaults to False.
+
+        Raises:
+            ValueError: if organism is not a string or a list of strings.
+
+        Returns:
+            Tuple[pd.DataFrame, list]: a tuple with the resulting dataframe and a list.
+        """
+        if organism is not None:
+            if isinstance(organism, str):
+                pass
+            elif isinstance(organism, list):
+                organism = "|".join(organism)
+            else:
+                raise ValueError("organism must be a string or a list of strings.")
+
+        case = case
+        to_ortho_r, failed_r = self.uniprot_id_mapping(ids, to_db="OrthoDB")
+
+        ortho_mapping = {
+            to_ortho_r[idx]["to"]: to_ortho_r[idx]["from"]
+            for idx in range(len(to_ortho_r))
+        }
+
+        ortho_ids = [to_ortho_r[k]["to"] for k in to_ortho_r]
+        parser = SwissProtParser(toquery=uniprot_info, crossrefs=crossref_dbs)
+        ortho_r, failed_r = self.uniprot_id_mapping(
+            ortho_ids, from_db="OrthoDB", parser=parser
+        )
+        for idx in ortho_r.keys():
+            ortho_r[idx].update({"orthodb_id": ortho_r[idx]["from"]})
+            ortho_r[idx].update({"original_id": ortho_mapping[ortho_r[idx]["from"]]})
+        parsed_df = pd.DataFrame.from_dict(ortho_r, orient="index")
+
+        if organism is not None:
+            parsed_df = parsed_df.query(
+                "organism.str.contains(@organism, regex=True, case=@case)"
+            ).reset_index(drop=True)
+
+        queried_arr = np.array(ids)
+        retrieved = parsed_df["original_id"].unique()
+        failed = np.compress(~np.isin(queried_arr, retrieved), queried_arr).tolist()
+        return parsed_df, failed
