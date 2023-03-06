@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 import json
 from collections import defaultdict
-from pathlib import Path
 
 import numpy as np
+import pkg_resources
 
 from .utils import (
     flatten_list_getunique,
@@ -27,8 +27,8 @@ class SwissProtParser:
                 Defaults to None.
         """
         # Where the retrieved information will be stored
-        self._crossrefs_path = (
-            Path(__file__).absolute().parent / "data/uniprot_abbrev_crossrefs.json"
+        self._crossrefs_path = pkg_resources.resource_filename(
+            "UniProtMapper", "data/uniprot_abbrev_crossrefs.json"
         )
         self.crossrefs = crossrefs
         self._check_support("crossrefs")
@@ -63,6 +63,9 @@ class SwissProtParser:
 
     def __call__(self, json_r) -> dict:
         return self.parse_response(json_r)
+
+    def __repr__(self) -> str:
+        return f"SwissProtParser(toquery={self.toquery}, crossrefs={self.crossrefs})"
 
     def _check_support(self, field: str) -> None:
         if field == "crossrefs":
