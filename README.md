@@ -11,9 +11,11 @@ A Python wrapper for the [UniProt Mapping](https://www.uniprot.org/id-mapping) R
 
 ## Installation
 
-> yet to make the package available on PyPI...
-
-
+``` Shell
+git clone https://github.com/David-Araripe/UniProtMapper
+cd UniProtMapper
+pip install .
+```
 ## Usage
 
 Supported databases for mapping are saved under `supported_dbs_with_types`.
@@ -79,7 +81,7 @@ print(result[0])
 ```
 ### Parsing UniProt-SwissProt responses
 
-SwissProt responses can be parsed using the `SwissProtParser` class, where the supported fields to be extracted from UniProt (param=toquery) are stored under `self._supported_fields` and the cross-referenced datasets are stored under `self._crossref_dbs` (param=crossrefs).
+SwissProt responses can be parsed using the `SwissProtParser` class, where the supported fields to be extracted from UniProt (:param: = toquery) are stored under `self._supported_fields` and the cross-referenced datasets are stored under `self._crossref_dbs` (:param: = crossrefs).
 
 
 ``` Python
@@ -101,6 +103,16 @@ parser(result[0]['to'])
 >>>   'GO:0070328~GoEvidenceType~IEA:Ensembl']}
 ```
 
+Both UniProtMapper.uniprot_id_mapping and __call__ methods accept a `SwissProtParser` as a parameter, such as in:
+
+``` Python
+result, failed = mapper(
+    ids=["P30542", "Q16678", "Q02880"],
+    from_db="UniProtKB_AC-ID",
+    to_db="UniProtKB-Swiss-Prot",
+    parser=parser,
+)
+```
 ### Mapping identifiers to orthologs
 
 This package also allows mapping UniProt IDs to orthologs. The function `uniprot_ids_to_orthologs` does that by mapping UniProt IDs to OrthoDB and then re-mapping these results to UniProt-SwissProt.
