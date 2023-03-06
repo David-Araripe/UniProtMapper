@@ -3,12 +3,12 @@
 import json
 import re
 import time
-from pathlib import Path
 from typing import List, Optional, Tuple
 from urllib.parse import parse_qs, urlencode, urlparse
 
 import numpy as np
 import pandas as pd
+import pkg_resources
 import requests
 from requests.adapters import HTTPAdapter, Retry
 
@@ -52,8 +52,8 @@ class UniProtMapper:
         self.session = requests.Session()
         self._setup_session()
         self._re_next_link = re.compile(r'<(.+)>; rel="next"')
-        self._mapping_dbs_path = (
-            Path(__file__).absolute().parent / "data/uniprot_mapping_dbs.json"
+        self._mapping_dbs_path = pkg_resources.resource_filename(
+            "UniProtMapper", "data/uniprot_mapping_dbs.json"
         )
         # use these to implement parsing methods for the response.
         self._todb = None
@@ -65,6 +65,7 @@ class UniProtMapper:
         ids: List[str],
         from_db: str = "UniProtKB_AC-ID",
         to_db: str = "UniProtKB-Swiss-Prot",
+        parser: SwissProtParser = None,
     ) -> Tuple[dict, Optional[list]]:
         """
         Wrapper for the UniProt ID mapping API.
@@ -75,12 +76,13 @@ class UniProtMapper:
             to_db: Database to retrieve information from.
                 Defaults to "UniProtKB-Swiss-Prot".
             get_format: The format of the returned value. Defaults to 'csv'.
+            parser: SwissProtParser object to parse the response. Defaults to None.
 
         Returns:
             Tuple[dict, Optional[list]]
         """
         # __call__ is a wrapper to the uniprot_id_mapping function
-        return self.uniprot_id_mapping(ids, from_db=from_db, to_db=to_db)
+        return self.uniprot_id_mapping(ids, from_db=from_db, to_db=to_db, parser=parser)
 
     def uniprot_ids_to_orthologs(
         self,
@@ -127,17 +129,14 @@ class UniProtMapper:
         }
 
         ortho_ids = [to_ortho_r[k]["to"] for k in to_ortho_r]
-        from_ortho_r, failed_r = self.uniprot_id_mapping(ortho_ids, from_db="OrthoDB")
-
-        parsed_results = {}
         parser = SwissProtParser(toquery=uniprot_info, crossrefs=crossref_dbs)
-        for idx in from_ortho_r.keys():
-            parsed_r = parser(from_ortho_r[idx]["to"])
-            parsed_r.update({"orthodb_id": from_ortho_r[idx]["from"]})
-            parsed_r.update({"original_id": ortho_mapping[from_ortho_r[idx]["from"]]})
-            parsed_results.update({idx: parsed_r})
-
-        parsed_df = pd.DataFrame.from_dict(parsed_results, orient="index")
+        ortho_r, failed_r = self.uniprot_id_mapping(
+            ortho_ids, from_db="OrthoDB", parser=parser
+        )
+        for idx in ortho_r.keys():
+            ortho_r[idx].update({"orthodb_id": ortho_r[idx]["from"]})
+            ortho_r[idx].update({"original_id": ortho_mapping[ortho_r[idx]["from"]]})
+        parsed_df = pd.DataFrame.from_dict(ortho_r, orient="index")
 
         if organism is not None:
             parsed_df = parsed_df.query(
@@ -302,6 +301,7 @@ class UniProtMapper:
         ids: List[str],
         from_db: str = "UniProtKB_AC-ID",
         to_db: str = "UniProtKB-Swiss-Prot",
+        parser: SwissProtParser = None,
     ) -> dict:
         """Map Uniprot identifiers to other databases.
 
@@ -311,6 +311,7 @@ class UniProtMapper:
             to_db: identifier type to be obtained. Response is much more complex for
                 "UniProtKB-Swiss-Prot". For this, see self.uniprot_swissprot_parser().
                 Defaults to "UniProtKB-Swiss-Prot".
+            parser: SwissProtParser object to parse the response. Defaults to None.
 
         Returns:
             Dictionary with query ids as keys and the respective identifications.
@@ -326,6 +327,11 @@ class UniProtMapper:
         if self.check_id_mapping_results_ready(job_id):
             link = self.get_id_mapping_results_link(job_id)
             r = self.get_id_mapping_results_search(link)
+            if parser is not None:
+                assert to_db == "UniProtKB-Swiss-Prot", "Only SwissProt can be parsed."
+                for result in r["results"]:
+                    response = result.pop("to")
+                    result.update(parser(response))
             r_dict = {idx: r["results"][idx] for idx in range(len(r["results"]))}
             if "failedIds" in r.keys():
                 failed_r = r["failedIds"]
