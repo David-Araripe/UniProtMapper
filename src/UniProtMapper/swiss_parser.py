@@ -12,6 +12,10 @@ from .utils import (
     search_uniprot_crossrefs,
 )
 
+"""
+Module for parsing UniProtKB-Swiss-Prot json responses.
+"""
+
 
 class SwissProtParser:
     """Retrieve specified information UniProtKB-Swiss-Prot json response."""

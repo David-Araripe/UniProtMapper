@@ -7,7 +7,9 @@ from xml.etree import ElementTree
 
 import numpy as np
 
-# Source https://www.uniprot.org/help/api_queries
+"""
+Module with utility functions for UniProtMapper and SwissProtParser.
+"""
 
 
 def search_keys_inlist(list_of_dicts: List[dict], desiredkey: str):
@@ -19,7 +21,7 @@ def search_keys_inlist(list_of_dicts: List[dict], desiredkey: str):
 
 def search_comments(dict_comments, comment_type):
     """
-    Search comment types within UniProt json respose
+    Search comment types within UniProtKB-Swiss-Prot json respose
     retrieved from `UniProtMapper.uniprot_id_mapping()`.
     """
     has_comment = False

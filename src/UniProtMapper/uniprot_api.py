@@ -12,11 +12,21 @@ import pkg_resources
 import requests
 from requests.adapters import HTTPAdapter, Retry
 
-from .json_getter import SwissProtParser
+from .swiss_parser import SwissProtParser
 from .utils import decode_results, merge_xml_results, print_progress_batches
 
-# Code source:
-# https://www.uniprot.org/help/id_mapping#submitting-an-id-mapping-job
+"""
+The main module for the UniProtMapper package, with the main class and functions.
+
+Several methods were either taken or adapted from the Python example for the
+UniProt ID mapping RESTful API documentation. Source:
+https://www.uniprot.org/help/id_mapping#submitting-an-id-mapping-job
+
+Disclaimer: This is not an official UniProt package.
+
+TODO: Also add suport for other programatic access, such as in:
+https://www.uniprot.org/help/api_queries
+"""
 
 
 class UniProtMapper:
@@ -83,7 +93,6 @@ class UniProtMapper:
         """
         # __call__ is a wrapper to the uniprot_id_mapping function
         return self.uniprot_id_mapping(ids, from_db=from_db, to_db=to_db, parser=parser)
-
 
     def _check_dbs(self, from_db, to_db):
         if from_db not in self._supported_dbs:
