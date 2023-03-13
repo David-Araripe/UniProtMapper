@@ -32,7 +32,7 @@ class SwissProtParser:
         """
         # Where the retrieved information will be stored
         self._crossrefs_path = pkg_resources.resource_filename(
-            "UniProtMapper", "data/uniprot_abbrev_crossrefs.json"
+            "UniProtMapper", "resources/uniprot_abbrev_crossrefs.json"
         )
         self.crossrefs = crossrefs
         self._check_support("crossrefs")

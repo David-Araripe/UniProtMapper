@@ -63,7 +63,7 @@ class UniProtMapper:
         self._setup_session()
         self._re_next_link = re.compile(r'<(.+)>; rel="next"')
         self._mapping_dbs_path = pkg_resources.resource_filename(
-            "UniProtMapper", "data/uniprot_mapping_dbs.json"
+            "UniProtMapper", "resources/uniprot_mapping_dbs.json"
         )
         # use these to implement parsing methods for the response.
         self._todb = None
