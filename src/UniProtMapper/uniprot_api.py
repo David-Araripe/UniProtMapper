@@ -45,10 +45,10 @@ class UniProtMapper:
 
     def __init__(
         self,
-        api_url="https://rest.uniprot.org",
         pooling_interval=3,
         total_retries=5,
         backoff_factor=0.25,
+        api_url="https://rest.uniprot.org",
     ) -> None:
         """Initialize the class.
 

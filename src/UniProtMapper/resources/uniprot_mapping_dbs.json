@@ -1,7 +1,8 @@
 {
     "UniProt": [
-        "UniProtKB-Swiss-Prot",
+        "UniProtKB",
         "UniProtKB_AC-ID",
+        "UniProtKB-Swiss-Prot",
         "UniParc",
         "UniRef50",
         "UniRef90",
