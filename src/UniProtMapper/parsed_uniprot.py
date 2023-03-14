@@ -12,7 +12,6 @@ import pkg_resources
 import requests
 from requests.adapters import HTTPAdapter, Retry
 
-from .swiss_parser import SwissProtParser
 from .utils import decode_results, merge_xml_results, print_progress_batches
 
 """
@@ -188,7 +187,7 @@ class UniProtRetriever:
         self.check_response(request)
         return request.json()["redirectURL"]
 
-    def get_id_mapping_results_search(self, url):
+    def get_id_mapping_results_search(self, url, file_format, compressed):
         # parsed = urlparse(url)
         # query = parse_qs(parsed.query)
         # file_format = query["format"][0] if "format" in query else "json"
@@ -202,28 +201,25 @@ class UniProtRetriever:
         # )
         # parsed = parsed._replace(query=urlencode(query, doseq=True))
         # url = parsed.geturl()
-        request = self.session.get(url, allow_redirects=False)
-        self.check_response(request)
+        # TODO: make sure I can also print the progress with the retrieved/failed
+        # TODO: Valid formats for the API are json, tsv, xlsx, xml.
         base_dict = {
-            "format": "tsv",  # TODO: make this a parameter
+            "format": file_format,
             "fields": default_columns,
             "includeIsoform": "false",
             "size": 500,
+            "compressed": {"true" if compressed else "false"},
         }
-        results = requests.get(url + "/", params=base_dict)
-        # print(dat.text)
-        # results = decode_results(request, file_format, compressed)
-        # failed = len(results.json().get("failedIds", []))
-        # if failed > 0:
-        #     print(f"Failed to map {failed} ID(s).")
-        # retrieved = int(request.headers["x-total-results"])
-        # print_progress_batches(0, size, retrieved, failed) # TODO: Implement this
-        # for i, batch in enumerate(self.get_batch(request, file_format, compressed), 1):
-        #     results = self.combine_batches(results, batch, file_format)
-        #     print_progress_batches(i, size, retrieved, failed)
-        # if file_format == "xml":
-        #     return merge_xml_results(results)
-        return results
+        # TODO: check for the max size of 500 and divide the batches if needed
+        self.check_response(self.session.get(url, allow_redirects=False))
+        request = requests.get(url + "/", params=base_dict)
+        decoded = decode_results(request, file_format, compressed=compressed)
+        data = [
+            d.split("\t") for d in decoded
+        ]  # TODO: could be done within decode_results
+        columns = ["From"] + default_columns.split(",")
+        results_df = pd.DataFrame(data=data, columns=columns)
+        return results_df
 
     def get_id_mapping_results_stream(self, url):
         if "/stream/" not in url:
@@ -238,9 +234,11 @@ class UniProtRetriever:
         )
         return decode_results(request, file_format, compressed)
 
-    def uniprot_id_mapping(
+    def uniprot_id_mapping(  # TODO: rename this method
         self,
         ids: Union[List[str], str],
+        file_format: str = "tsv",
+        compressed: bool = False,
     ) -> Tuple[dict[dict], Optional[list]]:
         """Map Uniprot identifiers to other databases.
 
@@ -267,12 +265,8 @@ class UniProtRetriever:
         job_id = self.submit_id_mapping(ids=ids)
         if self.check_id_mapping_results_ready(job_id):
             link = self.get_id_mapping_results_link(job_id)
-            r = self.get_id_mapping_results_search(link)
-            return r.text
-            # r_dict = {idx: r["results"][idx] for idx in range(len(r["results"]))}
-            # if "failedIds" in r.keys():
-            #     failed_r = r["failedIds"]
-            # else:
-            #     failed_r = None
-            # self.results = r_dict
-            # return r_dict, failed_r
+            df = self.get_id_mapping_results_search(link, file_format, compressed)
+            retrieved = len(df["From"].values)
+            failed = np.isin(ids, df["From"].values, invert=True).astype(int).sum()
+            print_progress_batches(0, 500, retrieved, failed)
+            return df, failed
