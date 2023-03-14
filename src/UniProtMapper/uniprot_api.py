@@ -26,6 +26,9 @@ Disclaimer: This is not an official UniProt package.
 
 TODO: Also add suport for other programatic access, such as in:
 https://www.uniprot.org/help/api_queries
+
+# I would like to do this by implementing the functions from
+# https://github.com/noatgnu/UniprotWebParser
 """
 
 
@@ -66,6 +69,7 @@ class UniProtMapper:
             "UniProtMapper", "resources/uniprot_mapping_dbs.json"
         )
         # use these to implement parsing methods for the response.
+        self._ids = None
         self._todb = None
         self._fromdb = None
         self.results = None
@@ -76,7 +80,7 @@ class UniProtMapper:
         from_db: str = "UniProtKB_AC-ID",
         to_db: str = "UniProtKB-Swiss-Prot",
         parser: SwissProtParser = None,
-    ) -> Tuple[dict, Optional[list]]:
+    ) -> Tuple[dict[dict], Optional[list]]:
         """
         Wrapper for the UniProt ID mapping API.
 
@@ -89,7 +93,9 @@ class UniProtMapper:
             parser: SwissProtParser object to parse the response. Defaults to None.
 
         Returns:
-            Tuple[dict, Optional[list]]
+            Tuple[dict[dict], Optional[list]]. The first element is a dictionary
+            with the results of the mapping. The second element is a list of ids
+            that failed to be mapped.
         """
         # __call__ is a wrapper to the uniprot_id_mapping function
         return self.uniprot_id_mapping(ids, from_db=from_db, to_db=to_db, parser=parser)
@@ -173,7 +179,14 @@ class UniProtMapper:
                 else:
                     raise Exception(j["jobStatus"])
             else:
-                return bool(j["results"] or j["failedIds"])
+                try:
+                    ready = bool(j["results"] or j["failedIds"])
+                except KeyError:
+                    raise requests.RequestException(
+                        f"Unexpected response from {self._fromdb} to {self._todb}.\n"
+                        'request.json() missing "results" and "failedIds"'
+                    )
+                return ready
 
     def get_batch(self, batch_response, file_format, compressed):
         batch_url = self.get_next_link(batch_response.headers)
@@ -248,7 +261,7 @@ class UniProtMapper:
         from_db: str = "UniProtKB_AC-ID",
         to_db: str = "UniProtKB-Swiss-Prot",
         parser: SwissProtParser = None,
-    ) -> dict:
+    ) -> Tuple[dict[dict], Optional[list]]:
         """Map Uniprot identifiers to other databases.
 
         Args:
@@ -260,14 +273,17 @@ class UniProtMapper:
             parser: SwissProtParser object to parse the response. Defaults to None.
 
         Returns:
-            Dictionary with query ids as keys and the respective identifications.
-            For conversion to a dataframe, use
+            Tuple[dict[dict], Optional[list]]. First element is a dictionary with
+            the mapping results. Second element is a list of failed IDs.
+
+        To convert results into a dataframe, use:
         >>> pd.DataFrame.from_dict(<returned value>, orient='index')
         """
         self._check_dbs(from_db, to_db)
         if isinstance(ids, str):
             ids = [ids]
         # Save query parameters to allow parsing of the response.
+        self._ids = ids
         self._todb = to_db
         self._fromdb = from_db
 
@@ -295,7 +311,7 @@ class UniProtMapper:
         uniprot_info: Optional[list] = None,
         crossref_dbs: Optional[list] = None,
         case: bool = False,
-    ) -> Tuple[pd.DataFrame, list]:
+    ) -> Tuple[pd.DataFrame, dict]:
         """Get orthologs from UniProt IDs by mapping to OrthoDB and back to
         UniProtKB-Swiss-Prot.
 

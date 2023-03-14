@@ -12,11 +12,10 @@
     "Sequence databases": [
         "CCDS",
         "EMBL-GenBank-DDBJ",
-        "EMBL-GenBank-DDBJ CDS",
         "GI_number",
         "PIR",
-        "RefSeq Nucleotide",
-        "RefSeq Protein"
+        "RefSeq_Nucleotide",
+        "RefSeq_Protein"
     ],
     "3D structure databases": [
         "PDB"
