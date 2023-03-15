@@ -111,7 +111,10 @@ class UniProtRetriever(UniProtAPI):
         self.check_response(self.session.get(url, allow_redirects=False))
         request = requests.get(url + "/", params=query_dict)
         decoded = decode_results(request, file_format, compressed=compressed)
-        data = [d.split("\t") for d in decoded]
+        if file_format == "tsv":
+            data = [d.split("\t") for d in decoded]
+        else:
+            raise NotImplementedError("Only tsv format is implemented")
         columns = ["From"] + fields.split(",")  # First value is the original ID
         results_df = pd.DataFrame(data=data, columns=columns)
         # TODO: make use of the function combine_batches such as in:
@@ -126,9 +129,10 @@ class UniProtRetriever(UniProtAPI):
     def uniprot_id_mapping(  # TODO: rename this method
         self,
         ids: Union[List[str], str],
+        fields: list = default_fields,
+        from_db: str = "UniProtKB_AC-ID",
         file_format: str = "tsv",
         compressed: bool = False,
-        fields: list = default_fields,
     ) -> Tuple[dict[dict], Optional[list]]:
         """Map Uniprot identifiers to other databases.
 
@@ -147,30 +151,33 @@ class UniProtRetriever(UniProtAPI):
         To convert results into a dataframe, use:
         >>> pd.DataFrame.from_dict(<returned value>, orient='index')
         """
-        fields = np.array(fields).lower()
+        fields = np.char.lower(np.array(fields))
         if not np.isin(fields, self.fieldsTable["Returned Field"]).all():
             raise ValueError(
                 "Invalid fields. Valid fields are: "
                 f"{self.fieldsTable['Returned Field'].values}"
             )
         fields = ",".join(fields)
-        
+
         # TODO: check for the max size of 500 and divide the batches if needed
         if len(ids) > 500:
             divide_batches(ids)
-        
+
         if isinstance(ids, str):
             ids = [ids]
         # Save query parameters to allow parsing of the response.
         self._ids = ids
 
-        job_id = self.submit_id_mapping(ids=ids)
+        job_id = self.submit_id_mapping(from_db=from_db, to_db="UniProtKB", ids=ids)
         if self.check_id_mapping_results_ready(job_id):
             link = self.get_id_mapping_results_link(job_id)
             df = self.get_id_mapping_results_search(
                 fields, link, file_format, compressed
             )
             retrieved = len(df["From"].values)
-            failed = np.isin(ids, df["From"].values, invert=True).astype(int).sum()
-            print_progress_batches(0, 500, retrieved, failed)
-            return df, failed
+            failed_arr = np.isin(ids, df["From"].values, invert=True)
+            n_failed = failed_arr.astype(int).sum()
+            failed_ids = np.compress(failed_arr, ids).tolist()
+
+            print_progress_batches(0, 500, retrieved, n_failed)
+            return df, failed_ids
