@@ -1,38 +1,20 @@
 # -*- coding: utf-8 -*-
+"""Module for mapping different identifiers through the id-mapping REST API."""
 
 import json
-import re
-import time
 from typing import List, Optional, Tuple, Union
 from urllib.parse import parse_qs, urlencode, urlparse
 
 import numpy as np
 import pandas as pd
 import pkg_resources
-import requests
-from requests.adapters import HTTPAdapter, Retry
 
+from .interface import UniProtAPI
 from .swiss_parser import SwissProtParser
 from .utils import decode_results, merge_xml_results, print_progress_batches
 
-"""
-The main module for the UniProtMapper package, with the main class and functions.
 
-Several methods were either taken or adapted from the Python example for the
-UniProt ID mapping RESTful API documentation. Source:
-https://www.uniprot.org/help/id_mapping#submitting-an-id-mapping-job
-
-Disclaimer: This is not an official UniProt package.
-
-TODO: Also add suport for other programatic access, such as in:
-https://www.uniprot.org/help/api_queries
-
-# I would like to do this by implementing the functions from
-# https://github.com/noatgnu/UniprotWebParser
-"""
-
-
-class UniProtMapper:
+class UniProtMapper(UniProtAPI):
     """Class for mapping UniProt IDs to other databases.
 
     Returns:
@@ -59,20 +41,15 @@ class UniProtMapper:
             total_retries: The total number of retries to attempt. Defaults to 5.
             backoff_factor: The backoff factor to use when retrying. Defaults to 0.25.
         """
-        self._API_URL = api_url
-        self._POLLING_INTERVAL = pooling_interval
-        self.retries = self._setup_retries(total_retries, backoff_factor)
-        self.session = requests.Session()
-        self._setup_session()
-        self._re_next_link = re.compile(r'<(.+)>; rel="next"')
+        super().__init__(
+            pooling_interval,
+            total_retries,
+            backoff_factor,
+            api_url,
+        )
         self._mapping_dbs_path = pkg_resources.resource_filename(
             "UniProtMapper", "resources/uniprot_mapping_dbs.json"
         )
-        # use these to implement parsing methods for the response.
-        self._ids = None
-        self._todb = None
-        self._fromdb = None
-        self.results = None
 
     def __call__(
         self,
@@ -136,83 +113,6 @@ class UniProtMapper:
             [dbs_dict[k][i] for k in dbs_dict for i in range(len(dbs_dict[k]))]
         )
 
-    def _setup_retries(self, total_retries, backoff_factor) -> None:
-        return Retry(
-            total=total_retries,
-            backoff_factor=backoff_factor,
-            status_forcelist=[500, 502, 503, 504],
-        )
-
-    def _setup_session(self) -> None:
-        self.session.mount("https://", HTTPAdapter(max_retries=self.retries))
-
-    def check_response(self, response):
-        try:
-            response.raise_for_status()
-        except requests.HTTPError:
-            print(response.json())
-            raise
-
-    def submit_id_mapping(self, from_db, to_db, ids):
-        request = requests.post(
-            f"{self._API_URL}/idmapping/run",
-            data={"from": from_db, "to": to_db, "ids": ",".join(ids)},
-        )
-        self.check_response(request)
-        return request.json()["jobId"]
-
-    def get_next_link(self, headers):
-        if "Link" in headers:
-            match = self._re_next_link.match(headers["Link"])
-            if match:
-                return match.group(1)
-
-    def check_id_mapping_results_ready(self, job_id):
-        while True:
-            request = self.session.get(f"{self._API_URL}/idmapping/status/{job_id}")
-            self.check_response(request)
-            j = request.json()
-            if "jobStatus" in j:
-                if j["jobStatus"] == "RUNNING":
-                    print(f"Retrying in {self._POLLING_INTERVAL}s")
-                    time.sleep(self._POLLING_INTERVAL)
-                else:
-                    raise Exception(j["jobStatus"])
-            else:
-                try:
-                    ready = bool(j["results"] or j["failedIds"])
-                except KeyError:
-                    raise requests.RequestException(
-                        f"Unexpected response from {self._fromdb} to {self._todb}.\n"
-                        'request.json() missing "results" and "failedIds"'
-                    )
-                return ready
-
-    def get_batch(self, batch_response, file_format, compressed):
-        batch_url = self.get_next_link(batch_response.headers)
-        while batch_url:
-            batch_response = self.session.get(batch_url)
-            batch_response.raise_for_status()
-            yield decode_results(batch_response, file_format, compressed)
-            batch_url = self.get_next_link(batch_response.headers)
-
-    def combine_batches(self, all_results, batch_results, file_format):
-        if file_format == "json":
-            for key in ("results", "failedIds"):
-                if key in batch_results and batch_results[key]:
-                    all_results[key] += batch_results[key]
-        elif file_format == "tsv":
-            return all_results + batch_results[1:]
-        else:
-            return all_results + batch_results
-        return all_results
-
-    def get_id_mapping_results_link(self, job_id):
-        url = f"{self._API_URL}/idmapping/details/{job_id}"
-        request = self.session.get(url)
-        self.check_response(request)
-        return request.json()["redirectURL"]
-
     def get_id_mapping_results_search(self, url):
         parsed = urlparse(url)
         query = parse_qs(parsed.query)
@@ -241,19 +141,6 @@ class UniProtMapper:
         if file_format == "xml":
             return merge_xml_results(results)
         return results
-
-    def get_id_mapping_results_stream(self, url):
-        if "/stream/" not in url:
-            url = url.replace("/results/", "/results/stream/")
-        request = self.session.get(url)
-        self.check_response(request)
-        parsed = urlparse(url)
-        query = parse_qs(parsed.query)
-        file_format = query["format"][0] if "format" in query else "json"
-        compressed = (
-            query["compressed"][0].lower() == "true" if "compressed" in query else False
-        )
-        return decode_results(request, file_format, compressed)
 
     def uniprot_id_mapping(
         self,
