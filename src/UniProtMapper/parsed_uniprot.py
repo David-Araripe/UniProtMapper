@@ -60,7 +60,6 @@ class UniProtRetriever(UniProtAPI):
         )
         return pd.read_csv(csv_path)
 
-    # TODO: update call method
     def __call__(
         self,
         ids: Union[List[str], str],
@@ -82,9 +81,7 @@ class UniProtRetriever(UniProtAPI):
             with the results of the mapping. The second element is a list of ids
             that failed to be mapped.
         """
-        pass
-        # __call__ is a wrapper to the uniprot_id_mapping function
-        # return self.uniprot_id_mapping(ids, from_db=from_db, to_db=to_db)
+        raise NotImplementedError("This method is not implemented yet")
 
     def get_id_mapping_results_search(
         self, fields: str, url: str, file_format: str, compressed: bool
