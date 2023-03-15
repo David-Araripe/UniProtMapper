@@ -17,14 +17,17 @@ from UniProtMapper.utils import decode_results, divide_batches, print_progress_b
 
 
 class UniProtRetriever(UniProtAPI):
-    """Class for mapping UniProt IDs to other databases.
+    """Class for retrieving specific UniProt fields.
 
     Returns:
-        dict: A dictionary with the results of the mapping.
+        Tuple[pd.DataFrame, list]: A tuple containing a dataframe with the results
+        and a list of IDs that were not found.
 
     Example:
-    >>> uni_mapping = UniProtMapper()
-    >>> result = uni_mapping(uprot_ids, to_db='PDB')
+    >>> uni_retriever = UniProtRetriever()
+    >>> result_df, failed = uni_retriever(["P30542", "Q16678", "Q02880"],
+    >>>                                   fields=["accession", "id", "go_id",
+    >>>                                           "go_p", "go_c", "go_f"])
     """
 
     def __init__(
@@ -193,12 +196,12 @@ class UniProtRetriever(UniProtAPI):
         if len(ids) > 500:  # The API only allows 500 ids per request
             batched_ids = divide_batches(ids)
             all_dfs = []
-            all_failed = []
+            failed_ids = []
             for batch in batched_ids:
                 df, failed = _get_results(batch)
                 all_dfs.append(df)
-                all_failed = all_failed + failed
+                failed_ids = failed_ids + failed
             df = pd.concat(all_dfs, ignore_index=True) if all_dfs else pd.DataFrame()
-            return df, all_failed
+            return df, failed_ids
         else:
             return _get_results(ids)

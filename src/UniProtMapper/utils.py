@@ -119,3 +119,8 @@ def print_progress_batches(batch_index, size, retrieved, failed):
     """Prints the progress of a batch process."""
     n_fetched = min((batch_index + 1) * size, retrieved)
     print(f"Fetched: {n_fetched} / {retrieved + failed}")
+    
+    
+def divide_batches(ids):
+    """Divides a list of UniProtIDs into batches of 500"""
+    return [ids[i : i + 500] for i in range(0, len(ids), 500)]

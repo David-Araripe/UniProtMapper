@@ -11,7 +11,12 @@ import pkg_resources
 
 from .interface import UniProtAPI
 from .swiss_parser import SwissProtParser
-from .utils import decode_results, merge_xml_results, print_progress_batches
+from .utils import (
+    decode_results,
+    divide_batches,
+    merge_xml_results,
+    print_progress_batches,
+)
 
 
 class UniProtMapper(UniProtAPI):
@@ -57,22 +62,20 @@ class UniProtMapper(UniProtAPI):
         from_db: str = "UniProtKB_AC-ID",
         to_db: str = "UniProtKB-Swiss-Prot",
         parser: SwissProtParser = None,
-    ) -> Tuple[dict[dict], Optional[list]]:
-        """
-        Wrapper for the UniProt ID mapping API.
+    ) -> Tuple[pd.DataFrame, list]:
+        """Map Uniprot identifiers to other databases.
 
         Args:
             ids: single id (str) or list of IDs to be mapped.
-            from_db: Original database from the `ids`. Defaults to "UniProtKB_AC-ID".
-            to_db: Database to retrieve information from.
+            from_db: original database from the `ids`. Defaults to "UniProtKB_AC-ID".
+            to_db: identifier type to be obtained. Response is much more complex for
+                "UniProtKB-Swiss-Prot". For this, see self.uniprot_swissprot_parser().
                 Defaults to "UniProtKB-Swiss-Prot".
-            get_format: The format of the returned value. Defaults to 'csv'.
             parser: SwissProtParser object to parse the response. Defaults to None.
 
         Returns:
-            Tuple[dict[dict], Optional[list]]. The first element is a dictionary
-            with the results of the mapping. The second element is a list of ids
-            that failed to be mapped.
+            Tuple[pd.DataFrame, list]. First element is a data frame with
+            the mapping results. Second element is a list of failed IDs.
         """
         # __call__ is a wrapper to the uniprot_id_mapping function
         return self.uniprot_id_mapping(ids, from_db=from_db, to_db=to_db, parser=parser)
@@ -142,13 +145,13 @@ class UniProtMapper(UniProtAPI):
             return merge_xml_results(results)
         return results
 
-    def uniprot_id_mapping(
+    def mapIDs(
         self,
         ids: Union[List[str], str],
         from_db: str = "UniProtKB_AC-ID",
         to_db: str = "UniProtKB-Swiss-Prot",
         parser: SwissProtParser = None,
-    ) -> Tuple[dict[dict], Optional[list]]:
+    ) -> Tuple[pd.DataFrame, list]:
         """Map Uniprot identifiers to other databases.
 
         Args:
@@ -160,36 +163,50 @@ class UniProtMapper(UniProtAPI):
             parser: SwissProtParser object to parse the response. Defaults to None.
 
         Returns:
-            Tuple[dict[dict], Optional[list]]. First element is a dictionary with
+            Tuple[pd.DataFrame, list]. First element is a data frame with
             the mapping results. Second element is a list of failed IDs.
-
-        To convert results into a dataframe, use:
-        >>> pd.DataFrame.from_dict(<returned value>, orient='index')
         """
         self._check_dbs(from_db, to_db)
         if isinstance(ids, str):
             ids = [ids]
-        # Save query parameters to allow parsing of the response.
-        self._ids = ids
-        self._todb = to_db
-        self._fromdb = from_db
 
-        job_id = self.submit_id_mapping(from_db=from_db, to_db=to_db, ids=ids)
-        if self.check_id_mapping_results_ready(job_id):
-            link = self.get_id_mapping_results_link(job_id)
-            r = self.get_id_mapping_results_search(link)
-            if parser is not None:
-                assert to_db == "UniProtKB-Swiss-Prot", "Only SwissProt can be parsed."
-                for result in r["results"]:
-                    response = result.pop("to")
-                    result.update(parser(response))
-            r_dict = {idx: r["results"][idx] for idx in range(len(r["results"]))}
-            if "failedIds" in r.keys():
-                failed_r = r["failedIds"]
-            else:
-                failed_r = None
-            self.results = r_dict
-            return r_dict, failed_r
+        def _get_results(
+            ids,
+            from_db=from_db,
+            to_db=to_db,
+            parser=parser,
+        ):
+            job_id = self.submit_id_mapping(from_db=from_db, to_db=to_db, ids=ids)
+            if self.check_id_mapping_results_ready(job_id):
+                link = self.get_id_mapping_results_link(job_id)
+                r = self.get_id_mapping_results_search(link)
+                if parser is not None:
+                    assert (
+                        to_db == "UniProtKB-Swiss-Prot"
+                    ), "Only SwissProt can be parsed."
+                    for result in r["results"]:
+                        response = result.pop("to")
+                        result.update(parser(response))
+                r_dict = {idx: r["results"][idx] for idx in range(len(r["results"]))}
+                results_df = pd.DataFrame.from_dict(r_dict, orient="index")
+                if "failedIds" in r.keys():
+                    failed_ids = r["failedIds"]
+                else:
+                    failed_ids = []
+                return results_df, failed_ids
+
+        if len(ids) > 500:  # The API only allows 500 ids per request
+            batched_ids = divide_batches(ids)
+            all_dfs = []
+            failed_ids = []
+            for batch in batched_ids:
+                df, failed = _get_results(batch)
+                all_dfs.append(df)
+                failed_ids = failed_ids + failed
+            df = pd.concat(all_dfs, ignore_index=True) if all_dfs else pd.DataFrame()
+            return df, failed_ids
+        else:
+            return _get_results(ids)
 
     def uniprot_ids_to_orthologs(
         self,

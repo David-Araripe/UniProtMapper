@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-
 """A Python wrapper for the UniProt Mapping RESTful API."""
 
+from .field_retriever_api import UniProtRetriever  # noqa: F401
+from .id_mapping_api import UniProtMapper  # noqa: F401
+from .interface import UniProtAPI  # noqa: F401
 from .swiss_parser import SwissProtParser  # noqa: F401
-from .uniprot_api import UniProtMapper  # noqa: F401
