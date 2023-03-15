@@ -43,11 +43,6 @@ class UniProtAPI(ABC):
         self.session = requests.Session()
         self._setup_session()
         self._re_next_link = re.compile(r'<(.+)>; rel="next"')
-        # use these to implement parsing methods for the response.
-        self._todb = None
-        self._fromdb = None
-        self._ids = None
-        self.results = None
 
     def _setup_retries(self, total_retries, backoff_factor) -> None:
         return Retry(

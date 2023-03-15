@@ -5,6 +5,7 @@ a list of all supported fields, see https://www.uniprot.org/help/return_fields.
 Supported fields also stored as a dataframe in the `fields_table` attribute.
 """
 
+import json
 from typing import List, Tuple, Union
 
 import numpy as np
@@ -37,7 +38,15 @@ class UniProtRetriever(UniProtAPI):
         backoff_factor=0.25,
         api_url="https://rest.uniprot.org",
     ) -> None:
-        """TODO"""
+        """Initialize the class. This will set up the session and retry mechanism.
+
+        Args:
+            pooling_interval: The interval in seconds between polling the API.
+                Defaults to 3.
+            total_retries: The total number of retries to attempt. Defaults to 5.
+            backoff_factor: The backoff factor to use when retrying. Defaults to 0.25.
+            api_url: The url for the REST API. Defaults to "https://rest.uniprot.org".
+        """
         super().__init__(
             pooling_interval,
             total_retries,
@@ -69,7 +78,11 @@ class UniProtRetriever(UniProtAPI):
     @property
     def _supported_dbs(self) -> list:
         """Only databases. There will be no information as to the type."""
-        dbs_dict = self.supported_dbs_with_types
+        _mapping_dbs_path = pkg_resources.resource_filename(
+            "UniProtMapper", "resources/uniprot_mapping_dbs.json"
+        )
+        with open(_mapping_dbs_path, "r") as f:
+            dbs_dict =  json.load(f)
         return sorted(
             [dbs_dict[k][i] for k in dbs_dict for i in range(len(dbs_dict[k]))]
         )

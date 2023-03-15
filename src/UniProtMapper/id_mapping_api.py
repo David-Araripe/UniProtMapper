@@ -63,7 +63,9 @@ class UniProtMapper(UniProtAPI):
         to_db: str = "UniProtKB-Swiss-Prot",
         parser: SwissProtParser = None,
     ) -> Tuple[pd.DataFrame, list]:
-        """Map Uniprot identifiers to other databases.
+        """Wrapper for the `mapIDs` method.
+
+        Map Uniprot identifiers to other databases.
 
         Args:
             ids: single id (str) or list of IDs to be mapped.
