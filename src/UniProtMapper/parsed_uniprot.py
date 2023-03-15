@@ -107,20 +107,15 @@ class UniProtRetriever(UniProtAPI):
         }
         self.check_response(self.session.get(url, allow_redirects=False))
         request = requests.get(url + "/", params=query_dict)
-        decoded = decode_results(request, file_format, compressed=compressed)
+        results = decode_results(request, file_format, compressed=compressed)
+        for i, batch in enumerate(self.get_batch(request, file_format, compressed), 1):
+            results = self.combine_batches(results, batch, file_format)
         if file_format == "tsv":
-            data = [d.split("\t") for d in decoded]
+            data = [d.split("\t") for d in results]
         else:
             raise NotImplementedError("Only tsv format is implemented")
         columns = ["From"] + fields.split(",")  # First value is the original ID
         results_df = pd.DataFrame(data=data, columns=columns)
-        # TODO: make use of the function combine_batches such as in:
-        # for i, batch in enumerate(self.get_batch(request, file_format, compressed), 1):
-        #     results = self.combine_batches(results, batch, file_format)
-        #     print_progress_batches(i, size, retrieved, failed)
-        # if file_format == "xml":
-        #     return merge_xml_results(results)
-        # return results
         return results_df
 
     def uniprot_id_mapping(  # TODO: rename this method
