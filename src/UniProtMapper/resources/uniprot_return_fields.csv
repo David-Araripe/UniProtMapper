@@ -1,4 +1,4 @@
-Label,Legacy Returned Field,Returned Field,Field
+Label,Legacy Returned Field,Returned Field,Field Type
 Entry,id,accession,Names & Taxonomy
 Entry Name,entry name,id,Names & Taxonomy
 Gene Names,genes,gene_names,Names & Taxonomy

@@ -13,11 +13,11 @@ import pandas as pd
 import pkg_resources
 import requests
 
-from UniProtMapper.interface import UniProtAPI
+from UniProtMapper.interface import abc_UniProtAPI
 from UniProtMapper.utils import decode_results, divide_batches, print_progress_batches
 
 
-class UniProtRetriever(UniProtAPI):
+class UniProtRetriever(abc_UniProtAPI):
     """Class for retrieving specific UniProt fields.
 
     Returns:
@@ -82,7 +82,7 @@ class UniProtRetriever(UniProtAPI):
             "UniProtMapper", "resources/uniprot_mapping_dbs.json"
         )
         with open(_mapping_dbs_path, "r") as f:
-            dbs_dict =  json.load(f)
+            dbs_dict = json.load(f)
         return sorted(
             [dbs_dict[k][i] for k in dbs_dict for i in range(len(dbs_dict[k]))]
         )
@@ -137,8 +137,8 @@ class UniProtRetriever(UniProtAPI):
             data = [d.split("\t") for d in results]
         else:
             raise NotImplementedError("Only tsv format is implemented")
-        columns = ["From"] + fields.split(",")  # First value is the original ID
-        results_df = pd.DataFrame(data=data, columns=columns)
+        columns = data[0]
+        results_df = pd.DataFrame(data=data[1:], columns=columns)
         return results_df
 
     def retrieveFields(

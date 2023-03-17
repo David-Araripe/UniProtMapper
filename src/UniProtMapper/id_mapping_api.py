@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 import pkg_resources
 
-from .interface import UniProtAPI
+from .interface import abc_UniProtAPI
 from .swiss_parser import SwissProtParser
 from .utils import (
     decode_results,
@@ -19,7 +19,7 @@ from .utils import (
 )
 
 
-class UniProtMapper(UniProtAPI):
+class UniProtIDMapper(abc_UniProtAPI):
     """Class for mapping UniProt IDs to other databases.
 
     Returns:

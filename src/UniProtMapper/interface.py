@@ -18,7 +18,7 @@ https://www.uniprot.org/help/id_mapping#submitting-an-id-mapping-job
 """
 
 
-class UniProtAPI(ABC):
+class abc_UniProtAPI(ABC):
     """Implementation of the base class for the UniProt REST API."""
 
     def __init__(
