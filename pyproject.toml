@@ -6,40 +6,27 @@ build-backend = "setuptools.build_meta"
 name = "uniprot-id-mapper"
 version = "0.0.1"
 description = "A Python wrapper for the UniProt Mapping RESTful API."
-readme = {file = "README.md", content-type = "text/markdown"}
+readme = { file = "README.md", content-type = "text/markdown" }
 requires-python = ">=3.6"
-license = {file = "LICENSE"}
+license = { file = "LICENSE" }
 keywords = ["uniprot", "database", "protein ID", "gene ID", "parser"]
-authors = [
-  { name="David Araripe", email="david.araripe17@gmail.com" },
-]
-maintainers = [
-  { name="David Araripe", email="david.araripe17@gmail.com" },
-]
+authors = [{ name = "David Araripe", email = "david.araripe17@gmail.com" }]
+maintainers = [{ name = "David Araripe", email = "david.araripe17@gmail.com" }]
 classifiers = [
-    "Development Status :: 4 - Beta",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.6",
+  "Development Status :: 4 - Beta",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.6",
 ]
 
-dependencies = [
-  "requests",
-  "pandas",
-  "numpy",
-]
+dependencies = ["requests", "pandas", "numpy"]
 
 [project.optional-dependencies]
-dev = [
-  "tox",
-  "ruff",
-  "isort",
-  "black"
-]
+dev = ["tox", "ruff", "isort", "black"]
 
 [project.urls]
 homepage = "https://github.com/David-Araripe/UniProtMapper"
