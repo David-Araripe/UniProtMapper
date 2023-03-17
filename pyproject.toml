@@ -1,0 +1,80 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "uniprot-id-mapper"
+version = "0.0.1"
+description = "A Python wrapper for the UniProt Mapping RESTful API."
+readme = {file = "README.md", content-type = "text/markdown"}
+requires-python = ">=3.6"
+license = {file = "LICENSE"}
+keywords = ["uniprot", "database", "protein ID", "gene ID", "parser"]
+authors = [
+  { name="David Araripe", email="david.araripe17@gmail.com" },
+]
+maintainers = [
+  { name="David Araripe", email="david.araripe17@gmail.com" },
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.6",
+]
+
+dependencies = [
+  "requests",
+  "pandas",
+  "numpy",
+]
+
+[project.optional-dependencies]
+dev = [
+  "tox",
+  "ruff",
+  "isort",
+  "black"
+]
+
+[project.urls]
+homepage = "https://github.com/David-Araripe/UniProtMapper"
+repository = "https://github.com/David-Araripe/UniProtMapper"
+# documentation = "https://readthedocs.org" TODO
+
+[tool.setuptools.package-data]
+
+
+[tool.ruff]
+line-length = 88
+update-check = false
+target-version = "py38"
+fix = true
+
+[tool.isort]
+profile = "black"
+
+[tool.black]
+target-version = ['py38', 'py39']
+required-version = '23.1.0'
+exclude = '''
+(
+    asv_bench/env
+  | \.egg
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.nox
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  | setup.py
+)
+'''
