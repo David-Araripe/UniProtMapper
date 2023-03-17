@@ -5,9 +5,11 @@
 
 # UniProtMapping
 
-A Python wrapper for the [UniProt Mapping](https://www.uniprot.org/id-mapping) RESTful API.
+A Python wrapper for the [UniProt Retrieve/ID Mapping](https://www.uniprot.org/id-mapping) RESTful API. This package supports the following functionalities:
 
-➡️ Map UniProt IDs other identifiers and parse UniProt-SwissProt responses.
+- Map UniProt IDs other identifiers (handled by [UniProtIDMapper](#uniprotidmapper));
+- Retrieve any of the supported [return fields](https://www.uniprot.org/help/return_fields) (handled by [UniprotRetriever](#uniprotretriever))
+- Parse json UniProt-SwissProt responses (handled by [SwissProtParser](#swissprotparser)).
 
 ## Installation
 
@@ -18,17 +20,24 @@ pip install .
 ```
 ## Usage
 
-Supported databases for mapping are saved under `supported_dbs_with_types`.
-``` Python
-from UniProtMapper import UniProtMapper
+<summary>
 
-mapper = UniProtMapper()
+## UniProtIDMapper
+
+</summary>
+<details>
+
+Supported databases and their respective type found in the attribute `self.supported_dbs_with_types`. These are also found as a list under `self._supported_fields`.
+``` Python
+from UniProtIDMapper import UniProtIDMapper
+
+mapper = UniProtIDMapper()
 print(mapper.supported_dbs_with_types)
 ```
 
-To map a list of UniProt IDs to Ensembl IDs, either the user can either call the object directly or use the `uniprot_id_mapping` method.
+To map a list of UniProt IDs to Ensembl IDs, the user can either call the object directly or use the `mapID` method.
 ``` Python
-result, failed = mapper.uniprot_id_mapping(
+result, failed = mapper.mapIDs(
     ids=["P30542", "Q16678", "Q02880"], from_db="UniProtKB_AC-ID", to_db="Ensembl"
 )
 >>> Retrying in 3s
@@ -39,21 +48,9 @@ result, failed = mapper(
 )
 >>> Retrying in 3s
 >>> Fetched: 3 / 3
-
-# Where the results are organized as a nested dictionary:
-print(result[0])
->>> {'from': 'P30542', 'to': 'ENSG00000163485.17'}
 ```
 
-Retrieved results are easily converted to a pandas DataFrame.
-``` Python
-import pandas as pd
-
-df = pd.DataFrame.from_dict(result, orient="index").rename(
-    columns={"from": "UniProtKB_AC-ID", "to": "Ensembl"}
-)
-```
-With the resulting DataFrame being:
+Where result is the following pandas DataFrame:
 
 |    | UniProtKB_AC-ID   | Ensembl            |
 |---:|:------------------|:-------------------|
@@ -61,9 +58,61 @@ With the resulting DataFrame being:
 |  1 | Q16678            | ENSG00000138061.12 |
 |  2 | Q02880            | ENSG00000077097.17 |
 
+</details>
+<summary>
+
+## UniProtRetriever
+
+</summary>
+<details>
+
+This class supports retrieving any of the UniProt [return fields](https://www.uniprot.org/help/return_fields). The user can access these directly from the object, under the attribute `self.fields_table`, e.g.:
+
+```Python
+import pandas as pd
+from UniProtMapper import UniProtRetriever
+
+df = field_retriever.fields_table
+df.head()
+```
+|    | Label                | Legacy Returned Field   | Returned Field   | Field Type       |
+|---:|:---------------------|:------------------------|:-----------------|:-----------------|
+|  0 | Entry                | id                      | accession        | Names & Taxonomy |
+|  1 | Entry Name           | entry name              | id               | Names & Taxonomy |
+|  2 | Gene Names           | genes                   | gene_names       | Names & Taxonomy |
+|  3 | Gene Names (primary) | genes(PREFERRED)        | gene_primary     | Names & Taxonomy |
+|  4 | Gene Names (synonym) | genes(ALTERNATIVE)      | gene_synonym     | Names & Taxonomy |
+
+Similarly to `UniProtIDMapper`, the user can either call the object directly or use the `retrieveFields` method to obtain the response.
+
+```Python
+result, failed = field_retriever.retrieveFields(["Q02880"])
+>>> Fetched: 1 / 1
+
+result, failed = field_retriever(["Q02880"])
+>>> Fetched: 1 / 1
+```
+
+Custom returned fields can be retrieved by passing a list of fields to the `fields` parameter. These fields need to be within `UniProtRetriever.fields_table["Returned Field"]` and will be returned with columns named as their respective `Legacy Returned Field`.
+
+The object already has a list of default fields under `self.default_fields`, but these are ignored if the parameter `fields` is passed.
+
+```Python
+fields = ["accession", "organism_name", "structure_3d"]
+result, failed = field_retriever.retrieveFields(["Q02880"],
+                                                fields=fields)
+```
+</details>
+<summary>
+
+## SwissProtParser
+
+</summary>
+<details>
+
 ### Querying data from UniProt-SwissProt
 
-Retrieving UniProt-SwissProt (reviewed) is also possible, but the retrieved response is much more complex:
+Retrieving json UniProt-SwissProt (reviewed) responses is also possible, such as the following:
 
 ``` Python
 result, failed = mapper(
@@ -79,10 +128,8 @@ print(result[0])
 >>>     'Turn': 1},
 >>>    'uniParcId': 'UPI00000503E1'}}}
 ```
-### Parsing UniProt-SwissProt responses
 
-SwissProt responses can be parsed using the `SwissProtParser` class, where the supported fields to be extracted from UniProt (:param: = toquery) are stored under `self._supported_fields` and the cross-referenced datasets are stored under `self._crossref_dbs` (:param: = crossrefs).
-
+SwissProt responses from `UniProtIDMapper` can be parsed using the `SwissProtParser` class, where the fields to extract from UniProt (:param: = toquery) are stored under `self._supported_fields` and the cross-referenced datasets are stored under `self._crossref_dbs` (:param: = crossrefs).
 
 ``` Python
 parser = SwissProtParser(
@@ -103,7 +150,7 @@ parser(result[0]['to'])
 >>>   'GO:0070328~GoEvidenceType~IEA:Ensembl']}
 ```
 
-Both UniProtMapper.uniprot_id_mapping and __call__ methods accept a `SwissProtParser` as a parameter, such as in:
+Both `UniProtIDMapper.mapIDs` and `__call__` methods accept a `SwissProtParser` as a parameter, such as in:
 
 ``` Python
 result, failed = mapper(
@@ -113,6 +160,10 @@ result, failed = mapper(
     parser=parser,
 )
 ```
+</details>
+<!-- 
+This functionality needs to be improved
+
 ### Mapping identifiers to orthologs
 
 This package also allows mapping UniProt IDs to orthologs. The function `uniprot_ids_to_orthologs` does that by mapping UniProt IDs to OrthoDB and then re-mapping these results to UniProt-SwissProt.
@@ -121,7 +172,7 @@ The user can also specify which information fields to retrieve with the paramete
 
 Queried objects are in the column `original_id` and their OrthoDB identifier is found on `orthodb_id`.
 ``` Python
-mapper = UniProtMapper()
+mapper = UniProtIDMapper()
 result, failed = mapper.uniprot_ids_to_orthologs(
     ids=["P30542", "Q16678", "Q02880"], organism="Mus musculus"
 )
@@ -130,4 +181,4 @@ result, failed = mapper.uniprot_ids_to_orthologs(
 # Filtering by organism is done on the full response.
 >>> Fetched: 3 / 3
 >>> Fetched: 349 / 349
-```
+``` -->
