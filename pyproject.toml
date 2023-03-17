@@ -33,8 +33,11 @@ homepage = "https://github.com/David-Araripe/UniProtMapper"
 repository = "https://github.com/David-Araripe/UniProtMapper"
 # documentation = "https://readthedocs.org" TODO
 
-[tool.setuptools.package-data]
+[tool.setuptools]
+include-package-data = true
 
+[tool.setuptools.package-data]
+where = ["src"]
 
 [tool.ruff]
 line-length = 88

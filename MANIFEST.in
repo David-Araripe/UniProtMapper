@@ -1,0 +1,3 @@
+include src/UniProtMapper/resources/*.json
+include src/UniProtMapper/resources/*.csv
+
