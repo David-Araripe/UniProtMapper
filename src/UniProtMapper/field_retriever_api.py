@@ -92,6 +92,7 @@ class UniProtRetriever(abc_UniProtAPI):
         ids: Union[List[str], str],
         fields: list = None,
         from_db: str = "UniProtKB_AC-ID",
+        to_db: str = "UniProtKB-Swiss-Prot",
         file_format: str = "tsv",
         compressed: bool = False,
     ) -> Tuple[pd.DataFrame, list]:
@@ -104,17 +105,20 @@ class UniProtRetriever(abc_UniProtAPI):
             ids: list of IDs to be mapped or single string.
             fields: list of fields to be retrieved. Defaults to None.
             from_db: database for the ids. Defaults to "UniProtKB_AC-ID".
+            to_db: UniProtDB to query to. For reviewed-only accessions, use default. If
+                you want to include unreviewed accessions, use "UniProtKB". Defaults to
+                "UniProtKB-Swiss-Prot".
             file_format: desired file format. Defaults to "tsv".
             compressed: compressed API request. Defaults to False.
 
         Raises:
-            ValueError: If `from_db` or if `to_db` are not supported.
+            ValueError: If parameters `from_db`or `to_db` are not supported.
 
         Returns:
             Tuple[pd.DataFrame, list]: First element is a dataframe with the
             results, second element is a list of failed IDs.
         """
-        return self.retrieveFields(ids, fields, from_db, file_format, compressed)
+        return self.retrieveFields(ids, fields, from_db, to_db, file_format, compressed)
 
     def get_id_mapping_results_search(
         self, fields: str, url: str, file_format: str, compressed: bool
@@ -146,6 +150,7 @@ class UniProtRetriever(abc_UniProtAPI):
         ids: Union[List[str], str],
         fields: list = None,
         from_db: str = "UniProtKB_AC-ID",
+        to_db: str = "UniProtKB-Swiss-Prot",
         file_format: str = "tsv",
         compressed: bool = False,
     ) -> Tuple[pd.DataFrame, list]:
@@ -157,11 +162,14 @@ class UniProtRetriever(abc_UniProtAPI):
             ids: list of IDs to be mapped or single string.
             fields: list of fields to be retrieved. Defaults to None.
             from_db: database for the ids. Defaults to "UniProtKB_AC-ID".
+            to_db: UniProtDB to query to. For reviewed-only accessions, use default. If
+                you want to include unreviewed accessions, use "UniProtKB". Defaults to
+                "UniProtKB-Swiss-Prot".
             file_format: desired file format. Defaults to "tsv".
             compressed: compressed API request. Defaults to False.
 
         Raises:
-            ValueError: If `from_db` or if `to_db` are not supported.
+            ValueError: If parameters `from_db`or `to_db` are not supported.
 
         Returns:
             Tuple[pd.DataFrame, list]: First element is a dataframe with the
@@ -171,6 +179,11 @@ class UniProtRetriever(abc_UniProtAPI):
             raise ValueError(
                 f"{from_db} not available. "
                 f"Supported databases are {self._supported_dbs}"
+            )
+        if to_db not in ["UniProtKB-Swiss-Prot", "UniProtKB"]:
+            raise ValueError(
+                f"{to_db} not available. "
+                "Supported databases are UniProtKB-Swiss-Prot and UniProtKB"
             )
         if isinstance(ids, str):
             ids = [ids]
@@ -190,10 +203,11 @@ class UniProtRetriever(abc_UniProtAPI):
             ids,
             fields=fields,
             from_db=from_db,
+            to_db=to_db,
             file_format=file_format,
             compressed=compressed,
         ):
-            job_id = self.submit_id_mapping(from_db=from_db, to_db="UniProtKB", ids=ids)
+            job_id = self.submit_id_mapping(from_db=from_db, to_db=to_db, ids=ids)
             if self.check_id_mapping_results_ready(job_id):
                 link = self.get_id_mapping_results_link(job_id)
                 df = self.get_id_mapping_results_search(
