@@ -80,7 +80,7 @@ class UniProtIDMapper(abc_UniProtAPI):
             the mapping results. Second element is a list of failed IDs.
         """
         # __call__ is a wrapper to the uniprot_id_mapping function
-        return self.uniprot_id_mapping(ids, from_db=from_db, to_db=to_db, parser=parser)
+        return self.mapIDs(ids, from_db=from_db, to_db=to_db, parser=parser)
 
     def _check_dbs(self, from_db, to_db):
         if from_db not in self._supported_dbs:
