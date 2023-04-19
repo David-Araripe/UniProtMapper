@@ -18,7 +18,7 @@ jobs:
     - name: Install dependencies
       run: |
         pip install -e .
-        pip install --dev .
+        pip install -e ".[dev]"
     - name: Run tests
       run: tox -e py36,py37,py38
 
@@ -33,7 +33,7 @@ jobs:
     - name: Install dependencies
       run: |
         pip install -e .
-        pip install --dev .
+        pip install -e ".[dev]"
     - name: Run tests
       run: tox -e py36,py37,py38
 
@@ -48,7 +48,7 @@ jobs:
     - name: Install dependencies
       run: |
         pip install -e .
-        pip install --dev .
+        pip install -e ".[dev]"
     - name: Run tests
       run: tox -e py36,py37,py38
 
