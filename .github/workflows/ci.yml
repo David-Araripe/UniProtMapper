@@ -20,7 +20,7 @@ jobs:
         pip install -e .
         pip install -e ".[dev]"
     - name: Run tests
-      run: tox -e py36,py37,py38
+      run: python -m unittest discover
 
   macos:
     runs-on: macos-latest
@@ -35,7 +35,7 @@ jobs:
         pip install -e .
         pip install -e ".[dev]"
     - name: Run tests
-      run: tox -e py36,py37,py38
+      run: python -m unittest discover
 
   windows:
     runs-on: windows-latest
@@ -50,5 +50,5 @@ jobs:
         pip install -e .
         pip install -e ".[dev]"
     - name: Run tests
-      run: tox -e py36,py37,py38
+      run: python -m unittest discover
 
