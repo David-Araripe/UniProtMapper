@@ -16,9 +16,11 @@ jobs:
       with:
         python-version: '3.9'
     - name: Install dependencies
-      run: pip install -e .
+      run: |
+        pip install -e .
+        pip install --dev .
     - name: Run tests
-      run: pytest
+      run: tox -e py36,py37,py38
 
   macos:
     runs-on: macos-latest
@@ -29,9 +31,11 @@ jobs:
       with:
         python-version: '3.9'
     - name: Install dependencies
-      run: pip install -e .
+      run: |
+        pip install -e .
+        pip install --dev .
     - name: Run tests
-      run: pytest
+      run: tox -e py36,py37,py38
 
   windows:
     runs-on: windows-latest
@@ -42,7 +46,9 @@ jobs:
       with:
         python-version: '3.9'
     - name: Install dependencies
-      run: pip install -e .
+      run: |
+        pip install -e .
+        pip install --dev .
     - name: Run tests
-      run: pytest
+      run: tox -e py36,py37,py38
 
