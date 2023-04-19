@@ -68,11 +68,11 @@ Subunit structure[CC],comment(SUBUNIT),cc_subunit,Interaction
 Developmental stage,comment(DEVELOPMENTAL STAGE),cc_developmental_stage,Expression
 Induction,comment(INDUCTION),cc_induction,Expression
 Tissue specificity,comment(TISSUE SPECIFICITY),cc_tissue_specificity,Expression
-Gene ontology (biological process),go(biological process),go_p,Gene Ontology (GO)
-Gene ontology (cellular component),go(cellular component),go_c,Gene Ontology (GO)
-Gene ontology (GO),go,go,Gene Ontology (GO)
-Gene ontology (molecular function),go(molecular function),go_f,Gene Ontology (GO)
-Gene ontology IDs,go-id,go_id,Gene Ontology (GO)
+Gene Ontology (biological process),go(biological process),go_p,Gene Ontology (GO)
+Gene Ontology (cellular component),go(cellular component),go_c,Gene Ontology (GO)
+Gene Ontology (GO),go,go,Gene Ontology (GO)
+Gene Ontology (molecular function),go(molecular function),go_f,Gene Ontology (GO)
+Gene Ontology IDs,go-id,go_id,Gene Ontology (GO)
 Allergenic properties,comment(ALLERGEN),cc_allergen,Pathology & Biotech
 Biotechnological use,comment(BIOTECHNOLOGY),cc_biotechnology,Pathology & Biotech
 Disruption phenotype,comment(DISRUPTION PHENOTYPE),cc_disruption_phenotype,Pathology & Biotech
