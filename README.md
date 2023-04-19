@@ -5,7 +5,7 @@
 
 # UniProtMapping
 
-A Python wrapper for the [UniProt Retrieve/ID Mapping](https://www.uniprot.org/id-mapping) RESTful API. This package supports the following functionalities:
+An (unofficial) Python wrapper for the [UniProt Retrieve/ID Mapping](https://www.uniprot.org/id-mapping) RESTful API. This package supports the following functionalities:
 
 - Map UniProt IDs other identifiers (handled by [UniProtIDMapper](#uniprotidmapper));
 - Retrieve any of the supported [return fields](https://www.uniprot.org/help/return_fields) (handled by [UniprotRetriever](#uniprotretriever))
@@ -27,7 +27,7 @@ pip install .
 </summary>
 <details>
 
-Supported databases and their respective type found in the attribute `self.supported_dbs_with_types`. These are also found as a list under `self._supported_fields`.
+Supported databases and their respective type are stored under the attribute `self.supported_dbs_with_types`. These are also found as a list under `self._supported_fields`.
 ``` Python
 from UniProtIDMapper import UniProtIDMapper
 
@@ -72,6 +72,7 @@ This class supports retrieving any of the UniProt [return fields](https://www.un
 import pandas as pd
 from UniProtMapper import UniProtRetriever
 
+field_retriever = UniProtRetriever()
 df = field_retriever.fields_table
 df.head()
 ```
@@ -83,7 +84,7 @@ df.head()
 |  3 | Gene Names (primary) | genes(PREFERRED)        | gene_primary     | Names & Taxonomy |
 |  4 | Gene Names (synonym) | genes(ALTERNATIVE)      | gene_synonym     | Names & Taxonomy |
 
-Similarly to `UniProtIDMapper`, the user can either call the object directly or use the `retrieveFields` method to obtain the response.
+Similar to `UniProtIDMapper`, the user can either call the object directly or use the `retrieveFields` method to obtain the response.
 
 ```Python
 result, failed = field_retriever.retrieveFields(["Q02880"])
@@ -93,7 +94,7 @@ result, failed = field_retriever(["Q02880"])
 >>> Fetched: 1 / 1
 ```
 
-Custom returned fields can be retrieved by passing a list of fields to the `fields` parameter. These fields need to be within `UniProtRetriever.fields_table["Returned Field"]` and will be returned with columns named as their respective `Legacy Returned Field`.
+Custom returned fields can be retrieved by passing a list of fields to the `fields` parameter. These fields need to be within `UniProtRetriever.fields_table["Returned Field"]` and will be returned with columns named as their respective `Label`.
 
 The object already has a list of default fields under `self.default_fields`, but these are ignored if the parameter `fields` is passed.
 
@@ -181,4 +182,4 @@ result, failed = mapper.uniprot_ids_to_orthologs(
 # Filtering by organism is done on the full response.
 >>> Fetched: 3 / 3
 >>> Fetched: 349 / 349
-``` -->
+```
