@@ -179,7 +179,7 @@ class UniProtIDMapper(abc_UniProtAPI):
             parser=parser,
         ):
             job_id = self.submit_id_mapping(from_db=from_db, to_db=to_db, ids=ids)
-            if self.check_id_mapping_results_ready(job_id):
+            if self.check_id_mapping_ready(job_id, from_db=from_db, to_db=to_db):
                 link = self.get_id_mapping_results_link(job_id)
                 r = self.get_id_mapping_results_search(link)
                 if parser is not None:

@@ -75,7 +75,7 @@ class abc_UniProtAPI(ABC):
             if match:
                 return match.group(1)
 
-    def check_id_mapping_results_ready(self, job_id):
+    def check_id_mapping_ready(self, job_id, from_db, to_db):
         while True:
             request = self.session.get(f"{self._API_URL}/idmapping/status/{job_id}")
             self.check_response(request)
@@ -91,7 +91,7 @@ class abc_UniProtAPI(ABC):
                     ready = bool(j["results"] or j["failedIds"])
                 except KeyError:
                     raise requests.RequestException(
-                        f"Unexpected response from {self._fromdb} to {self._todb}.\n"
+                        f"Unexpected response from {from_db} to {to_db}.\n"
                         'request.json() missing "results" and "failedIds"'
                     )
                 return ready
