@@ -1,0 +1,24 @@
+{
+    "uniProtKBCrossReferences": [
+        {
+            "database": "database1",
+            "id": "id1",
+            "properties": [
+                {
+                    "key": "key1",
+                    "value": "value1"
+                }
+            ]
+        },
+        {
+            "database": "database2",
+            "id": "id2",
+            "properties": [
+                {
+                    "key": "key2",
+                    "value": "value2"
+                }
+            ]
+        }
+    ]
+}

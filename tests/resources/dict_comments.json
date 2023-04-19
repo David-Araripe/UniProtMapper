@@ -1,0 +1,10 @@
+[
+    {
+        "commentType": "type1",
+        "comment": "value1"
+    },
+    {
+        "commentType": "type2",
+        "comment": "value2"
+    }
+]
