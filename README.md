@@ -196,7 +196,7 @@ result, failed = mapper.uniprotIDsToOrthologs(
 >>> Fetched: 246 / 246
 ```
 
-Alternatively, OrthoDB IDs can be retrieved using UniProtIDMapper, and used to retrieve any of the desired UniProt return fields using UniProtRetriever.
+Alternatively, OrthoDB IDs can be obtained using UniProtIDMapper, and used to retrieve any of the desired UniProt return fields using UniProtRetriever.
 
 ``` Python
 from UniProtMapper import UniProtIDMapper, UniProtRetriever
