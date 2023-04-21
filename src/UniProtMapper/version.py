@@ -1,4 +1,4 @@
 # -*- coding: utf-8 -*-
 """Versioning information for UniProtMapping."""
 
-VERSION = "1.0.2"
+VERSION = "1.0.3"
