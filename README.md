@@ -127,7 +127,7 @@ result, failed = mapper(
     ids=["P30542", "Q16678", "Q02880"], from_db="UniProtKB_AC-ID", to_db="UniProtKB-Swiss-Prot"
 )
 
-print(result[0])
+print(result.loc[0, 'to'])
 >>> {'from': 'P30542',
 >>>  'to': {'entryType': 'UniProtKB reviewed (Swiss-Prot)',
 >>>   'primaryAccession': 'P30542',
@@ -145,7 +145,7 @@ from UniProtMapper import SwissProtParser
 parser = SwissProtParser(
     toquery=["organism", "tissueExpression", "cellLocation"], crossrefs=["GO"]
 )
-parser(result[0]['to'])
+parser(result.loc[0, 'to'])
 
 >>> {'organism': 'Homo sapiens',
 >>>  'tissueExpression': '',
@@ -171,24 +171,50 @@ result, failed = mapper(
 )
 ```
 </details>
-<!-- 
-This functionality needs to be improved
 
-### Mapping identifiers to orthologs
+<summary>
 
-This package also allows mapping UniProt IDs to orthologs. The function `uniprot_ids_to_orthologs` does that by mapping UniProt IDs to OrthoDB and then re-mapping these results to UniProt-SwissProt.
+## Mapping identifiers to orthologs
 
-The user can also specify which information fields to retrieve with the parameters `uniprot_info` and `crossref_dbs`. Leaving those as default will retrieve all supported UniProt information and no cross-references.
+</summary>
+<details>
+
+This package also allows mapping UniProt IDs to orthologs. The function `uniprot_ids_to_orthologs` does that by mapping UniProt IDs to OrthoDB and then re-mapping these results to UniProt-SwissProt. Desired fields to retrieve using `SwissProtParser` can be specified with the parameters `uniprot_info` and `crossref_dbs`.
 
 Queried objects are in the column `original_id` and their OrthoDB identifier is found on `orthodb_id`.
 ``` Python
+from UniProtMapper import UniProtIDMapper
+
 mapper = UniProtIDMapper()
-result, failed = mapper.uniprot_ids_to_orthologs(
+result, failed = mapper.uniprotIDsToOrthologs(
     ids=["P30542", "Q16678", "Q02880"], organism="Mus musculus"
 )
 
 # Fetched results contain all retrieved species.
 # Filtering by organism is done on the full response.
 >>> Fetched: 3 / 3
->>> Fetched: 349 / 349
+>>> Fetched: 246 / 246
 ```
+
+Alternatively, OrthoDB IDs can be retrieved using UniProtIDMapper, and used to retrieve any of the desired UniProt return fields using UniProtRetriever.
+
+``` Python
+from UniProtMapper import UniProtIDMapper, UniProtRetriever
+
+mapper = UniProtIDMapper()
+result, failed = mapper(
+    ids=["P30542", "Q16678", "Q02880"],
+    from_db="UniProtKB_AC-ID",
+    to_db="OrthoDB",
+)
+field_retriever = UniProtRetriever()
+ortho_results, failed = field_retriever.retrieveFields(
+    ids=result["to"].tolist(), from_db="OrthoDB"
+)
+
+>>> Retrying in 3s
+>>> Fetched: 3 / 3
+>>> Retrying in 3s
+>>> Fetched: 246 / 246
+```
+</details>

@@ -210,7 +210,7 @@ class UniProtIDMapper(abc_UniProtAPI):
         else:
             return _get_results(ids)
 
-    def uniprot_ids_to_orthologs(
+    def uniprotIDsToOrthologs(
         self,
         ids: Union[List[str], str],
         organism: Optional[List[str]] = None,
@@ -247,29 +247,22 @@ class UniProtIDMapper(abc_UniProtAPI):
                 raise ValueError("organism must be a string or a list of strings.")
 
         case = case
-        to_ortho_r, failed_r = self.uniprot_id_mapping(ids, to_db="OrthoDB")
+        to_ortho_r, failed_r = self.mapIDs(ids, to_db="OrthoDB")
 
-        ortho_mapping = {
-            to_ortho_r[idx]["to"]: to_ortho_r[idx]["from"]
-            for idx in range(len(to_ortho_r))
-        }
+        ortho_mapping = dict(zip(to_ortho_r["to"], to_ortho_r["from"]))
 
-        ortho_ids = [to_ortho_r[k]["to"] for k in to_ortho_r]
         parser = SwissProtParser(toquery=uniprot_info, crossrefs=crossref_dbs)
-        ortho_r, failed_r = self.uniprot_id_mapping(
-            ortho_ids, from_db="OrthoDB", parser=parser
+        ortho_df, failed_r = self.mapIDs(
+            to_ortho_r["to"].tolist(), from_db="OrthoDB", parser=parser
         )
-        for idx in ortho_r.keys():
-            ortho_r[idx].update({"orthodb_id": ortho_r[idx]["from"]})
-            ortho_r[idx].update({"original_id": ortho_mapping[ortho_r[idx]["from"]]})
-        parsed_df = pd.DataFrame.from_dict(ortho_r, orient="index")
+        ortho_df = ortho_df.assign(original_id=ortho_df["from"].map(ortho_mapping))
 
         if organism is not None:
-            parsed_df = parsed_df.query(
+            ortho_df = ortho_df.query(
                 "organism.str.contains(@organism, regex=True, case=@case)"
             ).reset_index(drop=True)
 
         queried_arr = np.array(ids)
-        retrieved = parsed_df["original_id"].unique()
+        retrieved = ortho_df["original_id"].unique()
         failed = np.compress(~np.isin(queried_arr, retrieved), queried_arr).tolist()
-        return parsed_df, failed
+        return ortho_df, failed
