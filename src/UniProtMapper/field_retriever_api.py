@@ -18,10 +18,11 @@ from UniProtMapper.utils import decode_results, divide_batches, print_progress_b
 
 
 class UniProtRetriever(abc_UniProtAPI):
-    """Class for retrieving specific UniProt fields.
+    """Class for retrieving specific UniProt return fields. For the available fields,
+    check `self.fields_table` or https://www.uniprot.org/help/return_fields.
 
     Returns:
-        Tuple[pd.DataFrame, list]: A tuple containing a dataframe with the results
+        Tuple[pd.DataFrame, list]: A tuple containing a data frame with the results
         and a list of IDs that were not found.
 
     Example:

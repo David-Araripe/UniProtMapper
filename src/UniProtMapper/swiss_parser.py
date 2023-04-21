@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+"""Module for parsing UniProtKB-Swiss-Prot json responses."""
+
 import json
 from collections import defaultdict
 
@@ -11,10 +13,6 @@ from .utils import (
     search_keys_inlist,
     search_uniprot_crossrefs,
 )
-
-"""
-Module for parsing UniProtKB-Swiss-Prot json responses.
-"""
 
 
 class SwissProtParser:

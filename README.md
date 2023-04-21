@@ -6,7 +6,7 @@
 
 # UniProtMapper
 
-An (unofficial) Python wrapper for the [UniProt Retrieve/ID Mapping](https://www.uniprot.org/id-mapping) RESTful API. This package supports the following functionalities:
+A (unofficial) Python wrapper for the [UniProt Retrieve/ID Mapping](https://www.uniprot.org/id-mapping) RESTful API. This package supports the following functionalities:
 
 - Map UniProt IDs other identifiers (handled by [UniProtIDMapper](#uniprotidmapper));
 - Retrieve any of the supported [return fields](https://www.uniprot.org/help/return_fields) (handled by [UniprotRetriever](#uniprotretriever))
@@ -36,7 +36,7 @@ pip install .
 
 Supported databases and their respective type are stored under the attribute `self.supported_dbs_with_types`. These are also found as a list under `self._supported_fields`.
 ``` Python
-from UniProtIDMapper import UniProtIDMapper
+from UniProtMapper import UniProtIDMapper
 
 mapper = UniProtIDMapper()
 print(mapper.supported_dbs_with_types)
@@ -140,6 +140,8 @@ print(result[0])
 SwissProt responses from `UniProtIDMapper` can be parsed using the `SwissProtParser` class, where the fields to extract from UniProt (:param: = toquery) are stored under `self._supported_fields` and the cross-referenced datasets are stored under `self._crossref_dbs` (:param: = crossrefs).
 
 ``` Python
+from UniProtMapper import SwissProtParser
+
 parser = SwissProtParser(
     toquery=["organism", "tissueExpression", "cellLocation"], crossrefs=["GO"]
 )
