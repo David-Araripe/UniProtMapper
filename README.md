@@ -17,14 +17,19 @@ A (unofficial) Python wrapper for the [UniProt Retrieve/ID Mapping](https://www.
 
 From PyPI:
 ``` Shell
-pip install uniprot-id-mapper
+python -m pip install uniprot-id-mapper
+```
+
+Directly from GitHub:
+``` Shell
+python -m pip install git+https://github.com/David-Araripe/UniProtMapper.git
 ```
 
 From source:
 ``` Shell
 git clone https://github.com/David-Araripe/UniProtMapper
 cd UniProtMapper
-pip install .
+python -m pip install .
 ```
 ## Usage
 

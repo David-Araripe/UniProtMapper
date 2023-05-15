@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "uniprot-id-mapper"
-version = "1.0.3"
+dynamic = ["version"]
 description = "A Python wrapper for the UniProt Mapping RESTful API."
 readme = { file = "README.md", content-type = "text/markdown" }
 requires-python = ">=3.7"
@@ -35,6 +35,9 @@ repository = "https://github.com/David-Araripe/UniProtMapper"
 
 [tool.setuptools]
 include-package-data = true
+
+[tool.setuptools.dynamic]
+version = {attr = "UniProtMapper.__version__"}
 
 [tool.ruff]
 line-length = 88
