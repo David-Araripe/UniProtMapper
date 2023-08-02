@@ -36,6 +36,9 @@ repository = "https://github.com/David-Araripe/UniProtMapper"
 [tool.setuptools]
 include-package-data = true
 
+[project.scripts]
+protmap = "UniProtMapper.cli:main"
+
 [tool.setuptools.dynamic]
 version = {attr = "UniProtMapper.__version__"}
 
