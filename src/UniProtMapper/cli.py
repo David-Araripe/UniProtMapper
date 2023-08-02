@@ -50,7 +50,6 @@ def main():
     parser.add_argument(
         "-r",
         "--return-fields",
-        type=list,
         nargs="*",
         help=(
             "List of values to be returned. Values must be separated by spaces. "
