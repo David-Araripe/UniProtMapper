@@ -1,0 +1,9 @@
+gene_names
+protein_name
+organism_name
+sequence
+ft_act_site
+ft_binding
+cc_interaction
+xref_pdb
+xref_chembl
