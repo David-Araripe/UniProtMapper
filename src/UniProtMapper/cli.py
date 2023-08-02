@@ -80,8 +80,8 @@ def main():
     if not args.return_fields:
         args.return_fields = DEFAULT_FIELDS
 
-    print(args.ids)
     result, failed = field_retriever.retrieveFields(args.ids, fields=args.return_fields)
+    field_retriever.session.close()
     print(f"Failed to retrieve {len(failed)} IDs:\n {failed}")
 
     if args.output is not None:
