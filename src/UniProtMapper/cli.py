@@ -21,7 +21,7 @@ def print_colored_csv(csv_io):
         for i, col in enumerate(row):
             color_code = next(color_iterator)
             if i < len(row) - 1:  # not the last column
-                print(f"\033[1;{color_code};40m{col}\033[1;37;40m,", end=" ")
+                print(f"\033[1;{color_code};40m{col}\033[1;37;40m,", end="")
             else:  # last column, don't print comma after
                 print(f"\033[1;{color_code};40m{col}", end=" ")
         print("\033[0m")  # reset color
@@ -35,7 +35,10 @@ def main():
 
     parser = argparse.ArgumentParser(
         prog="UniProtMapper",
-        description="Retrieve data from UniProt using the UniProt RESTful API.",
+        description=(
+            "Retrieve data from UniProt using the UniProt RESTful API. \nFor a list of "
+            "all available fields, see: https://www.uniprot.org/help/return_fields"
+        ),
     )
     parser.add_argument(
         "-i",
@@ -68,7 +71,7 @@ def main():
     )
     parser.add_argument(
         "--overwrite",
-        type=bool,
+        action="store_true",
         help="If desired to overwrite an existing file.",
     )
     args = parser.parse_args()
@@ -85,10 +88,13 @@ def main():
 
     if args.output is not None:
         output_path = Path(args.output)
-        if not output_path.exists():
+        if output_path.exists():
             if not args.overwrite:
-                raise FileExistsError(f"Input file {output_path} already exists.")
-            result.to_csv(args.output, index=False)
+                raise FileExistsError(
+                    f"Input file {output_path} already exists. "
+                    "Use parameter --overwrite to overwrite it."
+                )
+        result.to_csv(args.output, index=False)
     else:
         csv_io = StringIO(result.to_csv(index=False))
         print_colored_csv(csv_io)
