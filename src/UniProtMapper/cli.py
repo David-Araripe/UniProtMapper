@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+"""Module contains the implementation of the command-line interface"""
+
 import argparse
 import csv
 from io import StringIO
@@ -77,7 +80,7 @@ def main():
     args = parser.parse_args()
 
     field_retriever = UniProtRetriever(
-        pooling_interval=3, total_retries=10, backoff_factor=0.5
+        pooling_interval=5, total_retries=5, backoff_factor=0.5
     )
     if not args.return_fields:
         args.return_fields = DEFAULT_FIELDS
@@ -98,5 +101,3 @@ def main():
     else:
         csv_io = StringIO(result.to_csv(index=False))
         print_colored_csv(csv_io)
-        # for line in csv_io:
-        #     print(line, end="")
