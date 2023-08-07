@@ -81,7 +81,7 @@ class abc_UniProtAPI(ABC):
             self.check_response(request)
             j = request.json()
             if "jobStatus" in j:
-                if j["jobStatus"] == "RUNNING":
+                if j["jobStatus"] in ["RUNNING", "NEW"]:
                     print(f"Retrying in {self._POLLING_INTERVAL}s")
                     time.sleep(self._POLLING_INTERVAL)
                 else:
