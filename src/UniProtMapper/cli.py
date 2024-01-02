@@ -139,12 +139,12 @@ def main():
     )
     if args.default_fields:
         args.return_fields = DEFAULT_FIELDS
-    print("Retrieving fields: ", args.return_fields)
     result, failed = field_retriever.get(
         args.ids, fields=args.return_fields, from_db=args.from_db, to_db=args.to_db
     )
     field_retriever.session.close()
-    print(f"Failed to retrieve {len(failed)} IDs:\n {failed}")
+    if failed:
+        print(f"Failed to retrieve {len(failed)} IDs:\n {failed}")
 
     if args.output is not None:
         output_path = Path(args.output)
