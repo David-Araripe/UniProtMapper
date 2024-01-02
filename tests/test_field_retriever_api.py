@@ -3,18 +3,18 @@ import unittest
 
 import pandas as pd
 
-from UniProtMapper.field_retriever_api import UniProtRetriever
+from UniProtMapper.api import ProtMapper
 
 # Test data
 test_ids = ["P30542", "Q16678", "Q02880"]
 
 # Initialize the UniProtRetriever object
-uni_retriever = UniProtRetriever()
+uni_retriever = ProtMapper()
 
 
 class TestUniProtRetriever(unittest.TestCase):
     def setUp(self):
-        self.fields_table = UniProtRetriever().fields_table
+        self.fields_table = ProtMapper().fields_table
 
     def test_supported_dbs(self):
         supported_dbs = uni_retriever._supported_dbs
@@ -23,7 +23,7 @@ class TestUniProtRetriever(unittest.TestCase):
 
     def test_fields_table(self):
         self.assertIsInstance(self.fields_table, pd.DataFrame)
-        self.assertIn("accession", self.fields_table["Returned Field"].values)
+        self.assertIn("accession", self.fields_table["Returned_Field"].values)
 
     def test_retrieve_fields_default(self):
         result_df, failed = uni_retriever(test_ids)
@@ -44,7 +44,7 @@ class TestUniProtRetriever(unittest.TestCase):
             "protein_families",
         ]
         result_columns = self.fields_table[
-            self.fields_table["Returned Field"].isin(custom_fields)
+            self.fields_table["Returned_Field"].isin(custom_fields)
         ]["Label"]
         result_df, failed = uni_retriever(test_ids, fields=custom_fields)
         self.assertIsInstance(result_df, pd.DataFrame)
