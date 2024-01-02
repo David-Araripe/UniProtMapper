@@ -17,7 +17,7 @@ from UniProtMapper.interface import abc_UniProtAPI
 from UniProtMapper.utils import decode_results, divide_batches, print_progress_batches
 
 
-class UniProtRetriever(abc_UniProtAPI):
+class UniProtIDMapper(abc_UniProtAPI):
     """Class for retrieving specific UniProt return fields. For the available fields,
     check `self.fields_table` or https://www.uniprot.org/help/return_fields.
 
@@ -26,10 +26,10 @@ class UniProtRetriever(abc_UniProtAPI):
         and a list of IDs that were not found.
 
     Example:
-    >>> uni_retriever = UniProtRetriever()
-    >>> result_df, failed = uni_retriever(["P30542", "Q16678", "Q02880"],
-    >>>                                   fields=["accession", "id", "go_id",
-    >>>                                           "go_p", "go_c", "go_f"])
+    >>> mapper = UniProtIDMapper()
+    >>> result_df, failed = mapper(["P30542", "Q16678", "Q02880"],
+    >>>                             fields=["accession", "id", "go_id",
+    >>>                                     "go_p", "go_c", "go_f"])
     """
 
     def __init__(
@@ -119,7 +119,7 @@ class UniProtRetriever(abc_UniProtAPI):
             Tuple[pd.DataFrame, list]: First element is a dataframe with the
             results, second element is a list of failed IDs.
         """
-        return self.retrieveFields(ids, fields, from_db, to_db, file_format, compressed)
+        return self.get_fields(ids, fields, from_db, to_db, file_format, compressed)
 
     def get_id_mapping_results_search(
         self, fields: str, url: str, file_format: str, compressed: bool
@@ -146,7 +146,7 @@ class UniProtRetriever(abc_UniProtAPI):
         results_df = pd.DataFrame(data=data[1:], columns=columns)
         return results_df
 
-    def retrieveFields(
+    def get_fields(
         self,
         ids: Union[List[str], str],
         fields: list = None,
