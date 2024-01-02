@@ -26,7 +26,7 @@ classifiers = [
 dependencies = ["requests", "pandas", "numpy"]
 
 [project.optional-dependencies]
-dev = ["tox", "ruff", "isort", "black"]
+dev = ["ruff", "isort", "black"]
 
 [project.urls]
 homepage = "https://github.com/David-Araripe/UniProtMapper"
@@ -44,16 +44,15 @@ version = {attr = "UniProtMapper.__version__"}
 
 [tool.ruff]
 line-length = 88
-update-check = false
-target-version = "py38"
+target-version = "py39"
 fix = true
+ignore = ['E501'] # sometimes it goes longer on the docstrings...
 
 [tool.isort]
 profile = "black"
 
 [tool.black]
-target-version = ['py38', 'py39']
-required-version = '23.1.0'
+target-version = ['py39']
 exclude = '''
 (
     asv_bench/env
