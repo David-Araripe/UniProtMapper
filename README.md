@@ -1,17 +1,18 @@
-[![Linting Ruff](https://img.shields.io/badge/Linting%20-Ruff-red?style=flat-square)](https://github.com/charliermarsh/ruff)
+[![License: MIT](https://img.shields.io/badge/License-MIT-purple?style=flat-square)](https://opensource.org/licenses/MIT)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-black?style=flat-square)](https://github.com/psf/black)
 [![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat-square&labelColor=ef8336)](https://pycqa.github.io/isort/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](https://opensource.org/licenses/MIT)
 [![GitHub Actions](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2FDavid-Araripe%2FUniProtMapper%2Fbadge%3Fref%3Dmaster&style=flat-square)](https://actions-badge.atrox.dev/David-Araripe/UniProtMapper/goto?ref=master)
 [![Downloads:PyPI](https://img.shields.io/pypi/dm/uniprot-id-mapper?style=flat-square)](https://pypi.org/project/uniprot-id-mapper/)
 
 # UniProtMapper
 
-A (unofficial) Python wrapper for the [UniProt Retrieve/ID Mapping](https://www.uniprot.org/id-mapping) RESTful API. This package supports the following functionalities:
+A Python wrapper for UniProt's [Retrieve/ID Mapping](https://www.uniprot.org/id-mapping) RESTful API. This package supports the following functionalities:
 
-- Map UniProt IDs other identifiers (handled by [UniProtIDMapper](#uniprotidmapper));
-- Retrieve any of the supported [return fields](https://www.uniprot.org/help/return_fields) (handled by [UniprotRetriever](#uniprotretriever))
-- Parse json UniProt-SwissProt responses (handled by [SwissProtParser](#swissprotparser)).
+1. Map (almost) any UniProt [cross-referenced IDs](https://github.com/David-Araripe/UniProtMapper/blob/master/src/UniProtMapper/resources/uniprot_mapping_dbs.json) to other identifiers & vice-versa;
+2. Programmatically  retrieve any of the supported [return fields](https://www.uniprot.org/help/return_fields) from both UniProt-SwissProt and UniProt-TrEMBL (unreviewed) databases;
+
+For these, check [Example 1](#example-1-mapping-ids) and [Example 2](#example-2-retrieving-information) below. Both functionalities can also be accessed through the CLI. For more information, check [CLI](#cli).
 
 ## Installation
 
@@ -31,39 +32,24 @@ git clone https://github.com/David-Araripe/UniProtMapper
 cd UniProtMapper
 python -m pip install .
 ```
-## Usage
+# Usage
+## Example 1: Mapping IDs
+To map IDs, the user can either call the object directly or use the `get` method to obtain the response. The different identifiers that are used by the API are designated by the `from_db` and `to_db` parameters. For example:
 
-<summary>
+``` python
+from UniProtMapper import ProtMapper
 
-## UniProtIDMapper
+mapper = ProtMapper()
 
-</summary>
-<details>
-
-Supported databases and their respective type are stored under the attribute `self.supported_dbs_with_types`. These are also found as a list under `self._supported_fields`.
-``` Python
-from UniProtMapper import UniProtIDMapper
-
-mapper = UniProtIDMapper()
-print(mapper.supported_dbs_with_types)
-```
-
-To map a list of UniProt IDs to Ensembl IDs, the user can either call the object directly or use the `mapID` method.
-``` Python
-result, failed = mapper.mapIDs(
+result, failed = mapper.get(
     ids=["P30542", "Q16678", "Q02880"], from_db="UniProtKB_AC-ID", to_db="Ensembl"
 )
->>> Retrying in 3s
->>> Fetched: 3 / 3
 
 result, failed = mapper(
     ids=["P30542", "Q16678", "Q02880"], from_db="UniProtKB_AC-ID", to_db="Ensembl"
 )
->>> Retrying in 3s
->>> Fetched: 3 / 3
 ```
-
-Where result is the following pandas DataFrame:
+Where failed corresponds to a list of the identifiers that failed to be mapped and result is the following pandas DataFrame:
 
 |    | UniProtKB_AC-ID   | Ensembl            |
 |---:|:------------------|:-------------------|
@@ -71,21 +57,15 @@ Where result is the following pandas DataFrame:
 |  1 | Q16678            | ENSG00000138061.12 |
 |  2 | Q02880            | ENSG00000077097.17 |
 
-</details>
-<summary>
+## Example 2: Retrieving information
 
-## UniProtRetriever
-
-</summary>
-<details>
-
-This class supports retrieving any of the UniProt [return fields](https://www.uniprot.org/help/return_fields). The user can access these directly from the object, under the attribute `self.fields_table`, e.g.:
+The supported [return fields](https://www.uniprot.org/help/return_fields) are both accessible through UniProt's website or by the property `.fields_table`. For example:
 
 ```Python
-from UniProtMapper import UniProtRetriever
+from UniProtMapper import ProtMapper
 
-field_retriever = UniProtRetriever()
-df = field_retriever.fields_table
+mapper = ProtMapper()
+df = mapper.fields_table
 df.head()
 ```
 |    | Label                | Legacy Returned Field   | Returned Field   | Field Type       |
@@ -96,130 +76,63 @@ df.head()
 |  3 | Gene Names (primary) | genes(PREFERRED)        | gene_primary     | Names & Taxonomy |
 |  4 | Gene Names (synonym) | genes(ALTERNATIVE)      | gene_synonym     | Names & Taxonomy |
 
-Similar to `UniProtIDMapper`, the user can either call the object directly or use the `retrieveFields` method to obtain the response.
+To retrieve information, the user can either call the object directly or use the `get` method to obtain the response. For example:
 
 ```Python
-result, failed = field_retriever.retrieveFields(["Q02880"])
+result, failed = mapper.get(["Q02880"])
 >>> Fetched: 1 / 1
 
-result, failed = field_retriever(["Q02880"])
+result, failed = mapper(["Q02880"])
 >>> Fetched: 1 / 1
 ```
 
-Custom returned fields can be retrieved by passing a list of fields to the `fields` parameter. These fields need to be within `UniProtRetriever.fields_table["Returned Field"]` and will be returned with columns named as their respective `Label`.
+Custom returned fields can be retrieved by passing a list of fields to the `fields` parameter. These fields need to be within `UniProtRetriever.fields_table["Returned_Field"]` and will be returned with columns named as their respective `Label`.
 
 The object already has a list of default fields under `self.default_fields`, but these are ignored if the parameter `fields` is passed.
 
 ```Python
 fields = ["accession", "organism_name", "structure_3d"]
-result, failed = field_retriever.retrieveFields(["Q02880"],
-                                                fields=fields)
-```
-</details>
-<summary>
-
-## SwissProtParser
-
-</summary>
-<details>
-
-### Querying data from UniProt-SwissProt
-
-Retrieving json UniProt-SwissProt (reviewed) responses is also possible, such as the following:
-
-``` Python
-result, failed = mapper(
-    ids=["P30542", "Q16678", "Q02880"], from_db="UniProtKB_AC-ID", to_db="UniProtKB-Swiss-Prot"
-)
-
-print(result.loc[0, 'to'])
->>> {'from': 'P30542',
->>>  'to': {'entryType': 'UniProtKB reviewed (Swiss-Prot)',
->>>   'primaryAccession': 'P30542',
->>> ...
->>>     'Beta strand': 2,
->>>     'Turn': 1},
->>>    'uniParcId': 'UPI00000503E1'}}}
+result, failed = mapper.get(["Q02880"], fields=fields)
 ```
 
-SwissProt responses from `UniProtIDMapper` can be parsed using the `SwissProtParser` class, where the fields to extract from UniProt (:param: = toquery) are stored under `self._supported_fields` and the cross-referenced datasets are stored under `self._crossref_dbs` (:param: = crossrefs).
+# CLI
 
-``` Python
-from UniProtMapper import SwissProtParser
+The package also comes with a CLI that can be used to map IDs and retrieve information. To map IDs, the user can use the `protmap` command, accessible after installation. Here is a list of the available arguments, shown by `protmap -h`:
 
-parser = SwissProtParser(
-    toquery=["organism", "tissueExpression", "cellLocation"], crossrefs=["GO"]
-)
-parser(result.loc[0, 'to'])
+```text
+usage: UniProtMapper [-h] -i [IDS ...] [-r [RETURN_FIELDS ...]] [--default-fields] [-o OUTPUT]
+                     [-from FROM_DB] [-to TO_DB] [-over] [-pf]
 
->>> {'organism': 'Homo sapiens',
->>>  'tissueExpression': '',
->>>  'cellLocation': 'Cell membrane',
->>>  'GO_crossref': ['GO:0030673~GoTerm~C:axolemma',
->>>   'GO:0030673~GoEvidenceType~IEA:Ensembl',
->>> ...
->>>   'GO:0007165~GoEvidenceType~TAS:ProtInc',
->>>   'GO:0001659~GoTerm~P:temperature homeostasis',
->>>   'GO:0001659~GoEvidenceType~IEA:Ensembl',
->>>   'GO:0070328~GoTerm~P:triglyceride homeostasis',
->>>   'GO:0070328~GoEvidenceType~IEA:Ensembl']}
-```
+Retrieve data from UniProt using UniProt's RESTful API. For a list of all available fields, see: https://www.uniprot.org/help/return_fields 
 
-Both `UniProtIDMapper.mapIDs` and `__call__` methods accept a `SwissProtParser` as a parameter, such as in:
+Alternatively, use the --print-fields argument to print the available fields and exit the program.
 
-``` Python
-result, failed = mapper(
-    ids=["P30542", "Q16678", "Q02880"],
-    from_db="UniProtKB_AC-ID",
-    to_db="UniProtKB-Swiss-Prot",
-    parser=parser,
-)
-```
-</details>
+optional arguments:
+  -h, --help            show this help message and exit
+  -i [IDS ...], --ids [IDS ...]
+                        List of UniProt IDs to retrieve information from. Values must be
+                        separated by spaces.
+  -r [RETURN_FIELDS ...], --return-fields [RETURN_FIELDS ...]
+                        If not defined, will pass `None`, returning all available fields.
+                        Else, values should be fields to be returned separated by spaces. See
+                        --print-fields for available options.
+  --default-fields, -def
+                        This option will override the --return-fields option. Returns only the
+                        default fields stored in: <pkg_path>/resources/cli_return_fields.txt
+  -o OUTPUT, --output OUTPUT
+                        Path to the output file to write the returned fields. If not provided,
+                        will write to stdout.
+  -from FROM_DB, --from-db FROM_DB
+                        The database from which the IDs are. For the available cross
+                        references, see: <pkg_path>/resources/uniprot_mapping_dbs.json
+  -to TO_DB, --to-db TO_DB
+                        The database to which the IDs will be mapped. For the available cross
+                        references, see: <pkg_path>/resources/uniprot_mapping_dbs.json
+  -over, --overwrite    If desired to overwrite an existing file when using -o/--output
+  -pf, --print-fields   Prints the available return fields and exits the program.
+  ```
 
-<summary>
-
-## Mapping identifiers to orthologs
-
-</summary>
-<details>
-
-This package also allows mapping UniProt IDs to orthologs. The function `uniprot_ids_to_orthologs` does that by mapping UniProt IDs to OrthoDB and then re-mapping these results to UniProt-SwissProt. Desired fields to retrieve using `SwissProtParser` can be specified with the parameters `uniprot_info` and `crossref_dbs`.
-
-Queried objects are in the column `original_id` and their OrthoDB identifier is found on `orthodb_id`.
-``` Python
-from UniProtMapper import UniProtIDMapper
-
-mapper = UniProtIDMapper()
-result, failed = mapper.uniprotIDsToOrthologs(
-    ids=["P30542", "Q16678", "Q02880"], organism="Mus musculus"
-)
-
-# Fetched results contain all retrieved species.
-# Filtering by organism is done on the full response.
->>> Fetched: 3 / 3
->>> Fetched: 246 / 246
-```
-
-Alternatively, OrthoDB IDs can be obtained using UniProtIDMapper, and used to retrieve any of the desired UniProt return fields using UniProtRetriever.
-
-``` Python
-from UniProtMapper import UniProtIDMapper, UniProtRetriever
-
-mapper = UniProtIDMapper()
-result, failed = mapper(
-    ids=["P30542", "Q16678", "Q02880"],
-    from_db="UniProtKB_AC-ID",
-    to_db="OrthoDB",
-)
-field_retriever = UniProtRetriever()
-ortho_results, failed = field_retriever.retrieveFields(
-    ids=result["to"].tolist(), from_db="OrthoDB"
-)
-
->>> Retrying in 3s
->>> Fetched: 3 / 3
->>> Retrying in 3s
->>> Fetched: 246 / 246
-```
-</details>
+Usage example, retrieving default fields from `<pkg_path>/resources/cli_return_fields.txt`:
+<p align="center">
+    <img src="example_fig.png" alt="Image displaying the output of UniProtMapper's CLI, protmap"/>
+</p>
