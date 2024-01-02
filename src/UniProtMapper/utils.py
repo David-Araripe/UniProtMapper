@@ -3,70 +3,29 @@
 import json
 import re
 import zlib
-from typing import List
-from xml.etree import ElementTree
 
-import numpy as np
-
-
-def search_keys_inlist(list_of_dicts: List[dict], desiredkey: str):
-    for diction in list_of_dicts:
-        if desiredkey in diction:
-            return diction[desiredkey]
-    return ""
+import pandas as pd
+import pkg_resources
 
 
-def search_comments(dict_comments, comment_type):
+def read_fields_table():
+    """Reads the fields table from the resources folder."""
+    csv_path = pkg_resources.resource_filename(
+        "UniProtMapper", "resources/uniprot_return_fields.csv"
+    )
+    return pd.read_csv(csv_path)
+
+
+def supported_mapping_dbs():
+    """Return a list of the supported datasets as UniProt cross references. This list
+    is used to validate the arguments `to_db` and `from_db` in the `FieldRetriever.get()` method.
     """
-    Search comment types within UniProtKB-Swiss-Prot json respose
-    retrieved from `UniProtMapper.uniprot_id_mapping()`.
-    """
-    has_comment = False
-    for i in dict_comments:
-        if i["commentType"] == comment_type:
-            has_comment = True
-            r_value = i
-            break
-    if has_comment:
-        return r_value
-    else:
-        return ""
-
-
-def search_uniprot_crossrefs(uniprot_dict: dict, target_dbs: list):
-    """Search crossreferences within the "UniProtKB-Swiss-Prot" json
-    response retrieved from from `UniProtMapper.uniprot_id_mapping()`.
-
-    Args:
-        uniprot_dict: Retrieved dictionary from UniProt.
-        target_dbs: Database that you want to retrieve the information from.
-
-    Returns:
-        Dictionary with a key for each of the `target_dbs` and values as a list
-        of strings formatted as: '`id`~properties[key]~properties[value]'
-    """
-    #
-    to_retrieve = {t: [] for t in target_dbs}
-    # This  will be iterating over a list of dictionaries
-    for reference in uniprot_dict["uniProtKBCrossReferences"]:
-        try:
-            if reference["database"] in target_dbs:
-                database = reference["database"]
-                # Iterarting over a list of dictionaries again
-                for prop in reference["properties"]:
-                    to_retrieve[database].append(
-                        f"{reference['id']}~{prop['key']}~{prop['value']}"
-                    )
-        except KeyError:
-            continue
-    return to_retrieve
-
-
-def flatten_list_getunique(nested_list):
-    """Flattens a list and returns the unique values"""
-    unflat = [element for sublist in nested_list for element in sublist]
-    unflat_unique = list(np.unique(np.array(unflat)))
-    return ", ".join(unflat_unique)
+    _mapping_dbs_path = pkg_resources.resource_filename(
+        "UniProtMapper", "resources/uniprot_mapping_dbs.json"
+    )
+    with open(_mapping_dbs_path, "r") as f:
+        dbs_dict = json.load(f)
+    return sorted([dbs_dict[k][i] for k in dbs_dict for i in range(len(dbs_dict[k]))])
 
 
 def decode_results(response, file_format, compressed):
@@ -99,17 +58,6 @@ def get_xml_namespace(element):
     """Get the namespace of an XML element."""
     m = re.match(r"\{(.*)\}", element.tag)
     return m.groups()[0] if m else ""
-
-
-def merge_xml_results(xml_results):
-    """Merge XML results from UniProt API."""
-    merged_root = ElementTree.fromstring(xml_results[0])
-    for result in xml_results[1:]:
-        root = ElementTree.fromstring(result)
-        for child in root.findall("{http://uniprot.org/uniprot}entry"):
-            merged_root.insert(-1, child)
-    ElementTree.register_namespace("", get_xml_namespace(merged_root[0]))
-    return ElementTree.tostring(merged_root, encoding="utf-8", xml_declaration=True)
 
 
 def print_progress_batches(batch_index, size, retrieved, failed):

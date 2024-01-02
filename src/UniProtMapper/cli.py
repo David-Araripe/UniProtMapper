@@ -3,11 +3,15 @@
 
 import argparse
 import csv
+import sys
 from io import StringIO
 from itertools import cycle
 from pathlib import Path
 
-from UniProtMapper import UniProtRetriever
+from .api import ProtMapper
+
+CROSSREF_PATH = Path(__file__).parent / "resources/uniprot_mapping_dbs.json"
+FIELDS_CONFIG_PATH = Path(__file__).parent / "resources/cli_return_fields.txt"
 
 
 def print_colored_csv(csv_io):
@@ -31,16 +35,14 @@ def print_colored_csv(csv_io):
         color_iterator = cycle(color_codes)  # reset colors for each row
 
 
-def main():
-    config_path = Path(__file__).parent / "resources/cli_return_fields.txt"
-    with config_path.open("r") as f:
-        DEFAULT_FIELDS = f.read().splitlines()
-
+def parse_arguments() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         prog="UniProtMapper",
         description=(
-            "Retrieve data from UniProt using the UniProt RESTful API. \nFor a list of "
-            "all available fields, see: https://www.uniprot.org/help/return_fields"
+            "Retrieve data from UniProt using UniProt's RESTful API. For a list of "
+            "all available fields, see: https://www.uniprot.org/help/return_fields. "
+            "Alternatively, use the --print-fields argument to print the available "
+            "fields and exit the program."
         ),
     )
     parser.add_argument(
@@ -58,8 +60,19 @@ def main():
         "--return-fields",
         nargs="*",
         help=(
-            "List of values to be returned. Values must be separated by spaces. "
-            f"If not provided, will use values from config file at {str(config_path)}"
+            "If not defined, will pass `None`, returning all available fields. "
+            "Else, values should be fields to be returned separated by spaces. "
+            "See --print-fields for available options."
+        ),
+    )
+    parser.add_argument(
+        "--default-fields",
+        "-def",
+        action="store_true",
+        default=False,
+        help=(
+            "This option will override the --return-fields option. "
+            f"Returns only the default fields stored in: {str(FIELDS_CONFIG_PATH)}"
         ),
     )
     parser.add_argument(
@@ -73,19 +86,63 @@ def main():
         ),
     )
     parser.add_argument(
+        "-from",
+        "--from-db",
+        type=str,
+        default="UniProtKB_AC-ID",
+        help=(
+            "The database from which the IDs are. For the available cross references, "
+            f"see: {CROSSREF_PATH}"
+        ),
+    )
+    parser.add_argument(
+        "-to",
+        "--to-db",
+        type=str,
+        default="UniProtKB-Swiss-Prot",
+        help=(
+            "The database to which the IDs will be mapped. For the available cross references, "
+            f"see: {CROSSREF_PATH}"
+        ),
+    )
+    parser.add_argument(
+        "-over",
         "--overwrite",
         action="store_true",
-        help="If desired to overwrite an existing file.",
+        help="If desired to overwrite an existing file when using -o/--output",
     )
-    args = parser.parse_args()
+    parser.add_argument(
+        "-pf",
+        "--print-fields",
+        action="store_true",
+        help="Prints the available return fields and exits the program.",
+    )
 
-    field_retriever = UniProtRetriever(
+    if any(["--print-fields" in sys.argv, "-pf" in sys.argv]):
+        print("Available return fields:")
+        result = ProtMapper().fields_table
+        csv_io = StringIO(result.to_csv(index=False))
+        print_colored_csv(csv_io)
+        sys.exit()
+
+    return parser.parse_args()
+
+
+def main():
+    with FIELDS_CONFIG_PATH.open("r") as f:
+        DEFAULT_FIELDS = f.read().splitlines()
+
+    args = parse_arguments()
+
+    field_retriever = ProtMapper(
         pooling_interval=5, total_retries=5, backoff_factor=0.5
     )
-    if not args.return_fields:
+    if args.default_fields:
         args.return_fields = DEFAULT_FIELDS
-
-    result, failed = field_retriever.retrieveFields(args.ids, fields=args.return_fields)
+    print("Retrieving fields: ", args.return_fields)
+    result, failed = field_retriever.get(
+        args.ids, fields=args.return_fields, from_db=args.from_db, to_db=args.to_db
+    )
     field_retriever.session.close()
     print(f"Failed to retrieve {len(failed)} IDs:\n {failed}")
 

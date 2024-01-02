@@ -1,35 +1,41 @@
 # -*- coding: utf-8 -*-
-"""Holds UniProtRetriever: a class for returning specific fields from UniProt. For
+"""Holds ProtMapper: a class for returning specific fields from UniProt. For
 a list of all supported fields, see https://www.uniprot.org/help/return_fields. 
 
-Supported fields also stored as a dataframe in the `fields_table` attribute.
+Supported fields also stored as a data frame in the `fields_table` attribute.
 """
 
-import json
-from typing import List, Tuple, Union
+from logging import warning
+from typing import List, Optional, Tuple, Union
 
 import numpy as np
 import pandas as pd
-import pkg_resources
 import requests
 
-from UniProtMapper.interface import abc_UniProtAPI
-from UniProtMapper.utils import decode_results, divide_batches, print_progress_batches
+from .interface import BaseUniProt
+from .utils import (
+    decode_results,
+    divide_batches,
+    print_progress_batches,
+    read_fields_table,
+    supported_mapping_dbs,
+)
 
 
-class UniProtIDMapper(abc_UniProtAPI):
+class ProtMapper(BaseUniProt):
     """Class for retrieving specific UniProt return fields. For the available fields,
-    check `self.fields_table` or https://www.uniprot.org/help/return_fields.
+    check the `fields_table` attribute or https://www.uniprot.org/help/return_fields.
 
     Returns:
         Tuple[pd.DataFrame, list]: A tuple containing a data frame with the results
         and a list of IDs that were not found.
 
     Example:
-    >>> mapper = UniProtIDMapper()
-    >>> result_df, failed = mapper(["P30542", "Q16678", "Q02880"],
-    >>>                             fields=["accession", "id", "go_id",
-    >>>                                     "go_p", "go_c", "go_f"])
+    >>> from UniProtMapper import ProtMapper
+    >>> mapper = ProtMapper()
+    >>> result_df, failed = mapper.get(["P30542", "Q16678", "Q02880"],
+    >>>                                 fields=["accession", "id", "go_id",
+    >>>                                         "go_p", "go_c", "go_f"])
     """
 
     def __init__(
@@ -71,22 +77,11 @@ class UniProtIDMapper(abc_UniProtAPI):
 
     @property
     def fields_table(self):
-        csv_path = pkg_resources.resource_filename(
-            "UniProtMapper", "resources/uniprot_return_fields.csv"
-        )
-        return pd.read_csv(csv_path)
+        return read_fields_table()
 
     @property
     def _supported_dbs(self) -> list:
-        """Only databases. There will be no information as to the type."""
-        _mapping_dbs_path = pkg_resources.resource_filename(
-            "UniProtMapper", "resources/uniprot_mapping_dbs.json"
-        )
-        with open(_mapping_dbs_path, "r") as f:
-            dbs_dict = json.load(f)
-        return sorted(
-            [dbs_dict[k][i] for k in dbs_dict for i in range(len(dbs_dict[k]))]
-        )
+        return supported_mapping_dbs()
 
     def __call__(
         self,
@@ -104,7 +99,9 @@ class UniProtIDMapper(abc_UniProtAPI):
 
         Args:
             ids: list of IDs to be mapped or single string.
-            fields: list of fields to be retrieved. Defaults to None.
+            fields: list of UniProt fields to be retrieved. If None, will return the API's
+                default fields. `Note:` parameter not supported for datasets that aren't
+                strictly UniProtKB, e.g.: UniParc, UniRef... Defaults to None.
             from_db: database for the ids. Defaults to "UniProtKB_AC-ID".
             to_db: UniProtDB to query to. For reviewed-only accessions, use default. If
                 you want to include unreviewed accessions, use "UniProtKB". Defaults to
@@ -116,10 +113,10 @@ class UniProtIDMapper(abc_UniProtAPI):
             ValueError: If parameters `from_db`or `to_db` are not supported.
 
         Returns:
-            Tuple[pd.DataFrame, list]: First element is a dataframe with the
+            Tuple[pd.DataFrame, list]: First element is a data frame with the
             results, second element is a list of failed IDs.
         """
-        return self.get_fields(ids, fields, from_db, to_db, file_format, compressed)
+        return self.get(ids, fields, from_db, to_db, file_format, compressed)
 
     def get_id_mapping_results_search(
         self, fields: str, url: str, file_format: str, compressed: bool
@@ -133,6 +130,8 @@ class UniProtIDMapper(abc_UniProtAPI):
             "size": 500,
             "compressed": {"true" if compressed else "false"},
         }
+        if fields is None:
+            query_dict.pop("fields")
         self.check_response(self.session.get(url, allow_redirects=False))
         request = requests.get(url + "/", params=query_dict)
         results = decode_results(request, file_format, compressed=compressed)
@@ -146,22 +145,24 @@ class UniProtIDMapper(abc_UniProtAPI):
         results_df = pd.DataFrame(data=data[1:], columns=columns)
         return results_df
 
-    def get_fields(
+    def get(
         self,
         ids: Union[List[str], str],
-        fields: list = None,
+        fields: Optional[Union[str, List]] = "default",
         from_db: str = "UniProtKB_AC-ID",
         to_db: str = "UniProtKB-Swiss-Prot",
         file_format: str = "tsv",
         compressed: bool = False,
     ) -> Tuple[pd.DataFrame, list]:
-        """Retrieves the requested fields from the UniProt ID Mapping API.
+        """Gets the requested fields from the UniProt ID Mapping API.
         Supported fields are listed in the `fields_table` attribute. For a complete
         list of the supported fields, check: https://www.uniprot.org/help/return_fields
 
         Args:
             ids: list of IDs to be mapped or single string.
-            fields: list of fields to be retrieved. Defaults to None.
+            fields: list of UniProt fields to be retrieved. If None, will return the API's
+                default fields. `Note:` parameter not supported for datasets that aren't
+                strictly UniProtKB, e.g.: UniParc, UniRef... Defaults to None.
             from_db: database for the ids. Defaults to "UniProtKB_AC-ID".
             to_db: UniProtDB to query to. For reviewed-only accessions, use default. If
                 you want to include unreviewed accessions, use "UniProtKB". Defaults to
@@ -173,32 +174,37 @@ class UniProtIDMapper(abc_UniProtAPI):
             ValueError: If parameters `from_db`or `to_db` are not supported.
 
         Returns:
-            Tuple[pd.DataFrame, list]: First element is a dataframe with the
+            Tuple[pd.DataFrame, list]: First element is a data frame with the
             results, second element is a list of failed IDs.
         """
-        if from_db not in self._supported_dbs:
+        if any([from_db not in self._supported_dbs, to_db not in self._supported_dbs]):
             raise ValueError(
-                f"{from_db} not available. "
+                f"either {from_db} or {to_db} is not available. "
                 f"Supported databases are {self._supported_dbs}"
             )
+        if fields is not None:
+            if fields == "default":
+                fields = self.default_fields
+            else:
+                fields = np.char.lower(np.array(fields))
+                if not np.isin(fields, self.fields_table["Returned_Field"]).all():
+                    raise ValueError(
+                        "Invalid fields. Valid fields are: "
+                        f"{self.fields_table['Returned_Field'].values}"
+                    )
         if to_db not in ["UniProtKB-Swiss-Prot", "UniProtKB"]:
-            raise ValueError(
-                f"{to_db} not available. "
-                "Supported databases are UniProtKB-Swiss-Prot and UniProtKB"
-            )
+            if fields is not None:
+                warning(
+                    f"Custom fields not available when querying {to_db}.\n"
+                    "Setting fields to `None` to retrieve all available fields..."
+                )
+                fields = None
+
         if isinstance(ids, str):
             ids = [ids]
 
-        if fields is None:
-            fields = self.default_fields
-        else:
-            fields = np.char.lower(np.array(fields))
-            if not np.isin(fields, self.fields_table["Returned Field"]).all():
-                raise ValueError(
-                    "Invalid fields. Valid fields are: "
-                    f"{self.fields_table['Returned Field'].values}"
-                )
-        fields = ",".join(fields)
+        if fields is not None:
+            fields = ",".join(fields)
 
         def _get_results(
             ids,
