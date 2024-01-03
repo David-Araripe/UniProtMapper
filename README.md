@@ -134,5 +134,5 @@ optional arguments:
 
 Usage example, retrieving default fields from `<pkg_path>/resources/cli_return_fields.txt`:
 <p align="center">
-    <img src="figures/cli_example_fig.png" alt="Image displaying the output of UniProtMapper's CLI, protmap"/>
+    <img src="https://github.com/David-Araripe/UniProtMapper/blob/master/figures/cli_example_fig.png?raw=true" alt="Image displaying the output of UniProtMapper's CLI, protmap"/>
 </p>
