@@ -13,6 +13,7 @@
     "Sequence databases": [
         "CCDS",
         "EMBL-GenBank-DDBJ",
+        "EMBL-GenBank-DDBJ_CDS",
         "GI_number",
         "PIR",
         "RefSeq_Nucleotide",
