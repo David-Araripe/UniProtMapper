@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=64", "setuptools_scm[toml]>=6.2", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -16,6 +16,7 @@ classifiers = [
   "Development Status :: 5 - Production/Stable",
   "License :: OSI Approved :: MIT License",
   "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.9",
@@ -41,6 +42,9 @@ protmap = "UniProtMapper.cli:main"
 
 [tool.setuptools.dynamic]
 version = {attr = "UniProtMapper.__version__"}
+
+[tool.setuptools_scm]
+write_to = "src/UniProtMapper/_version.py"
 
 [tool.ruff]
 line-length = 88

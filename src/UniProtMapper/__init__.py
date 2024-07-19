@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 """A Python wrapper for the UniProt id-mapping RESTful API: https://www.uniprot.org/id-mapping"""
+try:
+    from .api import ProtMapper  # noqa: F401
+except ImportError:  # when installing the package with setuptools_scm
+    pass
 
-from .api import ProtMapper  # noqa: F401
+from .version_helper import get_version
 
-__version__ = "1.1.1"
+__version__ = get_version()

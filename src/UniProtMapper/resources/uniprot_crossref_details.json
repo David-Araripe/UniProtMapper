@@ -7,52 +7,43 @@
             "pubMedId": "31665515",
             "doiId": "10.1093/nar/gkz947",
             "linkType": "Explicit",
-            "server": "https://www.ebi.ac.uk/gxa",
+            "servers": [
+                "https://www.ebi.ac.uk/gxa"
+            ],
             "dbUrl": "https://www.ebi.ac.uk/gxa/query?geneQuery=%u",
             "category": "Gene expression databases",
             "statistics": {
-                "reviewedProteinCount": 52712,
-                "unreviewedProteinCount": 701976
+                "reviewedProteinCount": 53142,
+                "unreviewedProteinCount": 705413
             }
         },
         {
             "name": "BioCyc Collection of Pathway/Genome Databases",
             "id": "DB-0005",
             "abbrev": "BioCyc",
-            "pubMedId": "26527732",
-            "doiId": "10.1093/nar/gkv1164",
+            "pubMedId": "29447345",
+            "doiId": "10.1093/bib/bbx085",
             "linkType": "Explicit",
-            "server": "https://www.biocyc.org/",
+            "servers": [
+                "https://www.biocyc.org/"
+            ],
             "dbUrl": "https://biocyc.org/getid?id=%s",
             "category": "Enzyme and pathway databases",
             "statistics": {
-                "reviewedProteinCount": 54675,
-                "unreviewedProteinCount": 543795
-            }
-        },
-        {
-            "name": "2-DE database at Universidad Complutense de Madrid",
-            "id": "DB-0010",
-            "abbrev": "COMPLUYEAST-2DPAGE",
-            "pubMedId": "12659738",
-            "doiId": "10.1016/S1570-0232(02)00762-6",
-            "linkType": "Explicit",
-            "server": "http://compluyeast2dpage.dacya.ucm.es/",
-            "dbUrl": "http://compluyeast2dpage.dacya.ucm.es/cgi-bin/2d/2d.cgi?ac=%s",
-            "category": "2D gel databases",
-            "statistics": {
-                "reviewedProteinCount": 97,
-                "unreviewedProteinCount": 4
+                "reviewedProteinCount": 44085,
+                "unreviewedProteinCount": 318755
             }
         },
         {
             "name": "Database of single nucleotide polymorphism",
             "id": "DB-0013",
             "abbrev": "dbSNP",
-            "pubMedId": "17170002",
-            "doiId": "10.1093/nar/gkl1031",
+            "pubMedId": "33095870",
+            "doiId": "10.1093/nar/gkaa892",
             "linkType": "Explicit",
-            "server": "https://www.ncbi.nlm.nih.gov/snp/",
+            "servers": [
+                "https://www.ncbi.nlm.nih.gov/snp/"
+            ],
             "dbUrl": "https://www.ncbi.nlm.nih.gov/snp/%s",
             "category": "Genetic variation databases",
             "statistics": {
@@ -64,10 +55,12 @@
             "name": "DNA Data Bank of Japan; a nucleotide sequence database",
             "id": "DB-0014",
             "abbrev": "DDBJ",
-            "pubMedId": "17108353",
-            "doiId": "10.1093/nar/gkl908",
+            "pubMedId": "36420889",
+            "doiId": "10.1093/nar/gkac1083",
             "linkType": "Implicit",
-            "server": "https://www.ddbj.nig.ac.jp/index-e.html",
+            "servers": [
+                "https://www.ddbj.nig.ac.jp/index-e.html"
+            ],
             "dbUrl": "http://getentry.ddbj.nig.ac.jp/search/get_entry?accnumber=%s",
             "category": "Sequence databases",
             "statistics": {
@@ -82,12 +75,14 @@
             "pubMedId": "23172289",
             "doiId": "10.1093/nar/gks1064",
             "linkType": "Explicit",
-            "server": "http://dictybase.org/",
+            "servers": [
+                "http://dictybase.org/"
+            ],
             "dbUrl": "http://dictybase.org/db/cgi-bin/gene_page.pl?primary_id=%s",
             "category": "Organism-specific databases",
             "statistics": {
-                "reviewedProteinCount": 4110,
-                "unreviewedProteinCount": 7754
+                "reviewedProteinCount": 2001,
+                "unreviewedProteinCount": 7753
             }
         },
         {
@@ -97,27 +92,31 @@
             "pubMedId": "14681454",
             "doiId": "10.1093/nar/gkh086",
             "linkType": "Explicit",
-            "server": "https://dip.doe-mbi.ucla.edu/",
+            "servers": [
+                "https://dip.doe-mbi.ucla.edu/"
+            ],
             "dbUrl": "https://dip.doe-mbi.ucla.edu/dip/Browse.cgi?ID=%s",
             "category": "Protein-protein interaction databases",
             "statistics": {
-                "reviewedProteinCount": 17485,
-                "unreviewedProteinCount": 3030
+                "reviewedProteinCount": 17517,
+                "unreviewedProteinCount": 2985
             }
         },
         {
             "name": "Database of protein disorder",
             "id": "DB-0017",
             "abbrev": "DisProt",
-            "pubMedId": "15310560",
-            "doiId": "10.1093/bioinformatics/bth476",
+            "pubMedId": "34850135",
+            "doiId": "10.1093/nar/gkab1082",
             "linkType": "Explicit",
-            "server": "https://disprot.org",
+            "servers": [
+                "https://disprot.org"
+            ],
             "dbUrl": "https://disprot.org/%s",
             "category": "Family and domain databases",
             "statistics": {
-                "reviewedProteinCount": 1741,
-                "unreviewedProteinCount": 202
+                "reviewedProteinCount": 1781,
+                "unreviewedProteinCount": 201
             }
         },
         {
@@ -125,7 +124,9 @@
             "id": "DB-0018",
             "abbrev": "DOSAC-COBS-2DPAGE",
             "linkType": "Explicit",
-            "server": "http://www.dosac.unipa.it/2d/",
+            "servers": [
+                "http://www.dosac.unipa.it/2d/"
+            ],
             "dbUrl": "http://www.dosac.unipa.it/cgi-bin/2d/2d.cgi?ac=%u",
             "category": "2D gel databases",
             "statistics": {
@@ -137,15 +138,17 @@
             "name": "Drug and drug target database",
             "id": "DB-0019",
             "abbrev": "DrugBank",
-            "pubMedId": "16381955",
-            "doiId": "10.1093/nar/gkj067",
+            "pubMedId": "29126136",
+            "doiId": "10.1093/nar/gkx1037",
             "linkType": "Explicit",
-            "server": "https://www.drugbank.ca/",
+            "servers": [
+                "https://www.drugbank.ca/"
+            ],
             "dbUrl": "https://www.drugbank.ca/drugs/%s",
             "category": "Chemistry databases",
             "statistics": {
-                "reviewedProteinCount": 4742,
-                "unreviewedProteinCount": 450
+                "reviewedProteinCount": 4785,
+                "unreviewedProteinCount": 441
             }
         },
         {
@@ -155,7 +158,9 @@
             "pubMedId": "15608209",
             "doiId": "10.1093/nar/gki028",
             "linkType": "Explicit",
-            "server": "https://www.york.ac.uk/res/thomas/",
+            "servers": [
+                "https://www.york.ac.uk/res/thomas/"
+            ],
             "dbUrl": "https://www.york.ac.uk/res/thomas/Gene.cfm?recordID=%s",
             "category": "Organism-specific databases",
             "statistics": {
@@ -170,12 +175,14 @@
             "pubMedId": "33175160",
             "doiId": "10.1093/nar/gkaa1028",
             "linkType": "Explicit",
-            "server": "https://www.ebi.ac.uk/ena",
+            "servers": [
+                "https://www.ebi.ac.uk/ena"
+            ],
             "dbUrl": "https://www.ebi.ac.uk/ena/browser/view/%s",
             "category": "Sequence databases",
             "statistics": {
-                "reviewedProteinCount": 556121,
-                "unreviewedProteinCount": 214900520
+                "reviewedProteinCount": 558797,
+                "unreviewedProteinCount": 229594928
             }
         },
         {
@@ -185,12 +192,14 @@
             "pubMedId": "31691826",
             "doiId": "10.1093/nar/gkz966",
             "linkType": "Explicit",
-            "server": "https://www.ensembl.org/",
+            "servers": [
+                "https://www.ensembl.org/"
+            ],
             "dbUrl": "https://www.ensembl.org/id/%s",
             "category": "Genome annotation databases",
             "statistics": {
-                "reviewedProteinCount": 50331,
-                "unreviewedProteinCount": 8943666
+                "reviewedProteinCount": 49216,
+                "unreviewedProteinCount": 8988669
             }
         },
         {
@@ -200,7 +209,9 @@
             "pubMedId": "10592255",
             "doiId": "10.1093/nar/28.1.304",
             "linkType": "Implicit",
-            "server": "https://enzyme.expasy.org/",
+            "servers": [
+                "https://enzyme.expasy.org/"
+            ],
             "dbUrl": "https://enzyme.expasy.org/EC/%s",
             "category": "Enzyme and pathway databases",
             "statistics": {
@@ -215,7 +226,9 @@
             "pubMedId": "17142229",
             "doiId": "10.1093/nar/gkl970",
             "linkType": "Explicit",
-            "server": "https://euhcvdb.lyon.inserm.fr/euHCVdb/",
+            "servers": [
+                "https://euhcvdb.lyon.inserm.fr/euHCVdb/"
+            ],
             "dbUrl": "https://euhcvdb.lyon.inserm.fr/euHCVdb/do/displayHCVEntry?primaryAC=%s",
             "category": "Organism-specific databases",
             "statistics": {
@@ -230,12 +243,14 @@
             "pubMedId": "30364959",
             "doiId": "10.1093/nar/gky1003",
             "linkType": "Explicit",
-            "server": "https://flybase.org/",
+            "servers": [
+                "https://flybase.org/"
+            ],
             "dbUrl": "https://flybase.org/reports/%s.html",
             "category": "Organism-specific databases",
             "statistics": {
-                "reviewedProteinCount": 3990,
-                "unreviewedProteinCount": 28349
+                "reviewedProteinCount": 4085,
+                "unreviewedProteinCount": 28225
             }
         },
         {
@@ -245,7 +260,9 @@
             "pubMedId": "9835018",
             "doiId": "10.1016/S0764-4469(99)80021-3",
             "linkType": "Implicit",
-            "server": "http://genatlas.medecine.univ-paris5.fr/",
+            "servers": [
+                "http://genatlas.medecine.univ-paris5.fr/"
+            ],
             "dbUrl": "http://genatlas.medecine.univ-paris5.fr/fiche.php?symbol=%s",
             "category": "Organism-specific databases",
             "statistics": {
@@ -257,10 +274,12 @@
             "name": "GenBank nucleotide sequence database",
             "id": "DB-0028",
             "abbrev": "GenBank",
-            "pubMedId": "17170002",
-            "doiId": "10.1093/nar/gkl1031",
+            "pubMedId": "31665464",
+            "doiId": "10.1093/nar/gkz956",
             "linkType": "Implicit",
-            "server": "https://www.ncbi.nlm.nih.gov/",
+            "servers": [
+                "https://www.ncbi.nlm.nih.gov/"
+            ],
             "dbUrl": "https://www.ncbi.nlm.nih.gov/nuccore/%s",
             "category": "Sequence databases",
             "statistics": {
@@ -275,27 +294,32 @@
             "pubMedId": "29112716",
             "doiId": "10.1093/nar/gkx1069",
             "linkType": "Explicit",
-            "server": "http://gene3d.biochem.ucl.ac.uk/Gene3D/",
+            "servers": [
+                "http://gene3d.biochem.ucl.ac.uk/Gene3D/",
+                "http://www.cathdb.info/"
+            ],
             "dbUrl": "http://www.cathdb.info/superfamily/%s",
             "category": "Family and domain databases",
             "statistics": {
-                "reviewedProteinCount": 368762,
-                "unreviewedProteinCount": 111519280
+                "reviewedProteinCount": 459391,
+                "unreviewedProteinCount": 156115345
             }
         },
         {
             "name": "GeneCards",
             "id": "DB-0030",
             "abbrev": "GeneCards",
-            "pubMedId": "12424129",
-            "doiId": "10.1093/bioinformatics/18.11.1542",
+            "pubMedId": "27322403",
+            "doiId": "10.1002/cpbi.5",
             "linkType": "Explicit",
-            "server": "https://www.genecards.org/",
+            "servers": [
+                "https://www.genecards.org/"
+            ],
             "dbUrl": "https://www.genecards.org/cgi-bin/carddisp.pl?gene=%s",
             "category": "Organism-specific databases",
             "statistics": {
-                "reviewedProteinCount": 20187,
-                "unreviewedProteinCount": 1317
+                "reviewedProteinCount": 20247,
+                "unreviewedProteinCount": 1316
             }
         },
         {
@@ -305,7 +329,9 @@
             "pubMedId": "30321395",
             "doiId": "10.1093/nar/gky961",
             "linkType": "Explicit",
-            "server": "https://www.pombase.org/",
+            "servers": [
+                "https://www.pombase.org/"
+            ],
             "dbUrl": "https://www.pombase.org/gene/%s",
             "category": "Organism-specific databases",
             "statistics": {
@@ -320,12 +346,14 @@
             "pubMedId": "30395331",
             "doiId": "10.1093/nar/gky1055",
             "linkType": "Explicit",
-            "server": "http://geneontology.org/",
+            "servers": [
+                "https://geneontology.org/"
+            ],
             "dbUrl": "https://www.ebi.ac.uk/QuickGO/term/%s",
             "category": "Ontologies",
             "statistics": {
-                "reviewedProteinCount": 544937,
-                "unreviewedProteinCount": 157868541
+                "reviewedProteinCount": 551192,
+                "unreviewedProteinCount": 173998230
             }
         },
         {
@@ -335,7 +363,9 @@
             "pubMedId": "11125133",
             "doiId": "10.1093/nar/29.1.346",
             "linkType": "Implicit",
-            "server": "https://gpcrdb.org",
+            "servers": [
+                "https://gpcrdb.org"
+            ],
             "dbUrl": "https://gpcrdb.org/protein/%u/",
             "category": "Protein family/group databases",
             "statistics": {
@@ -350,12 +380,14 @@
             "pubMedId": "29165610",
             "doiId": "10.1093/nar/gkx1111",
             "linkType": "Explicit",
-            "server": "https://www.gramene.org/",
+            "servers": [
+                "https://www.gramene.org/"
+            ],
             "dbUrl": "https://ensembl.gramene.org/id/%s",
             "category": "Genome annotation databases",
             "statistics": {
-                "reviewedProteinCount": 21919,
-                "unreviewedProteinCount": 3143888
+                "reviewedProteinCount": 22485,
+                "unreviewedProteinCount": 3197669
             }
         },
         {
@@ -365,12 +397,14 @@
             "pubMedId": "25348399",
             "doiId": "10.1093/nar/gku1002",
             "linkType": "Explicit",
-            "server": "https://hamap.expasy.org/",
+            "servers": [
+                "https://hamap.expasy.org/"
+            ],
             "dbUrl": "https://hamap.expasy.org/signature/%s",
             "category": "Family and domain databases",
             "statistics": {
-                "reviewedProteinCount": 327885,
-                "unreviewedProteinCount": 24117076
+                "reviewedProteinCount": 327998,
+                "unreviewedProteinCount": 24350139
             }
         },
         {
@@ -380,27 +414,31 @@
             "pubMedId": "33152070",
             "doiId": "10.1093/nar/gkaa980",
             "linkType": "Explicit",
-            "server": "https://www.genenames.org/",
+            "servers": [
+                "https://www.genenames.org/"
+            ],
             "dbUrl": "https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/%s",
             "category": "Organism-specific databases",
             "statistics": {
-                "reviewedProteinCount": 20215,
-                "unreviewedProteinCount": 60858
+                "reviewedProteinCount": 20250,
+                "unreviewedProteinCount": 61241
             }
         },
         {
             "name": "The HOGENOM Database of Homologous Genes from Fully Sequenced Organisms",
             "id": "DB-0044",
             "abbrev": "HOGENOM",
-            "pubMedId": "10720578",
-            "doiId": "10.1101/gr.10.3.379",
+            "pubMedId": "19534752",
+            "doiId": "10.1186/1471-2105-10-S6-S3",
             "linkType": "Explicit",
-            "server": "http://hogenom.univ-lyon1.fr/",
+            "servers": [
+                "http://hogenom.univ-lyon1.fr/"
+            ],
             "dbUrl": "http://hogenom.univ-lyon1.fr/query_sequence?seq=%u",
             "category": "Phylogenomic databases",
             "statistics": {
-                "reviewedProteinCount": 425964,
-                "unreviewedProteinCount": 16321563
+                "reviewedProteinCount": 427443,
+                "unreviewedProteinCount": 14607977
             }
         },
         {
@@ -410,24 +448,13 @@
             "pubMedId": "25613900",
             "doiId": "10.1126/science.1260419",
             "linkType": "Explicit",
-            "server": "https://www.proteinatlas.org/",
+            "servers": [
+                "https://www.proteinatlas.org/"
+            ],
             "dbUrl": "https://www.proteinatlas.org/%s",
             "category": "Organism-specific databases",
             "statistics": {
-                "reviewedProteinCount": 19204,
-                "unreviewedProteinCount": 0
-            }
-        },
-        {
-            "name": "University College Dublin 2-DE Proteome Database",
-            "id": "DB-0047",
-            "abbrev": "UCD-2DPAGE",
-            "linkType": "Explicit",
-            "server": "https://proteomics-portal.ucd.ie/cgi-bin/2d/2d.cgi",
-            "dbUrl": "https://proteomics-portal.ucd.ie/cgi-bin/2d/2d.cgi?%s",
-            "category": "2D gel databases",
-            "statistics": {
-                "reviewedProteinCount": 496,
+                "reviewedProteinCount": 19215,
                 "unreviewedProteinCount": 0
             }
         },
@@ -438,7 +465,9 @@
             "pubMedId": "14681467",
             "doiId": "10.1093/nar/gkh035",
             "linkType": "Implicit",
-            "server": "http://www.kazusa.or.jp/huge/",
+            "servers": [
+                "http://www.kazusa.or.jp/huge/"
+            ],
             "dbUrl": "http://www.kazusa.or.jp/huge/gfpage/%s",
             "category": "Organism-specific databases",
             "statistics": {
@@ -453,7 +482,9 @@
             "pubMedId": "25378316",
             "doiId": "10.1093/nar/gku1056",
             "linkType": "Explicit",
-            "server": "https://www.imgt.org/genedb",
+            "servers": [
+                "https://www.imgt.org/genedb"
+            ],
             "dbUrl": "https://www.imgt.org/IMGT_GENE-DB/GENElect?query=2+%s&species=Homo+sapiens",
             "category": "Protein family/group databases",
             "statistics": {
@@ -468,27 +499,31 @@
             "pubMedId": "24234451",
             "doiId": "10.1093/nar/gkt1115",
             "linkType": "Explicit",
-            "server": "https://www.ebi.ac.uk/intact/",
+            "servers": [
+                "https://www.ebi.ac.uk/intact/"
+            ],
             "dbUrl": "https://www.ebi.ac.uk/intact/interactors/id:%s*",
             "category": "Protein-protein interaction databases",
             "statistics": {
-                "reviewedProteinCount": 56759,
-                "unreviewedProteinCount": 30006
+                "reviewedProteinCount": 57520,
+                "unreviewedProteinCount": 43582
             }
         },
         {
             "name": "Integrated resource of protein families, domains and functional sites",
             "id": "DB-0052",
             "abbrev": "InterPro",
-            "pubMedId": "33156333",
-            "doiId": "10.1093/nar/gkaa977",
+            "pubMedId": "36350672",
+            "doiId": "10.1093/nar/gkac993",
             "linkType": "Explicit",
-            "server": "https://www.ebi.ac.uk/interpro/",
+            "servers": [
+                "https://www.ebi.ac.uk/interpro/"
+            ],
             "dbUrl": "https://www.ebi.ac.uk/interpro/entry/%s",
             "category": "Family and domain databases",
             "statistics": {
-                "reviewedProteinCount": 549889,
-                "unreviewedProteinCount": 187219266
+                "reviewedProteinCount": 552668,
+                "unreviewedProteinCount": 195031752
             }
         },
         {
@@ -498,12 +533,14 @@
             "pubMedId": "27899662",
             "doiId": "10.1093/nar/gkw1092",
             "linkType": "Explicit",
-            "server": "https://www.genome.jp/kegg/",
+            "servers": [
+                "https://www.genome.jp/kegg/"
+            ],
             "dbUrl": "https://www.genome.jp/dbget-bin/www_bget?%s",
             "category": "Genome annotation databases",
             "statistics": {
-                "reviewedProteinCount": 478733,
-                "unreviewedProteinCount": 22792991
+                "reviewedProteinCount": 477772,
+                "unreviewedProteinCount": 22144930
             }
         },
         {
@@ -513,7 +550,9 @@
             "pubMedId": "15698474",
             "doiId": "10.1186/1471-2164-6-14",
             "linkType": "Explicit",
-            "server": "http://genolist.pasteur.fr/LegioList/",
+            "servers": [
+                "http://genolist.pasteur.fr/LegioList/"
+            ],
             "dbUrl": "http://genolist.pasteur.fr/LegioList/genome.cgi?external_query+%s",
             "category": "Organism-specific databases",
             "statistics": {
@@ -526,7 +565,9 @@
             "id": "DB-0055",
             "abbrev": "Leproma",
             "linkType": "Explicit",
-            "server": "https://mycobrowser.epfl.ch/",
+            "servers": [
+                "https://mycobrowser.epfl.ch/"
+            ],
             "dbUrl": "https://mycobrowser.epfl.ch/genes/%s",
             "category": "Organism-specific databases",
             "statistics": {
@@ -538,14 +579,16 @@
             "name": "Maize Genetics and Genomics Database",
             "id": "DB-0058",
             "abbrev": "MaizeGDB",
-            "pubMedId": "17202174",
-            "doiId": "10.1093/nar/gkl1048",
+            "pubMedId": "34416864",
+            "doiId": "10.1186/s12870-021-03173-5",
             "linkType": "Explicit",
-            "server": "https://www.maizegdb.org/",
+            "servers": [
+                "https://www.maizegdb.org/"
+            ],
             "dbUrl": "https://www.maizegdb.org/data_center/gene_product?id=%s",
             "category": "Organism-specific databases",
             "statistics": {
-                "reviewedProteinCount": 524,
+                "reviewedProteinCount": 525,
                 "unreviewedProteinCount": 0
             }
         },
@@ -556,12 +599,14 @@
             "pubMedId": "29145643",
             "doiId": "10.1093/nar/gkx1134",
             "linkType": "Explicit",
-            "server": "https://www.ebi.ac.uk/merops/",
-            "dbUrl": "https://www.ebi.ac.uk/merops/cgi-bin/pepsum?mid=%s",
+            "servers": [
+                "https://www.ebi.ac.uk/merops/"
+            ],
+            "dbUrl": "https://www.ebi.ac.uk/merops/cgi-bin/pepsum?id=%s",
             "category": "Protein family/group databases",
             "statistics": {
-                "reviewedProteinCount": 13747,
-                "unreviewedProteinCount": 296341
+                "reviewedProteinCount": 13794,
+                "unreviewedProteinCount": 273237
             }
         },
         {
@@ -571,26 +616,30 @@
             "pubMedId": "30407599",
             "doiId": "10.1093/nar/gky1056",
             "linkType": "Explicit",
-            "server": "http://www.informatics.jax.org/",
-            "dbUrl": "http://www.informatics.jax.org/marker/%s",
+            "servers": [
+                "https://www.informatics.jax.org/"
+            ],
+            "dbUrl": "https://www.informatics.jax.org/marker/%s",
             "category": "Organism-specific databases",
             "statistics": {
-                "reviewedProteinCount": 17006,
-                "unreviewedProteinCount": 63163
+                "reviewedProteinCount": 17081,
+                "unreviewedProteinCount": 62451
             }
         },
         {
             "name": "Online Mendelian Inheritance in Man (OMIM)",
             "id": "DB-0062",
             "abbrev": "MIM",
-            "pubMedId": "25428349",
-            "doiId": "10.1093/nar/gku1205",
+            "pubMedId": "30445645",
+            "doiId": "10.1093/nar/gky1151",
             "linkType": "Explicit",
-            "server": "https://www.omim.org/",
+            "servers": [
+                "https://www.omim.org/"
+            ],
             "dbUrl": "https://www.omim.org/entry/%s",
             "category": "Organism-specific databases",
             "statistics": {
-                "reviewedProteinCount": 15844,
+                "reviewedProteinCount": 16174,
                 "unreviewedProteinCount": 0
             }
         },
@@ -598,10 +647,12 @@
             "name": "Database of comparative protein structure models",
             "id": "DB-0063",
             "abbrev": "ModBase",
-            "pubMedId": "16381869",
-            "doiId": "10.1093/nar/gkj059",
+            "pubMedId": "24271400",
+            "doiId": "10.1093/nar/gkt1144",
             "linkType": "Implicit",
-            "server": "https://modbase.compbio.ucsf.edu/modbase-cgi/index.cgi",
+            "servers": [
+                "https://modbase.compbio.ucsf.edu/"
+            ],
             "dbUrl": "https://salilab.org/modbase-cgi/model_search.cgi?searchkw=name&kword=%u",
             "category": "3D structure databases",
             "statistics": {
@@ -614,7 +665,9 @@
             "id": "DB-0067",
             "abbrev": "OGP",
             "linkType": "Explicit",
-            "server": "http://usc_ogp_2ddatabase.cesga.es/cgi-bin/2d/2d.cgi",
+            "servers": [
+                "http://usc_ogp_2ddatabase.cesga.es/cgi-bin/2d/2d.cgi"
+            ],
             "dbUrl": "http://usc_ogp_2ddatabase.cesga.es/cgi-bin/2d/2d.cgi?%s",
             "category": "2D gel databases",
             "statistics": {
@@ -627,11 +680,13 @@
             "id": "DB-0068",
             "abbrev": "Orphanet",
             "linkType": "Explicit",
-            "server": "https://www.orpha.net/consor/cgi-bin/index.php",
+            "servers": [
+                "https://www.orpha.net/consor/cgi-bin/index.php"
+            ],
             "dbUrl": "https://www.orpha.net/consor/cgi-bin/OC_Exp.php?Lng=GB&Expert=%s",
             "category": "Organism-specific databases",
             "statistics": {
-                "reviewedProteinCount": 4303,
+                "reviewedProteinCount": 4418,
                 "unreviewedProteinCount": 0
             }
         },
@@ -642,12 +697,14 @@
             "pubMedId": "30407594",
             "doiId": "10.1093/nar/gky1038",
             "linkType": "Explicit",
-            "server": "http://www.pantherdb.org/",
-            "dbUrl": "http://www.pantherdb.org/panther/family.do?clsAccession=%s",
+            "servers": [
+                "https://www.pantherdb.org/"
+            ],
+            "dbUrl": "https://www.pantherdb.org/panther/family.do?clsAccession=%s",
             "category": "Family and domain databases",
             "statistics": {
-                "reviewedProteinCount": 304215,
-                "unreviewedProteinCount": 60308510
+                "reviewedProteinCount": 504252,
+                "unreviewedProteinCount": 163355170
             }
         },
         {
@@ -657,12 +714,14 @@
             "pubMedId": "31691821",
             "doiId": "10.1093/nar/gkz990",
             "linkType": "Explicit",
-            "server": "https://www.ebi.ac.uk/pdbe/",
+            "servers": [
+                "https://www.ebi.ac.uk/pdbe/"
+            ],
             "dbUrl": "https://www.ebi.ac.uk/pdbe-srv/view/entry/%s",
             "category": "3D structure databases",
             "statistics": {
-                "reviewedProteinCount": 32674,
-                "unreviewedProteinCount": 26776
+                "reviewedProteinCount": 35646,
+                "unreviewedProteinCount": 28810
             }
         },
         {
@@ -672,12 +731,14 @@
             "pubMedId": "16381952",
             "doiId": "10.1093/nar/gkj040",
             "linkType": "Explicit",
-            "server": "http://www.peptideatlas.org",
+            "servers": [
+                "https://peptideatlas.org"
+            ],
             "dbUrl": "https://db.systemsbiology.net/sbeams/cgi/PeptideAtlas/Search?action=GO&search_key=%s",
             "category": "Proteomic databases",
             "statistics": {
-                "reviewedProteinCount": 39559,
-                "unreviewedProteinCount": 179267
+                "reviewedProteinCount": 39609,
+                "unreviewedProteinCount": 164879
             }
         },
         {
@@ -687,27 +748,31 @@
             "pubMedId": "23180785",
             "doiId": "10.1093/nar/gks1083",
             "linkType": "Explicit",
-            "server": "http://peroxibase.toulouse.inra.fr/",
-            "dbUrl": "http://peroxibase.toulouse.inra.fr/display_perox/view_perox/%s",
+            "servers": [
+                "https://peroxibase.toulouse.inra.fr/"
+            ],
+            "dbUrl": "https://peroxibase.toulouse.inra.fr/display_perox/view_perox/%s",
             "category": "Protein family/group databases",
             "statistics": {
-                "reviewedProteinCount": 768,
-                "unreviewedProteinCount": 2534
+                "reviewedProteinCount": 771,
+                "unreviewedProteinCount": 2485
             }
         },
         {
             "name": "Pfam protein domain database",
             "id": "DB-0073",
             "abbrev": "Pfam",
-            "pubMedId": "30357350",
-            "doiId": "10.1093/nar/gky995",
+            "pubMedId": "33125078",
+            "doiId": "10.1093/nar/gkaa913",
             "linkType": "Explicit",
-            "server": "https://pfam.xfam.org/",
-            "dbUrl": "https://pfam.xfam.org/family/%s",
+            "servers": [
+                "https://www.ebi.ac.uk/interpro/"
+            ],
+            "dbUrl": "https://www.ebi.ac.uk/interpro/entry/pfam/%s",
             "category": "Family and domain databases",
             "statistics": {
-                "reviewedProteinCount": 527818,
-                "unreviewedProteinCount": 171010088
+                "reviewedProteinCount": 541304,
+                "unreviewedProteinCount": 183970293
             }
         },
         {
@@ -717,12 +782,14 @@
             "pubMedId": "16100408",
             "doiId": "10.1385/1-59259-957-5:179",
             "linkType": "Explicit",
-            "server": "https://www.pharmgkb.org/",
+            "servers": [
+                "https://www.pharmgkb.org/"
+            ],
             "dbUrl": "https://www.pharmgkb.org/gene/%s",
             "category": "Organism-specific databases",
             "statistics": {
-                "reviewedProteinCount": 18017,
-                "unreviewedProteinCount": 3076
+                "reviewedProteinCount": 18013,
+                "unreviewedProteinCount": 3068
             }
         },
         {
@@ -730,12 +797,14 @@
             "id": "DB-0078",
             "abbrev": "PIR",
             "linkType": "Explicit",
-            "server": "https://proteininformationresource.org/",
+            "servers": [
+                "https://proteininformationresource.org/"
+            ],
             "dbUrl": "https://proteininformationresource.org/cgi-bin/nbrfget?uid=%s",
             "category": "Sequence databases",
             "statistics": {
-                "reviewedProteinCount": 114574,
-                "unreviewedProteinCount": 129266
+                "reviewedProteinCount": 114808,
+                "unreviewedProteinCount": 128888
             }
         },
         {
@@ -745,12 +814,14 @@
             "pubMedId": "14681371",
             "doiId": "10.1093/nar/gkh097",
             "linkType": "Explicit",
-            "server": "https://proteininformationresource.org/pirwww/dbinfo/pirsf.shtml",
+            "servers": [
+                "https://proteininformationresource.org/pirwww/dbinfo/pirsf.shtml"
+            ],
             "dbUrl": "https://proteininformationresource.org/cgi-bin/ipcSF?id=%s",
             "category": "Family and domain databases",
             "statistics": {
-                "reviewedProteinCount": 106687,
-                "unreviewedProteinCount": 18576110
+                "reviewedProteinCount": 109839,
+                "unreviewedProteinCount": 19877186
             }
         },
         {
@@ -760,12 +831,14 @@
             "pubMedId": "22508994",
             "doiId": "10.1093/database/bas019",
             "linkType": "Explicit",
-            "server": "http://www.bioinf.manchester.ac.uk/dbbrowser/PRINTS/",
-            "dbUrl": "http://umber.sbs.man.ac.uk/cgi-bin/dbbrowser/sprint/searchprintss.cgi?display_opts=Prints&category=None&queryform=false&prints_accn=%s",
+            "servers": [
+                "http://www.bioinf.manchester.ac.uk/dbbrowser/PRINTS/"
+            ],
+            "dbUrl": "https://www.ebi.ac.uk/interpro/entry/prints/%s",
             "category": "Family and domain databases",
             "statistics": {
-                "reviewedProteinCount": 116404,
-                "unreviewedProteinCount": 27464893
+                "reviewedProteinCount": 129596,
+                "unreviewedProteinCount": 32716295
             }
         },
         {
@@ -775,27 +848,31 @@
             "pubMedId": "23161676",
             "doiId": "10.1093/nar/gks1067",
             "linkType": "Explicit",
-            "server": "https://prosite.expasy.org/",
+            "servers": [
+                "https://prosite.expasy.org/"
+            ],
             "dbUrl": "https://prosite.expasy.org/doc/%s",
             "category": "Family and domain databases",
             "statistics": {
-                "reviewedProteinCount": 309339,
-                "unreviewedProteinCount": 81947272
+                "reviewedProteinCount": 311452,
+                "unreviewedProteinCount": 90735534
             }
         },
         {
             "name": "Pseudomonas genome database",
             "id": "DB-0086",
             "abbrev": "PseudoCAP",
-            "pubMedId": "15608211",
-            "doiId": "10.1093/nar/gki047",
+            "pubMedId": "26578582",
+            "doiId": "10.1093/nar/gkv1227",
             "linkType": "Explicit",
-            "server": "https://www.pseudomonas.com/",
+            "servers": [
+                "https://www.pseudomonas.com/"
+            ],
             "dbUrl": "https://www.pseudomonas.com/feature/show?locus_tag=%s",
             "category": "Organism-specific databases",
             "statistics": {
-                "reviewedProteinCount": 1438,
-                "unreviewedProteinCount": 4328
+                "reviewedProteinCount": 2036,
+                "unreviewedProteinCount": 4103
             }
         },
         {
@@ -805,12 +882,14 @@
             "pubMedId": "31691815",
             "doiId": "10.1093/nar/gkz1031",
             "linkType": "Explicit",
-            "server": "https://reactome.org",
+            "servers": [
+                "https://reactome.org"
+            ],
             "dbUrl": "https://www.reactome.org/PathwayBrowser/#%s&FLG=%u",
             "category": "Enzyme and pathway databases",
             "statistics": {
-                "reviewedProteinCount": 37712,
-                "unreviewedProteinCount": 45993
+                "reviewedProteinCount": 38493,
+                "unreviewedProteinCount": 44243
             }
         },
         {
@@ -820,12 +899,14 @@
             "pubMedId": "25378308",
             "doiId": "10.1093/nar/gku1046",
             "linkType": "Explicit",
-            "server": "http://rebase.neb.com/rebase/rebase.html",
+            "servers": [
+                "http://rebase.neb.com/rebase/rebase.html"
+            ],
             "dbUrl": "http://rebase.neb.com/rebase/enz/%s.html",
             "category": "Protein family/group databases",
             "statistics": {
-                "reviewedProteinCount": 397,
-                "unreviewedProteinCount": 82433
+                "reviewedProteinCount": 395,
+                "unreviewedProteinCount": 81578
             }
         },
         {
@@ -833,12 +914,14 @@
             "id": "DB-0090",
             "abbrev": "REPRODUCTION-2DPAGE",
             "linkType": "Explicit",
-            "server": "http://reprod.njmu.edu.cn/cgi-bin/2d/2d.cgi",
+            "servers": [
+                "http://reprod.njmu.edu.cn/cgi-bin/2d/2d.cgi"
+            ],
             "dbUrl": "http://reprod.njmu.edu.cn/cgi-bin/2d/2d.cgi?%s",
             "category": "2D gel databases",
             "statistics": {
                 "reviewedProteinCount": 1039,
-                "unreviewedProteinCount": 60
+                "unreviewedProteinCount": 59
             }
         },
         {
@@ -848,12 +931,14 @@
             "pubMedId": "31713623",
             "doiId": "10.1093/nar/gkz1041",
             "linkType": "Explicit",
-            "server": "https://rgd.mcw.edu/",
+            "servers": [
+                "https://rgd.mcw.edu/"
+            ],
             "dbUrl": "https://rgd.mcw.edu/rgdweb/report/gene/main.html?id=%s",
             "category": "Organism-specific databases",
             "statistics": {
-                "reviewedProteinCount": 8098,
-                "unreviewedProteinCount": 43527
+                "reviewedProteinCount": 8131,
+                "unreviewedProteinCount": 63948
             }
         },
         {
@@ -863,7 +948,9 @@
             "pubMedId": "14681467",
             "doiId": "10.1093/nar/gkh035",
             "linkType": "Implicit",
-            "server": "http://www.kazusa.or.jp/rouge/",
+            "servers": [
+                "http://www.kazusa.or.jp/rouge/"
+            ],
             "dbUrl": "http://www.kazusa.or.jp/rouge/gfpage/%s",
             "category": "Organism-specific databases",
             "statistics": {
@@ -878,11 +965,13 @@
             "pubMedId": "22110037",
             "doiId": "10.1093/nar/gkr1029",
             "linkType": "Explicit",
-            "server": "https://www.yeastgenome.org/",
+            "servers": [
+                "https://www.yeastgenome.org/"
+            ],
             "dbUrl": "https://www.yeastgenome.org/locus/%s",
             "category": "Organism-specific databases",
             "statistics": {
-                "reviewedProteinCount": 6742,
+                "reviewedProteinCount": 6741,
                 "unreviewedProteinCount": 7
             }
         },
@@ -893,12 +982,14 @@
             "pubMedId": "29040681",
             "doiId": "10.1093/nar/gkx922",
             "linkType": "Explicit",
-            "server": "http://smart.embl.de/",
-            "dbUrl": "http://smart.embl.de/smart/do_annotation.pl?DOMAIN=%s",
+            "servers": [
+                "https://smart.embl.de/"
+            ],
+            "dbUrl": "https://smart.embl.de/smart/do_annotation.pl?DOMAIN=%s",
             "category": "Family and domain databases",
             "statistics": {
-                "reviewedProteinCount": 145292,
-                "unreviewedProteinCount": 46290716
+                "reviewedProteinCount": 148514,
+                "unreviewedProteinCount": 49591930
             }
         },
         {
@@ -908,12 +999,14 @@
             "pubMedId": "27899672",
             "doiId": "10.1093/nar/gkw1132",
             "linkType": "Explicit",
-            "server": "https://swissmodel.expasy.org/repository/",
+            "servers": [
+                "https://swissmodel.expasy.org/repository/"
+            ],
             "dbUrl": "https://swissmodel.expasy.org/repository/uniprot/%s?csm=%d",
             "category": "3D structure databases",
             "statistics": {
-                "reviewedProteinCount": 508188,
-                "unreviewedProteinCount": 3104919
+                "reviewedProteinCount": 518578,
+                "unreviewedProteinCount": 2888698
             }
         },
         {
@@ -921,7 +1014,9 @@
             "id": "DB-0099",
             "abbrev": "SOURCE",
             "linkType": "Implicit",
-            "server": "https://source-search.princeton.edu/",
+            "servers": [
+                "https://source-search.princeton.edu/"
+            ],
             "dbUrl": "https://puma.princeton.edu/cgi-bin/source/sourceResult?criteria=%s&choice=Gene&option=Symbol&organism=%d",
             "category": "Miscellaneous databases",
             "statistics": {
@@ -930,48 +1025,20 @@
             }
         },
         {
-            "name": "Two-dimensional polyacrylamide gel electrophoresis database from the Geneva University Hospital",
-            "id": "DB-0101",
-            "abbrev": "SWISS-2DPAGE",
-            "pubMedId": "15274128",
-            "doiId": "10.1002/pmic.200300830",
-            "linkType": "Explicit",
-            "server": "https://world-2dpage.expasy.org/swiss-2dpage/",
-            "dbUrl": "https://world-2dpage.expasy.org/swiss-2dpage/%u",
-            "category": "2D gel databases",
-            "statistics": {
-                "reviewedProteinCount": 1177,
-                "unreviewedProteinCount": 1
-            }
-        },
-        {
             "name": "The Arabidopsis Information Resource",
             "id": "DB-0102",
             "abbrev": "TAIR",
-            "pubMedId": "22140109",
-            "doiId": "10.1093/nar/gkr1090",
+            "pubMedId": "26201819",
+            "doiId": "10.1002/dvg.22877",
             "linkType": "Explicit",
-            "server": "https://www.arabidopsis.org/",
-            "dbUrl": "https://www.arabidopsis.org/servlets/TairObject?accession=%s",
+            "servers": [
+                "https://www.arabidopsis.org/"
+            ],
+            "dbUrl": "https://www.arabidopsis.org/servlets/TairObject?type=locus&name=%s",
             "category": "Organism-specific databases",
             "statistics": {
-                "reviewedProteinCount": 14982,
-                "unreviewedProteinCount": 11381
-            }
-        },
-        {
-            "name": "TIGRFAMs; a protein family database",
-            "id": "DB-0104",
-            "abbrev": "TIGRFAMs",
-            "pubMedId": "23197656",
-            "doiId": "10.1093/nar/gks1234",
-            "linkType": "Explicit",
-            "server": "https://www.ncbi.nlm.nih.gov/genome/annotation_prok/tigrfams/",
-            "dbUrl": "https://www.ncbi.nlm.nih.gov/genome/annotation_prok/evidence/%s/",
-            "category": "Family and domain databases",
-            "statistics": {
-                "reviewedProteinCount": 273361,
-                "unreviewedProteinCount": 42386418
+                "reviewedProteinCount": 16310,
+                "unreviewedProteinCount": 26516
             }
         },
         {
@@ -981,12 +1048,14 @@
             "pubMedId": "20980200",
             "doiId": "10.1016/j.tube.2010.09.006",
             "linkType": "Explicit",
-            "server": "https://mycobrowser.epfl.ch/",
+            "servers": [
+                "https://mycobrowser.epfl.ch/"
+            ],
             "dbUrl": "https://mycobrowser.epfl.ch/genes/%s",
             "category": "Organism-specific databases",
             "statistics": {
-                "reviewedProteinCount": 2269,
-                "unreviewedProteinCount": 931
+                "reviewedProteinCount": 2294,
+                "unreviewedProteinCount": 924
             }
         },
         {
@@ -996,12 +1065,14 @@
             "pubMedId": "31642470",
             "doiId": "10.1093/nar/gkz920",
             "linkType": "Explicit",
-            "server": "https://www.wormbase.org/",
+            "servers": [
+                "https://www.wormbase.org/"
+            ],
             "dbUrl": "https://wormbase.org/db/seq/protein?name=%s;class=CDS",
             "category": "Organism-specific databases",
             "statistics": {
-                "reviewedProteinCount": 5022,
-                "unreviewedProteinCount": 61411
+                "reviewedProteinCount": 5076,
+                "unreviewedProteinCount": 61322
             }
         },
         {
@@ -1011,12 +1082,14 @@
             "pubMedId": "30407545",
             "doiId": "10.1093/nar/gky1090",
             "linkType": "Explicit",
-            "server": "https://zfin.org/",
+            "servers": [
+                "https://zfin.org/"
+            ],
             "dbUrl": "https://zfin.org/%s",
             "category": "Organism-specific databases",
             "statistics": {
-                "reviewedProteinCount": 3230,
-                "unreviewedProteinCount": 54833
+                "reviewedProteinCount": 3265,
+                "unreviewedProteinCount": 37677
             }
         },
         {
@@ -1026,27 +1099,31 @@
             "pubMedId": "26553804",
             "doiId": "10.1093/nar/gkv1189",
             "linkType": "Explicit",
-            "server": "https://www.ncbi.nlm.nih.gov/refseq/",
+            "servers": [
+                "https://www.ncbi.nlm.nih.gov/refseq/"
+            ],
             "dbUrl": "https://www.ncbi.nlm.nih.gov/protein/%s",
             "category": "Sequence databases",
             "statistics": {
-                "reviewedProteinCount": 475519,
-                "unreviewedProteinCount": 51107185
+                "reviewedProteinCount": 452034,
+                "unreviewedProteinCount": 42473578
             }
         },
         {
             "name": "Database of genes from NCBI RefSeq genomes",
             "id": "DB-0118",
             "abbrev": "GeneID",
-            "pubMedId": "21115458",
-            "doiId": "10.1093/nar/gkq1237",
+            "pubMedId": "25355515",
+            "doiId": "10.1093/nar/gku1055",
             "linkType": "Explicit",
-            "server": "https://www.ncbi.nlm.nih.gov/gene",
+            "servers": [
+                "https://www.ncbi.nlm.nih.gov/gene"
+            ],
             "dbUrl": "https://www.ncbi.nlm.nih.gov/gene/%s",
             "category": "Genome annotation databases",
             "statistics": {
-                "reviewedProteinCount": 286694,
-                "unreviewedProteinCount": 13710298
+                "reviewedProteinCount": 284156,
+                "unreviewedProteinCount": 12464457
             }
         },
         {
@@ -1056,27 +1133,14 @@
             "pubMedId": "28875543",
             "doiId": "10.1002/pro.3289",
             "linkType": "Explicit",
-            "server": "https://www.ebi.ac.uk/pdbsum/",
+            "servers": [
+                "https://www.ebi.ac.uk/pdbsum/"
+            ],
             "dbUrl": "https://www.ebi.ac.uk/pdbsum/%s",
             "category": "3D structure databases",
             "statistics": {
-                "reviewedProteinCount": 32674,
-                "unreviewedProteinCount": 20577
-            }
-        },
-        {
-            "name": "The World-2DPAGE database",
-            "id": "DB-0121",
-            "abbrev": "World-2DPAGE",
-            "pubMedId": "18617148",
-            "doiId": "10.1016/j.jprot.2008.02.005",
-            "linkType": "Explicit",
-            "server": "https://world-2dpage.expasy.org/repository/",
-            "dbUrl": "https://world-2dpage.expasy.org/repository/%s",
-            "category": "2D gel databases",
-            "statistics": {
-                "reviewedProteinCount": 923,
-                "unreviewedProteinCount": 305
+                "reviewedProteinCount": 35646,
+                "unreviewedProteinCount": 19665
             }
         },
         {
@@ -1086,12 +1150,14 @@
             "pubMedId": "25514926",
             "doiId": "10.1093/nar/gku1267",
             "linkType": "Explicit",
-            "server": "https://www.phosphosite.org",
+            "servers": [
+                "https://www.phosphosite.org"
+            ],
             "dbUrl": "https://www.phosphosite.org/uniprotAccAction?id=%u",
             "category": "PTM databases",
             "statistics": {
-                "reviewedProteinCount": 39623,
-                "unreviewedProteinCount": 2066
+                "reviewedProteinCount": 42165,
+                "unreviewedProteinCount": 4784
             }
         },
         {
@@ -1101,12 +1167,14 @@
             "pubMedId": "22685450",
             "doiId": "10.3389/fpls.2012.00125",
             "linkType": "Explicit",
-            "server": "http://promex.pph.univie.ac.at/promex/",
+            "servers": [
+                "http://promex.pph.univie.ac.at/promex/"
+            ],
             "dbUrl": "http://promex.pph.univie.ac.at/promex/?ac=%s",
             "category": "Proteomic databases",
             "statistics": {
-                "reviewedProteinCount": 483,
-                "unreviewedProteinCount": 2475
+                "reviewedProteinCount": 489,
+                "unreviewedProteinCount": 2422
             }
         },
         {
@@ -1116,12 +1184,14 @@
             "pubMedId": "27738138",
             "doiId": "10.1093/nar/gkw924",
             "linkType": "Explicit",
-            "server": "http://www.candidagenome.org/",
+            "servers": [
+                "http://www.candidagenome.org/"
+            ],
             "dbUrl": "http://www.candidagenome.org/cgi-bin/locus.pl?dbid=%s",
             "category": "Organism-specific databases",
             "statistics": {
-                "reviewedProteinCount": 2073,
-                "unreviewedProteinCount": 20627
+                "reviewedProteinCount": 2088,
+                "unreviewedProteinCount": 20568
             }
         },
         {
@@ -1131,12 +1201,14 @@
             "pubMedId": "26481362",
             "doiId": "10.1093/nar/gkv1072",
             "linkType": "Explicit",
-            "server": "https://www.bindingdb.org/",
+            "servers": [
+                "https://www.bindingdb.org/"
+            ],
             "dbUrl": "https://www.bindingdb.org/uniprot/%u",
             "category": "Chemistry databases",
             "statistics": {
-                "reviewedProteinCount": 6412,
-                "unreviewedProteinCount": 1014
+                "reviewedProteinCount": 6662,
+                "unreviewedProteinCount": 840
             }
         },
         {
@@ -1146,12 +1218,14 @@
             "pubMedId": "29059324",
             "doiId": "10.1093/nar/gkx936",
             "linkType": "Explicit",
-            "server": "https://www.xenbase.org/",
+            "servers": [
+                "https://www.xenbase.org/"
+            ],
             "dbUrl": "https://www.xenbase.org/gene/showgene.do?method=display&geneId=%s",
             "category": "Organism-specific databases",
             "statistics": {
-                "reviewedProteinCount": 4554,
-                "unreviewedProteinCount": 48893
+                "reviewedProteinCount": 4749,
+                "unreviewedProteinCount": 87385
             }
         },
         {
@@ -1161,71 +1235,82 @@
             "pubMedId": "30395289",
             "doiId": "10.1093/nar/gky1106",
             "linkType": "Explicit",
-            "server": "https://www.ebi.ac.uk/pride",
+            "servers": [
+                "https://www.ebi.ac.uk/pride"
+            ],
             "dbUrl": "https://www.ebi.ac.uk/pride/searchSummary.do?queryTypeSelected=identification%20accession%20number&identificationAccessionNumber=%s",
             "category": "Proteomic databases",
             "statistics": {
-                "reviewedProteinCount": 596,
-                "unreviewedProteinCount": 543
+                "reviewedProteinCount": 637,
+                "unreviewedProteinCount": 445
             }
         },
         {
             "name": "BRENDA Comprehensive Enzyme Information System",
             "id": "DB-0131",
             "abbrev": "BRENDA",
-            "pubMedId": "30395242",
-            "doiId": "10.1093/nar/gky1048",
+            "pubMedId": "33211880",
+            "doiId": "10.1093/nar/gkaa1025",
             "linkType": "Explicit",
-            "server": "https://www.brenda-enzymes.org",
+            "servers": [
+                "https://www.brenda-enzymes.org"
+            ],
             "dbUrl": "https://www.brenda-enzymes.org/enzyme.php?ecno=%s&UniProtAcc=%u&OrganismID=%d",
             "category": "Enzyme and pathway databases",
             "statistics": {
-                "reviewedProteinCount": 18428,
-                "unreviewedProteinCount": 17438
+                "reviewedProteinCount": 18582,
+                "unreviewedProteinCount": 16973
             }
         },
         {
             "name": "Bgee dataBase for Gene Expression Evolution",
             "id": "DB-0133",
             "abbrev": "Bgee",
-            "doiId": "10.1007/978-3-540-69828-9",
+            "pubMedId": "33037820",
+            "doiId": "10.1093/nar/gkaa793",
             "linkType": "Explicit",
-            "server": "https://bgee.org",
-            "dbUrl": "https://bgee.org/gene/%s",
+            "servers": [
+                "https://www.bgee.org"
+            ],
+            "dbUrl": "https://www.bgee.org/gene/%s",
             "category": "Gene expression databases",
             "statistics": {
-                "reviewedProteinCount": 61108,
-                "unreviewedProteinCount": 1403741
+                "reviewedProteinCount": 61664,
+                "unreviewedProteinCount": 1338274
             }
         },
         {
             "name": "Transport Classification Database",
             "id": "DB-0135",
             "abbrev": "TCDB",
-            "pubMedId": "19022853",
-            "doiId": "10.1093/nar/gkv1103",
+            "pubMedId": "33170213",
+            "doiId": "10.1093/nar/gkaa1004",
             "linkType": "Explicit",
-            "server": "http://www.tcdb.org/",
-            "dbUrl": "http://www.tcdb.org/search/result.php?tc=%s",
+            "servers": [
+                "https://www.tcdb.org/"
+            ],
+            "dbUrl": "https://www.tcdb.org/search/result.php?tc=%s",
             "category": "Protein family/group databases",
             "statistics": {
-                "reviewedProteinCount": 8148,
-                "unreviewedProteinCount": 8577
+                "reviewedProteinCount": 8490,
+                "unreviewedProteinCount": 8557
             }
         },
         {
             "name": "Carbohydrate-Active enZymes",
             "id": "DB-0136",
             "abbrev": "CAZy",
-            "pubMedId": "24270786",
-            "doiId": "10.1093/nar/gkt1178",
+            "pubMedId": "34850161",
+            "doiId": "10.1093/nar/gkab1045",
             "linkType": "Explicit",
-            "server": "http://www.cazy.org/",
-            "dbUrl": "http://www.cazy.org/fam/%s.html",
+            "servers": [
+                "http://www.cazy.org/"
+            ],
+            "dbUrl": "http://www.cazy.org/%s.html",
             "category": "Protein family/group databases",
             "statistics": {
-                "reviewedProteinCount": 8638,
-                "unreviewedProteinCount": 118094
+                "reviewedProteinCount": 8693,
+                "unreviewedProteinCount": 113461
             }
         },
         {
@@ -1235,12 +1320,14 @@
             "pubMedId": "33174605",
             "doiId": "10.1093/nar/gkaa1007",
             "linkType": "Explicit",
-            "server": "https://omabrowser.org/",
+            "servers": [
+                "https://omabrowser.org/"
+            ],
             "dbUrl": "https://omabrowser.org/oma/group/%u",
             "category": "Phylogenomic databases",
             "statistics": {
-                "reviewedProteinCount": 429948,
-                "unreviewedProteinCount": 10448532
+                "reviewedProteinCount": 119853,
+                "unreviewedProteinCount": 7548849
             }
         },
         {
@@ -1250,12 +1337,14 @@
             "pubMedId": "30407534",
             "doiId": "10.1093/nar/gky1095",
             "linkType": "Explicit",
-            "server": "https://genome.ucsc.edu/",
+            "servers": [
+                "https://genome.ucsc.edu/"
+            ],
             "dbUrl": "https://genome.ucsc.edu/cgi-bin/hgLinkIn?resource=uniprot&id=%u",
             "category": "Genome annotation databases",
             "statistics": {
-                "reviewedProteinCount": 46290,
-                "unreviewedProteinCount": 88986
+                "reviewedProteinCount": 46461,
+                "unreviewedProteinCount": 88068
             }
         },
         {
@@ -1265,12 +1354,14 @@
             "pubMedId": "33068428",
             "doiId": "10.1093/nar/gkaa891",
             "linkType": "Explicit",
-            "server": "https://ctdbase.org/",
+            "servers": [
+                "https://ctdbase.org/"
+            ],
             "dbUrl": "https://ctdbase.org/detail.go?type=gene&db=GENE&acc=%s",
             "category": "Organism-specific databases",
             "statistics": {
-                "reviewedProteinCount": 75034,
-                "unreviewedProteinCount": 1732290
+                "reviewedProteinCount": 74050,
+                "unreviewedProteinCount": 1900747
             }
         },
         {
@@ -1280,12 +1371,14 @@
             "pubMedId": "30476243",
             "doiId": "10.1093/nar/gky1131",
             "linkType": "Explicit",
-            "server": "https://string-db.org/",
+            "servers": [
+                "https://string-db.org/"
+            ],
             "dbUrl": "https://string-db.org/network/%s",
             "category": "Protein-protein interaction databases",
             "statistics": {
-                "reviewedProteinCount": 365934,
-                "unreviewedProteinCount": 33404012
+                "reviewedProteinCount": 335982,
+                "unreviewedProteinCount": 35240158
             }
         },
         {
@@ -1295,27 +1388,31 @@
             "pubMedId": "30395283",
             "doiId": "10.1093/nar/gky1053",
             "linkType": "Explicit",
-            "server": "https://www.orthodb.org",
-            "dbUrl": "https://www.orthodb.org/?query=%u",
+            "servers": [
+                "https://www.orthodb.org"
+            ],
+            "dbUrl": "https://www.orthodb.org/?gene=%u",
             "category": "Phylogenomic databases",
             "statistics": {
-                "reviewedProteinCount": 247455,
-                "unreviewedProteinCount": 18038240
+                "reviewedProteinCount": 275597,
+                "unreviewedProteinCount": 50882237
             }
         },
         {
             "name": "Database for complete collections of gene phylogenies",
             "id": "DB-0144",
             "abbrev": "PhylomeDB",
-            "pubMedId": "24275491",
-            "doiId": "10.1093/nar/gkt1177",
+            "pubMedId": "34718760",
+            "doiId": "10.1093/nar/gkab966",
             "linkType": "Explicit",
-            "server": "http://phylomedb.org/",
+            "servers": [
+                "http://phylomedb.org/"
+            ],
             "dbUrl": "http://phylomedb.org/search_phylome/?seqid=%u",
             "category": "Phylogenomic databases",
             "statistics": {
-                "reviewedProteinCount": 115350,
-                "unreviewedProteinCount": 595336
+                "reviewedProteinCount": 115608,
+                "unreviewedProteinCount": 577525
             }
         },
         {
@@ -1325,27 +1422,31 @@
             "pubMedId": "29069336",
             "doiId": "10.1093/bioinformatics/btx661",
             "linkType": "Explicit",
-            "server": "http://www.arachnoserver.org",
+            "servers": [
+                "http://www.arachnoserver.org"
+            ],
             "dbUrl": "http://www.arachnoserver.org",
             "category": "Organism-specific databases",
             "statistics": {
-                "reviewedProteinCount": 1154,
-                "unreviewedProteinCount": 197
+                "reviewedProteinCount": 1138,
+                "unreviewedProteinCount": 196
             }
         },
         {
             "name": "InParanoid",
             "id": "DB-0146",
             "abbrev": "InParanoid",
-            "pubMedId": "18055500",
-            "doiId": "10.1093/nar/gkm1020",
+            "pubMedId": "36764355",
+            "doiId": "10.1016/j.jmb.2023.168001",
             "linkType": "Explicit",
-            "server": "https://inparanoid.sbc.su.se/",
-            "dbUrl": "https://inparanoid.sbc.su.se/cgi-bin/gene_search.cgi?id=%u",
+            "servers": [
+                "https://inparanoid.sbc.su.se/"
+            ],
+            "dbUrl": "https://inparanoidb.sbc.su.se/orthologs/%u&1/",
             "category": "Phylogenomic databases",
             "statistics": {
-                "reviewedProteinCount": 141737,
-                "unreviewedProteinCount": 1984515
+                "reviewedProteinCount": 163971,
+                "unreviewedProteinCount": 7009819
             }
         },
         {
@@ -1355,12 +1456,14 @@
             "pubMedId": "31598706",
             "doiId": "10.1093/nar/gkz890",
             "linkType": "Explicit",
-            "server": "https://bacteria.ensembl.org/",
+            "servers": [
+                "https://bacteria.ensembl.org/"
+            ],
             "dbUrl": "https://www.ensemblgenomes.org/id/%s",
             "category": "Genome annotation databases",
             "statistics": {
-                "reviewedProteinCount": 298212,
-                "unreviewedProteinCount": 72420773
+                "reviewedProteinCount": 55295,
+                "unreviewedProteinCount": 260226
             }
         },
         {
@@ -1370,12 +1473,14 @@
             "pubMedId": "31598706",
             "doiId": "10.1093/nar/gkz890",
             "linkType": "Explicit",
-            "server": "https://fungi.ensembl.org/",
+            "servers": [
+                "https://fungi.ensembl.org/"
+            ],
             "dbUrl": "https://www.ensemblgenomes.org/id/%s",
             "category": "Genome annotation databases",
             "statistics": {
-                "reviewedProteinCount": 22496,
-                "unreviewedProteinCount": 778619
+                "reviewedProteinCount": 22793,
+                "unreviewedProteinCount": 752313
             }
         },
         {
@@ -1385,12 +1490,14 @@
             "pubMedId": "31598706",
             "doiId": "10.1093/nar/gkz890",
             "linkType": "Explicit",
-            "server": "https://metazoa.ensembl.org/",
+            "servers": [
+                "https://metazoa.ensembl.org/"
+            ],
             "dbUrl": "https://www.ensemblgenomes.org/id/%s",
             "category": "Genome annotation databases",
             "statistics": {
-                "reviewedProteinCount": 10730,
-                "unreviewedProteinCount": 1963206
+                "reviewedProteinCount": 11638,
+                "unreviewedProteinCount": 2361033
             }
         },
         {
@@ -1400,12 +1507,14 @@
             "pubMedId": "31598706",
             "doiId": "10.1093/nar/gkz890",
             "linkType": "Explicit",
-            "server": "https://plants.ensembl.org/",
+            "servers": [
+                "https://plants.ensembl.org/"
+            ],
             "dbUrl": "https://www.ensemblgenomes.org/id/%s",
             "category": "Genome annotation databases",
             "statistics": {
-                "reviewedProteinCount": 21919,
-                "unreviewedProteinCount": 3168920
+                "reviewedProteinCount": 22485,
+                "unreviewedProteinCount": 3223743
             }
         },
         {
@@ -1415,27 +1524,31 @@
             "pubMedId": "31598706",
             "doiId": "10.1093/nar/gkz890",
             "linkType": "Explicit",
-            "server": "https://protists.ensembl.org/",
+            "servers": [
+                "https://protists.ensembl.org/"
+            ],
             "dbUrl": "https://www.ensemblgenomes.org/id/%s",
             "category": "Genome annotation databases",
             "statistics": {
-                "reviewedProteinCount": 4977,
-                "unreviewedProteinCount": 1584452
+                "reviewedProteinCount": 5146,
+                "unreviewedProteinCount": 1580608
             }
         },
         {
             "name": "evolutionary genealogy of genes",
             "id": "DB-0152",
             "abbrev": "eggNOG",
-            "pubMedId": "30418610",
-            "doiId": "10.1093/nar/gky1085",
+            "pubMedId": "36399505",
+            "doiId": "10.1093/nar/gkac1022",
             "linkType": "Explicit",
-            "server": "http://eggnogdb.embl.de/",
-            "dbUrl": "http://eggnogdb.embl.de/#/app/results?seqid=%u&target_nogs=%s",
+            "servers": [
+                "http://eggnogdb.embl.de/"
+            ],
+            "dbUrl": "http://eggnog.embl.de/search/ogs/%s",
             "category": "Phylogenomic databases",
             "statistics": {
-                "reviewedProteinCount": 332578,
-                "unreviewedProteinCount": 12620719
+                "reviewedProteinCount": 333684,
+                "unreviewedProteinCount": 11960498
             }
         },
         {
@@ -1445,38 +1558,44 @@
             "pubMedId": "27903906",
             "doiId": "10.1093/nar/gkw1105",
             "linkType": "Explicit",
-            "server": "https://veupathdb.org/veupathdb/app",
+            "servers": [
+                "https://veupathdb.org/veupathdb/app"
+            ],
             "dbUrl": "https://www.veupathdb.org/gene/%s",
             "category": "Organism-specific databases",
             "statistics": {
-                "reviewedProteinCount": 73495,
-                "unreviewedProteinCount": 4621561
+                "reviewedProteinCount": 75305,
+                "unreviewedProteinCount": 4961262
             }
         },
         {
             "name": "Superfamily database of structural and functional annotation",
             "id": "DB-0155",
             "abbrev": "SUPFAM",
-            "pubMedId": "11697912",
-            "doiId": "10.1006/jmbi.2001.5080",
+            "pubMedId": "30445555",
+            "doiId": "10.1093/nar/gky1130",
             "linkType": "Explicit",
-            "server": "https://supfam.org",
+            "servers": [
+                "https://supfam.org"
+            ],
             "dbUrl": "https://supfam.org/SUPERFAMILY/cgi-bin/scop.cgi?ipid=%s",
             "category": "Family and domain databases",
             "statistics": {
-                "reviewedProteinCount": 400136,
-                "unreviewedProteinCount": 126757608
+                "reviewedProteinCount": 459866,
+                "unreviewedProteinCount": 152817668
             }
         },
         {
             "name": "ConoServer",
             "id": "DB-0156",
             "abbrev": "ConoServer",
-            "pubMedId": "18065428",
-            "doiId": "10.1093/bioinformatics/btm596",
+            "pubMedId": "22058133",
+            "doiId": "10.1093/nar/gkr886",
             "linkType": "Explicit",
-            "server": "http://www.conoserver.org/",
-            "dbUrl": "http://www.conoserver.org/?page=card&table=protein&id=%s",
+            "servers": [
+                "https://www.conoserver.org/"
+            ],
+            "dbUrl": "https://www.conoserver.org/?page=card&table=protein&id=%s",
             "category": "Organism-specific databases",
             "statistics": {
                 "reviewedProteinCount": 879,
@@ -1490,12 +1609,14 @@
             "pubMedId": "22096227",
             "doiId": "10.1093/nar/gkr930",
             "linkType": "Explicit",
-            "server": "https://mint.bio.uniroma2.it/",
+            "servers": [
+                "https://mint.bio.uniroma2.it/"
+            ],
             "dbUrl": "https://mint.bio.uniroma2.it/cgi-bin/protein.py?id=%u",
             "category": "Protein-protein interaction databases",
             "statistics": {
-                "reviewedProteinCount": 23443,
-                "unreviewedProteinCount": 3705
+                "reviewedProteinCount": 23915,
+                "unreviewedProteinCount": 3249
             }
         },
         {
@@ -1505,26 +1626,30 @@
             "pubMedId": "19671381",
             "doiId": "10.1007/s11882-009-0055-9",
             "linkType": "Explicit",
-            "server": "http://www.allergome.org/",
-            "dbUrl": "http://www.allergome.org/script/dettaglio.php?id_molecule=%s",
+            "servers": [
+                "https://www.allergome.org/"
+            ],
+            "dbUrl": "https://www.allergome.org/script/dettaglio.php?id_molecule=%s",
             "category": "Protein family/group databases",
             "statistics": {
-                "reviewedProteinCount": 1308,
-                "unreviewedProteinCount": 3107
+                "reviewedProteinCount": 1312,
+                "unreviewedProteinCount": 3091
             }
         },
         {
             "name": "neXtProt; the human protein knowledge platform",
             "id": "DB-0161",
             "abbrev": "neXtProt",
-            "pubMedId": "27899619",
-            "doiId": "10.1093/nar/gkw1062",
+            "pubMedId": "31724716",
+            "doiId": "10.1093/nar/gkz995",
             "linkType": "Explicit",
-            "server": "https://www.nextprot.org/",
+            "servers": [
+                "https://www.nextprot.org/"
+            ],
             "dbUrl": "https://www.nextprot.org/entry/%s",
             "category": "Organism-specific databases",
             "statistics": {
-                "reviewedProteinCount": 20334,
+                "reviewedProteinCount": 20321,
                 "unreviewedProteinCount": 0
             }
         },
@@ -1535,12 +1660,14 @@
             "pubMedId": "26896847",
             "doiId": "10.1093/database/bav096",
             "linkType": "Explicit",
-            "server": "https://ensemblgenomes.org",
+            "servers": [
+                "https://ensemblgenomes.org"
+            ],
             "dbUrl": "https://www.ensemblgenomes.org/id-genetree/%s",
             "category": "Phylogenomic databases",
             "statistics": {
-                "reviewedProteinCount": 58834,
-                "unreviewedProteinCount": 5978650
+                "reviewedProteinCount": 56243,
+                "unreviewedProteinCount": 6021217
             }
         },
         {
@@ -1550,12 +1677,14 @@
             "pubMedId": "31667520",
             "doiId": "10.1093/nar/gkz943",
             "linkType": "Explicit",
-            "server": "https://patricbrc.org/",
+            "servers": [
+                "https://patricbrc.org/"
+            ],
             "dbUrl": "https://www.patricbrc.org/view/Feature/%s",
             "category": "Genome annotation databases",
             "statistics": {
-                "reviewedProteinCount": 92805,
-                "unreviewedProteinCount": 13537972
+                "reviewedProteinCount": 93057,
+                "unreviewedProteinCount": 11031459
             }
         },
         {
@@ -1565,11 +1694,13 @@
             "pubMedId": "20685956",
             "doiId": "10.1093/bioinformatics/btq447",
             "linkType": "Explicit",
-            "server": "https://bioinf.umbc.edu/dmdm/",
+            "servers": [
+                "https://bioinf.umbc.edu/dmdm/"
+            ],
             "dbUrl": "https://bioinf.umbc.edu/dmdm/gene_prot_page.php?search_type=protein&id=%s",
             "category": "Genetic variation databases",
             "statistics": {
-                "reviewedProteinCount": 16173,
+                "reviewedProteinCount": 16170,
                 "unreviewedProteinCount": 0
             }
         },
@@ -1577,15 +1708,17 @@
             "name": "The DNASU plasmid repository",
             "id": "DB-0167",
             "abbrev": "DNASU",
-            "pubMedId": "21360289",
-            "doiId": "10.1007/s10969-011-9100-8",
+            "pubMedId": "24225319",
+            "doiId": "10.1093/nar/gkt1060",
             "linkType": "Explicit",
-            "server": "https://dnasu.org/DNASU/",
+            "servers": [
+                "https://dnasu.org/DNASU/"
+            ],
             "dbUrl": "https://dnasu.org/DNASU/AdvancedSearchOptions.do?geneName=%s",
             "category": "Protocols and materials databases",
             "statistics": {
-                "reviewedProteinCount": 48166,
-                "unreviewedProteinCount": 94943
+                "reviewedProteinCount": 48331,
+                "unreviewedProteinCount": 90532
             }
         },
         {
@@ -1595,12 +1728,15 @@
             "pubMedId": "22183528",
             "doiId": "10.1007/978-1-61779-465-0_3",
             "linkType": "Explicit",
-            "server": "http://lichtargelab.org/software/ETserver",
+            "servers": [
+                "http://lichtargelab.org/software/ETserver",
+                "http://mammoth.bcm.tmc.edu/ETserver.html"
+            ],
             "dbUrl": "http://mammoth.bcm.tmc.edu/cgi-bin/report_maker_ls/uniprotTraceServerResults.pl?identifier=%s",
             "category": "Miscellaneous databases",
             "statistics": {
-                "reviewedProteinCount": 16750,
-                "unreviewedProteinCount": 5894
+                "reviewedProteinCount": 16792,
+                "unreviewedProteinCount": 6197
             }
         },
         {
@@ -1610,12 +1746,14 @@
             "pubMedId": "23193271",
             "doiId": "10.1093/nar/gks1170",
             "linkType": "Explicit",
-            "server": "http://genomernai.dkfz.de/",
+            "servers": [
+                "http://genomernai.dkfz.de/"
+            ],
             "dbUrl": "http://genomernai.org/genedetails/%s",
             "category": "Miscellaneous databases",
             "statistics": {
-                "reviewedProteinCount": 22238,
-                "unreviewedProteinCount": 31520
+                "reviewedProteinCount": 22314,
+                "unreviewedProteinCount": 29257
             }
         },
         {
@@ -1625,22 +1763,26 @@
             "pubMedId": "22102589",
             "doiId": "10.1093/nar/gkr1023",
             "linkType": "Explicit",
-            "server": "http://www.unipathway.org",
+            "servers": [
+                "http://www.unipathway.org"
+            ],
             "dbUrl": "http://www.unipathway.org?upid=%s&entryac=%u",
             "category": "Enzyme and pathway databases",
             "statistics": {
-                "reviewedProteinCount": 126008,
-                "unreviewedProteinCount": 14155656
+                "reviewedProteinCount": 126160,
+                "unreviewedProteinCount": 12436437
             }
         },
         {
             "name": "Protein Data Bank RCSB",
             "id": "DB-0171",
             "abbrev": "RCSB-PDB",
-            "pubMedId": "16381872",
-            "doiId": "10.1093/nar/gkj120",
+            "pubMedId": "33211854",
+            "doiId": "10.1093/nar/gkaa1038",
             "linkType": "Implicit",
-            "server": "https://www.rcsb.org/",
+            "servers": [
+                "https://www.rcsb.org/"
+            ],
             "dbUrl": "https://www.rcsb.org/structure/%s",
             "category": "3D structure databases",
             "statistics": {
@@ -1652,10 +1794,12 @@
             "name": "Protein Data Bank Japan",
             "id": "DB-0172",
             "abbrev": "PDBj",
-            "pubMedId": "21976737",
-            "doiId": "10.1093/nar/gkr811",
+            "pubMedId": "34664328",
+            "doiId": "10.1002/pro.4211",
             "linkType": "Implicit",
-            "server": "https://pdbj.org/",
+            "servers": [
+                "https://pdbj.org/"
+            ],
             "dbUrl": "https://pdbj.org/mine/summary/%s",
             "category": "3D structure databases",
             "statistics": {
@@ -1667,30 +1811,34 @@
             "name": "PaxDb, a database of protein abundance averages across all three domains of life",
             "id": "DB-0173",
             "abbrev": "PaxDb",
-            "pubMedId": "22535208",
-            "doiId": "10.1074/mcp.O111.014704",
+            "pubMedId": "25656970",
+            "doiId": "10.1002/pmic.201400441",
             "linkType": "Explicit",
-            "server": "https://pax-db.org",
-            "dbUrl": "https://pax-db.org/#!protein/%s",
+            "servers": [
+                "https://pax-db.org"
+            ],
+            "dbUrl": "https://pax-db.org/uniprot_redirect/%s",
             "category": "Proteomic databases",
             "statistics": {
-                "reviewedProteinCount": 126378,
-                "unreviewedProteinCount": 221879
+                "reviewedProteinCount": 153655,
+                "unreviewedProteinCount": 1408524
             }
         },
         {
             "name": "ChEMBL database of bioactive drug-like small molecules",
             "id": "DB-0174",
             "abbrev": "ChEMBL",
-            "pubMedId": "21948594",
-            "doiId": "10.1093/nar/gkr777",
+            "pubMedId": "30398643",
+            "doiId": "10.1093/nar/gky1075",
             "linkType": "Explicit",
-            "server": "https://www.ebi.ac.uk/chembldb",
-            "dbUrl": "https://www.ebi.ac.uk/chembldb/target/inspect/%s",
+            "servers": [
+                "https://www.ebi.ac.uk/chembl"
+            ],
+            "dbUrl": "https://www.ebi.ac.uk/chembl/target/inspect/%s",
             "category": "Chemistry databases",
             "statistics": {
-                "reviewedProteinCount": 8622,
-                "unreviewedProteinCount": 1143
+                "reviewedProteinCount": 8835,
+                "unreviewedProteinCount": 1117
             }
         },
         {
@@ -1700,12 +1848,14 @@
             "pubMedId": "25754864",
             "doiId": "10.1093/database/bav008",
             "linkType": "Explicit",
-            "server": "https://clae.fungalgenomics.ca/",
+            "servers": [
+                "https://clae.fungalgenomics.ca/"
+            ],
             "dbUrl": "https://clae.fungalgenomics.ca/enzyme/%s",
             "category": "Protein family/group databases",
             "statistics": {
-                "reviewedProteinCount": 356,
-                "unreviewedProteinCount": 444
+                "reviewedProteinCount": 357,
+                "unreviewedProteinCount": 443
             }
         },
         {
@@ -1715,52 +1865,60 @@
             "pubMedId": "31747015",
             "doiId": "10.1093/nar/gkz1025",
             "linkType": "Explicit",
-            "server": "http://chitars.md.biu.ac.il/",
+            "servers": [
+                "https://chitars.md.biu.ac.il/"
+            ],
             "dbUrl": "http://biosrv.org/chmb/search?GEN=%s",
             "category": "Miscellaneous databases",
             "statistics": {
-                "reviewedProteinCount": 29665,
-                "unreviewedProteinCount": 171611
+                "reviewedProteinCount": 29730,
+                "unreviewedProteinCount": 167492
             }
         },
         {
             "name": "SABIO-RK",
             "id": "DB-0177",
             "abbrev": "SABIO-RK",
-            "pubMedId": "22102587",
-            "doiId": "10.1093/nar/gkr1046",
+            "pubMedId": "29092055",
+            "doiId": "10.1093/nar/gkx1065",
             "linkType": "Explicit",
-            "server": "https://sabiork.h-its.org/",
-            "dbUrl": "http://sabiork.h-its.org/newSearch?q=UniProtKB_AC:%u",
+            "servers": [
+                "https://sabiork.h-its.org/"
+            ],
+            "dbUrl": "https://sabiork.h-its.org/newSearch?q=UniProtKB_AC:%u",
             "category": "Enzyme and pathway databases",
             "statistics": {
-                "reviewedProteinCount": 5321,
-                "unreviewedProteinCount": 822
+                "reviewedProteinCount": 5756,
+                "unreviewedProteinCount": 872
             }
         },
         {
             "name": "SignaLink",
             "id": "DB-0179",
             "abbrev": "SignaLink",
-            "pubMedId": "20542890",
-            "doiId": "10.1093/bioinformatics/btq310",
+            "pubMedId": "34634810",
+            "doiId": "10.1093/nar/gkab909",
             "linkType": "Explicit",
-            "server": "http://signalink.org/",
-            "dbUrl": "http://signalink.org/protein/%u",
+            "servers": [
+                "http://signalink.org/"
+            ],
+            "dbUrl": "http://signalink.org/node/%u",
             "category": "Enzyme and pathway databases",
             "statistics": {
-                "reviewedProteinCount": 19963,
-                "unreviewedProteinCount": 72
+                "reviewedProteinCount": 19957,
+                "unreviewedProteinCount": 29
             }
         },
         {
             "name": "The Gene Wiki collection of pages on human genes and proteins",
             "id": "DB-0180",
             "abbrev": "GeneWiki",
-            "pubMedId": "18613750",
-            "doiId": "10.1371/journal.pbio.0060175",
+            "pubMedId": "22075991",
+            "doiId": "10.1093/nar/gkr925",
             "linkType": "Explicit",
-            "server": "https://en.wikipedia.org/wiki/Portal:Gene_Wiki",
+            "servers": [
+                "https://en.wikipedia.org/wiki/Portal:Gene_Wiki"
+            ],
             "dbUrl": "https://en.wikipedia.org/wiki/%s",
             "category": "Miscellaneous databases",
             "statistics": {
@@ -1775,37 +1933,43 @@
             "pubMedId": "24270789",
             "doiId": "10.1093/nar/gkt1173",
             "linkType": "Explicit",
-            "server": "https://proconsortium.org/",
+            "servers": [
+                "https://proconsortium.org/"
+            ],
             "dbUrl": "https://proconsortium.org/app/entry/%s",
             "category": "Miscellaneous databases",
             "statistics": {
-                "reviewedProteinCount": 97270,
-                "unreviewedProteinCount": 2281
+                "reviewedProteinCount": 98138,
+                "unreviewedProteinCount": 2070
             }
         },
         {
             "name": "IUPHAR/BPS Guide to PHARMACOLOGY",
             "id": "DB-0182",
             "abbrev": "GuidetoPHARMACOLOGY",
-            "pubMedId": "23003568",
-            "doiId": "10.1111/j.1476-5381.2012.02141.x",
+            "pubMedId": "34718737",
+            "doiId": "10.1093/nar/gkab1010",
             "linkType": "Explicit",
-            "server": "https://www.guidetopharmacology.org",
+            "servers": [
+                "https://www.guidetopharmacology.org"
+            ],
             "dbUrl": "https://www.guidetopharmacology.org/GRAC/ObjectDisplayForward?objectId=%s",
             "category": "Chemistry databases",
             "statistics": {
-                "reviewedProteinCount": 2120,
-                "unreviewedProteinCount": 21
+                "reviewedProteinCount": 2228,
+                "unreviewedProteinCount": 20
             }
         },
         {
             "name": "MobiDB",
             "id": "DB-0183",
             "abbrev": "MobiDB",
-            "pubMedId": "29136219",
-            "doiId": "10.1093/bioinformatics/bts327",
+            "pubMedId": "36416266",
+            "doiId": "10.1093/nar/gkac1065",
             "linkType": "Implicit",
-            "server": "https://mobidb.bio.unipd.it/",
+            "servers": [
+                "https://mobidb.bio.unipd.it/"
+            ],
             "dbUrl": "https://mobidb.bio.unipd.it/entries/%u",
             "category": "Family and domain databases",
             "statistics": {
@@ -1817,14 +1981,16 @@
             "name": "The Biological General Repository for Interaction Datasets (BioGRID)",
             "id": "DB-0184",
             "abbrev": "BioGRID",
-            "pubMedId": "21071413",
-            "doiId": "10.1093/nar/gkq1116",
+            "pubMedId": "33070389",
+            "doiId": "10.1002/pro.3978",
             "linkType": "Explicit",
-            "server": "https://thebiogrid.org/",
+            "servers": [
+                "https://thebiogrid.org/"
+            ],
             "dbUrl": "https://thebiogrid.org/%s",
             "category": "Protein-protein interaction databases",
             "statistics": {
-                "reviewedProteinCount": 59034,
+                "reviewedProteinCount": 59573,
                 "unreviewedProteinCount": 0
             }
         },
@@ -1835,12 +2001,14 @@
             "pubMedId": "24194607",
             "doiId": "10.1093/nar/gkt1055",
             "linkType": "Explicit",
-            "server": "http://www.treefam.org",
+            "servers": [
+                "http://www.treefam.org"
+            ],
             "dbUrl": "http://www.treefam.org/family/%s",
             "category": "Phylogenomic databases",
             "statistics": {
-                "reviewedProteinCount": 45999,
-                "unreviewedProteinCount": 487305
+                "reviewedProteinCount": 46243,
+                "unreviewedProteinCount": 471052
             }
         },
         {
@@ -1850,26 +2018,30 @@
             "pubMedId": "22301388",
             "doiId": "10.1074/mcp.M111.014068",
             "linkType": "Explicit",
-            "server": "http://maxqb.biochem.mpg.de/mxdb/",
+            "servers": [
+                "http://maxqb.biochem.mpg.de/mxdb/"
+            ],
             "dbUrl": "http://maxqb.biochem.mpg.de/mxdb/protein/show/%u",
             "category": "Proteomic databases",
             "statistics": {
-                "reviewedProteinCount": 33698,
-                "unreviewedProteinCount": 37823
+                "reviewedProteinCount": 33727,
+                "unreviewedProteinCount": 37597
             }
         },
         {
             "name": "The Consensus CDS (CCDS) project",
             "id": "DB-0187",
             "abbrev": "CCDS",
-            "pubMedId": "19498102",
-            "doiId": "10.1101/gr.080531.108",
+            "pubMedId": "29126148",
+            "doiId": "10.1093/nar/gkx1031",
             "linkType": "Explicit",
-            "server": "https://www.ncbi.nlm.nih.gov/CCDS",
+            "servers": [
+                "https://www.ncbi.nlm.nih.gov/CCDS"
+            ],
             "dbUrl": "https://www.ncbi.nlm.nih.gov/CCDS/CcdsBrowse.cgi?REQUEST=CCDS&GO=MainBrowse&DATA=%s",
             "category": "Sequence databases",
             "statistics": {
-                "reviewedProteinCount": 34376,
+                "reviewedProteinCount": 34772,
                 "unreviewedProteinCount": 0
             }
         },
@@ -1878,11 +2050,13 @@
             "id": "DB-0188",
             "abbrev": "GeneReviews",
             "linkType": "Explicit",
-            "server": "https://www.ncbi.nlm.nih.gov/books/NBK1116",
+            "servers": [
+                "https://www.ncbi.nlm.nih.gov/books/NBK1116"
+            ],
             "dbUrl": "https://www.ncbi.nlm.nih.gov/books/NBK1116/?term=%s",
             "category": "Organism-specific databases",
             "statistics": {
-                "reviewedProteinCount": 1544,
+                "reviewedProteinCount": 1605,
                 "unreviewedProteinCount": 0
             }
         },
@@ -1890,15 +2064,17 @@
             "name": "MoonProt database of moonlighting proteins",
             "id": "DB-0189",
             "abbrev": "MoonProt",
-            "pubMedId": "10087914",
-            "doiId": "10.1016/S0968-0004(98)01335-8",
+            "pubMedId": "29126295",
+            "doiId": "10.1093/nar/gkx1043",
             "linkType": "Explicit",
-            "server": "http://www.moonlightingproteins.org/",
+            "servers": [
+                "http://www.moonlightingproteins.org/"
+            ],
             "dbUrl": "http://www.moonlightingproteins.org/proteins/?q=%u",
             "category": "Protein family/group databases",
             "statistics": {
-                "reviewedProteinCount": 281,
-                "unreviewedProteinCount": 50
+                "reviewedProteinCount": 368,
+                "unreviewedProteinCount": 64
             }
         },
         {
@@ -1908,8 +2084,10 @@
             "pubMedId": "31836896",
             "doiId": "doi",
             "linkType": "Explicit",
-            "server": "http://depod.bioss.uni-freiburg.de",
-            "dbUrl": "http://depod.bioss.uni-freiburg.de/showp.php?name=%s",
+            "servers": [
+                "https://depod.bioss.uni-freiburg.de"
+            ],
+            "dbUrl": "https://depod.bioss.uni-freiburg.de/showp.php?name=%s",
             "category": "PTM databases",
             "statistics": {
                 "reviewedProteinCount": 254,
@@ -1923,27 +2101,31 @@
             "pubMedId": "22102590",
             "doiId": "10.1093/nar/gkr981",
             "linkType": "Explicit",
-            "server": "https://www.uniprot.org/proteomes",
+            "servers": [
+                "https://www.uniprot.org/proteomes"
+            ],
             "dbUrl": "https://www.uniprot.org/proteomes/%s",
             "category": "Miscellaneous databases",
             "statistics": {
-                "reviewedProteinCount": 460992,
-                "unreviewedProteinCount": 200906563
+                "reviewedProteinCount": 463174,
+                "unreviewedProteinCount": 218923247
             }
         },
         {
             "name": "BioMuta curated single-nucleotide variation and disease association database",
             "id": "DB-0192",
             "abbrev": "BioMuta",
-            "pubMedId": "24667251",
-            "doiId": "10.1093/database/bau022",
+            "pubMedId": "30053270",
+            "doiId": "10.1093/nar/gkx907",
             "linkType": "Explicit",
-            "server": "https://hive.biochemistry.gwu.edu/tools/biomuta/",
+            "servers": [
+                "https://hive.biochemistry.gwu.edu/tools/biomuta/"
+            ],
             "dbUrl": "https://hive.biochemistry.gwu.edu/tools/biomuta/biomuta.php?gene=%s",
             "category": "Genetic variation databases",
             "statistics": {
-                "reviewedProteinCount": 20272,
-                "unreviewedProteinCount": 942
+                "reviewedProteinCount": 20282,
+                "unreviewedProteinCount": 901
             }
         },
         {
@@ -1953,57 +2135,48 @@
             "pubMedId": "23193256",
             "doiId": "10.1093/nar/gks1154",
             "linkType": "Explicit",
-            "server": "https://bioweb.supagro.inra.fr/ESTHER/general?what=index",
+            "servers": [
+                "https://bioweb.supagro.inra.fr/ESTHER/general?what=index"
+            ],
             "dbUrl": "https://bioweb.supagro.inra.fr/ESTHER/gene_locus?name=%s&class=Gene_locus",
             "category": "Protein family/group databases",
             "statistics": {
-                "reviewedProteinCount": 2970,
-                "unreviewedProteinCount": 84340
-            }
-        },
-        {
-            "name": "Genevisible search portal to normalized and curated expression data from Genevestigator",
-            "id": "DB-0194",
-            "abbrev": "Genevisible",
-            "pubMedId": "16896229",
-            "doiId": "10.1104/pp.104.900198",
-            "linkType": "Explicit",
-            "server": "https://genevisible.com/search",
-            "dbUrl": "https://genevisible.com/tissues/%d/UniProt/%u",
-            "category": "Gene expression databases",
-            "statistics": {
-                "reviewedProteinCount": 55265,
-                "unreviewedProteinCount": 15359
+                "reviewedProteinCount": 3006,
+                "unreviewedProteinCount": 77906
             }
         },
         {
             "name": "WormBase ParaSite",
             "id": "DB-0195",
             "abbrev": "WBParaSite",
-            "pubMedId": "24194605",
-            "doiId": "10.1093/nar/gkt1063",
+            "pubMedId": "26578572",
+            "doiId": "10.1093/nar/gkv1217",
             "linkType": "Explicit",
-            "server": "https://parasite.wormbase.org",
+            "servers": [
+                "https://parasite.wormbase.org"
+            ],
             "dbUrl": "https://parasite.wormbase.org/id/%s",
             "category": "Genome annotation databases",
             "statistics": {
-                "reviewedProteinCount": 47,
-                "unreviewedProteinCount": 937736
+                "reviewedProteinCount": 49,
+                "unreviewedProteinCount": 1384601
             }
         },
         {
             "name": "MalaCards human disease database",
             "id": "DB-0196",
             "abbrev": "MalaCards",
-            "pubMedId": "25199789",
-            "doiId": "10.1002/0471250953.bi0124s47",
+            "pubMedId": "27899610",
+            "doiId": "10.1093/nar/gkw1012",
             "linkType": "Explicit",
-            "server": "https://www.malacards.org",
+            "servers": [
+                "https://www.malacards.org"
+            ],
             "dbUrl": "https://www.malacards.org/search/eliteGene/%s",
             "category": "Organism-specific databases",
             "statistics": {
-                "reviewedProteinCount": 5358,
-                "unreviewedProteinCount": 94
+                "reviewedProteinCount": 5655,
+                "unreviewedProteinCount": 99
             }
         },
         {
@@ -2013,7 +2186,9 @@
             "pubMedId": "25943471",
             "doiId": "10.1093/bioinformatics/btv285",
             "linkType": "Explicit",
-            "server": "https://www.swisslipids.org",
+            "servers": [
+                "https://www.swisslipids.org"
+            ],
             "dbUrl": "https://www.swisslipids.org/#/entity/%s/",
             "category": "Chemistry databases",
             "statistics": {
@@ -2028,27 +2203,31 @@
             "pubMedId": "24234444",
             "doiId": "10.1093/nar/gkt1087",
             "linkType": "Explicit",
-            "server": "http://www.collectf.org/",
+            "servers": [
+                "http://www.collectf.org/"
+            ],
             "dbUrl": "http://www.collectf.org/%s",
             "category": "Gene expression databases",
             "statistics": {
                 "reviewedProteinCount": 137,
-                "unreviewedProteinCount": 180
+                "unreviewedProteinCount": 175
             }
         },
         {
             "name": "iPTMnet integrated resource for PTMs in systems biology context",
             "id": "DB-0200",
             "abbrev": "iPTMnet",
-            "pubMedId": "23749465",
-            "doiId": "10.1093/database/bat038",
+            "pubMedId": "29145615",
+            "doiId": "10.1093/nar/gkx1104",
             "linkType": "Explicit",
-            "server": "https://research.bioinformatics.udel.edu/iptmnet/",
+            "servers": [
+                "https://research.bioinformatics.udel.edu/iptmnet/"
+            ],
             "dbUrl": "http://research.bioinformatics.udel.edu/iptmnet/entry/%s",
             "category": "PTM databases",
             "statistics": {
-                "reviewedProteinCount": 52691,
-                "unreviewedProteinCount": 5016
+                "reviewedProteinCount": 54159,
+                "unreviewedProteinCount": 5040
             }
         },
         {
@@ -2058,12 +2237,14 @@
             "pubMedId": "26339475",
             "doiId": "10.12688/f1000research.6464.1",
             "linkType": "Explicit",
-            "server": "https://swisspalm.org",
+            "servers": [
+                "https://swisspalm.org"
+            ],
             "dbUrl": "https://swisspalm.org/proteins/%u",
             "category": "PTM databases",
             "statistics": {
-                "reviewedProteinCount": 13317,
-                "unreviewedProteinCount": 5321
+                "reviewedProteinCount": 13354,
+                "unreviewedProteinCount": 4638
             }
         },
         {
@@ -2073,12 +2254,14 @@
             "pubMedId": "24644084",
             "doiId": "10.1002/pmic.201300438",
             "linkType": "Explicit",
-            "server": "http://repository.topdownproteomics.org/",
+            "servers": [
+                "http://repository.topdownproteomics.org/"
+            ],
             "dbUrl": "http://repository.topdownproteomics.org/Proteoforms?query=%u",
             "category": "Proteomic databases",
             "statistics": {
-                "reviewedProteinCount": 2956,
-                "unreviewedProteinCount": 270
+                "reviewedProteinCount": 2957,
+                "unreviewedProteinCount": 268
             }
         },
         {
@@ -2088,26 +2271,30 @@
             "pubMedId": "28981707",
             "doiId": "10.1093/nar/gkx807",
             "linkType": "Explicit",
-            "server": "https://www.peptracker.com/epd/analytics/",
+            "servers": [
+                "https://www.peptracker.com/epd/analytics/"
+            ],
             "dbUrl": "https://www.peptracker.com/epd/analytics/?protein_id=%u",
             "category": "Proteomic databases",
             "statistics": {
-                "reviewedProteinCount": 23226,
-                "unreviewedProteinCount": 11911
+                "reviewedProteinCount": 23263,
+                "unreviewedProteinCount": 11809
             }
         },
         {
             "name": "SIGNOR Signaling Network Open Resource",
             "id": "DB-0206",
             "abbrev": "SIGNOR",
-            "pubMedId": "26467481",
-            "doiId": "10.1093/nar/gkv1048",
+            "pubMedId": "36243968",
+            "doiId": "10.1093/nar/gkac883",
             "linkType": "Explicit",
-            "server": "https://signor.uniroma2.it/",
+            "servers": [
+                "https://signor.uniroma2.it/"
+            ],
             "dbUrl": "https://signor.uniroma2.it/relation_result.php?id=%u",
             "category": "Enzyme and pathway databases",
             "statistics": {
-                "reviewedProteinCount": 6709,
+                "reviewedProteinCount": 7573,
                 "unreviewedProteinCount": 5
             }
         },
@@ -2115,15 +2302,17 @@
             "name": "Conserved Domains Database",
             "id": "DB-0214",
             "abbrev": "CDD",
-            "pubMedId": "25414356",
-            "doiId": "DOI",
+            "pubMedId": "36477806",
+            "doiId": "10.1093/nar/gkac1096",
             "linkType": "Explicit",
-            "server": "https://www.ncbi.nlm.nih.gov/cdd",
+            "servers": [
+                "https://www.ncbi.nlm.nih.gov/cdd"
+            ],
             "dbUrl": "https://www.ncbi.nlm.nih.gov/Structure/cdd/cddsrv.cgi?uid=%s",
             "category": "Family and domain databases",
             "statistics": {
-                "reviewedProteinCount": 180806,
-                "unreviewedProteinCount": 36633743
+                "reviewedProteinCount": 301271,
+                "unreviewedProteinCount": 79919910
             }
         },
         {
@@ -2133,27 +2322,32 @@
             "pubMedId": "31680165",
             "doiId": "10.1093/nar/gkz1021",
             "linkType": "Explicit",
-            "server": "https://www.disgenet.org/",
-            "dbUrl": "https://disgenet.org/search?q=%s",
+            "servers": [
+                "https://www.disgenet.org/",
+                "https://www.disgenetplus.com/"
+            ],
+            "dbUrl": "https://www.disgenetplus.com/examples?view=GENES&idents=%s&source=ALL&tab=GDA&newSearch=false",
             "category": "Organism-specific databases",
             "statistics": {
-                "reviewedProteinCount": 16797,
-                "unreviewedProteinCount": 0
+                "reviewedProteinCount": 17412,
+                "unreviewedProteinCount": 11564
             }
         },
         {
             "name": "Open Targets",
             "id": "DB-0219",
             "abbrev": "OpenTargets",
-            "pubMedId": "27899665",
-            "doiId": "10.1093/nar/gkw1055",
+            "pubMedId": "36399499",
+            "doiId": "10.1093/nar/gkac1046",
             "linkType": "Explicit",
-            "server": "https://platform.opentargets.org/",
+            "servers": [
+                "https://platform.opentargets.org/"
+            ],
             "dbUrl": "https://platform.opentargets.org/target/%s/associations",
             "category": "Organism-specific databases",
             "statistics": {
-                "reviewedProteinCount": 18244,
-                "unreviewedProteinCount": 589
+                "reviewedProteinCount": 18400,
+                "unreviewedProteinCount": 582
             }
         },
         {
@@ -2163,12 +2357,15 @@
             "pubMedId": "24271399",
             "doiId": "10.1093/nar/gkt1130",
             "linkType": "Explicit",
-            "server": "http://sfld.rbvi.ucsf.edu/archive/django/index.html",
+            "servers": [
+                "http://sfld.rbvi.ucsf.edu/archive/django/index.html",
+                "https://www.ebi.ac.uk/interpro/entry/sfld/#table"
+            ],
             "dbUrl": "https://www.ebi.ac.uk/interpro/entry/sfld/%s",
             "category": "Family and domain databases",
             "statistics": {
-                "reviewedProteinCount": 7576,
-                "unreviewedProteinCount": 1484812
+                "reviewedProteinCount": 9055,
+                "unreviewedProteinCount": 2221855
             }
         },
         {
@@ -2178,42 +2375,49 @@
             "pubMedId": "25414324",
             "doiId": "10.1093/nar/gku1200",
             "linkType": "Explicit",
-            "server": "https://bar.utoronto.ca/thalemine/begin.do",
+            "servers": [
+                "https://bar.utoronto.ca/thalemine/begin.do",
+                "https://www.araport.org/"
+            ],
             "dbUrl": "https://bar.utoronto.ca/thalemine/portal.do?externalids=%s",
             "category": "Organism-specific databases",
             "statistics": {
-                "reviewedProteinCount": 16179,
-                "unreviewedProteinCount": 29899
+                "reviewedProteinCount": 16310,
+                "unreviewedProteinCount": 23301
             }
         },
         {
             "name": "The Eukaryotic Linear Motif resource for Functional Sites in Proteins",
             "id": "DB-0223",
             "abbrev": "ELM",
-            "pubMedId": "31680160",
-            "doiId": "10.1093/nar/gkz1030",
+            "pubMedId": "34718738",
+            "doiId": "10.1093/nar/gkab975",
             "linkType": "Explicit",
-            "server": "http://elm.eu.org/",
+            "servers": [
+                "http://elm.eu.org/"
+            ],
             "dbUrl": "http://elm.eu.org/instances.html?q=%u",
             "category": "Protein-protein interaction databases",
             "statistics": {
-                "reviewedProteinCount": 1812,
-                "unreviewedProteinCount": 84
+                "reviewedProteinCount": 1814,
+                "unreviewedProteinCount": 77
             }
         },
         {
             "name": "CORUM comprehensive resource of mammalian protein complexes",
             "id": "DB-0224",
             "abbrev": "CORUM",
-            "pubMedId": "30357367",
-            "doiId": "10.1093/nar/gky973",
+            "pubMedId": "36382402",
+            "doiId": "10.1093/nar/gkac1015",
             "linkType": "Explicit",
-            "server": "http://mips.helmholtz-muenchen.de/corum/",
-            "dbUrl": "http://mips.helmholtz-muenchen.de/corum/#?uniprotID=%u",
+            "servers": [
+                "https://mips.helmholtz-muenchen.de/corum/"
+            ],
+            "dbUrl": "https://mips.helmholtz-muenchen.de/corum/#?uniprotID=%u",
             "category": "Protein-protein interaction databases",
             "statistics": {
-                "reviewedProteinCount": 5810,
-                "unreviewedProteinCount": 188
+                "reviewedProteinCount": 5812,
+                "unreviewedProteinCount": 184
             }
         },
         {
@@ -2223,12 +2427,14 @@
             "pubMedId": "29509874",
             "doiId": "10.1093/bioinformatics/bty123",
             "linkType": "Explicit",
-            "server": "http://digbio.missouri.edu/CarbonylDB/",
-            "dbUrl": "http://digbio.missouri.edu/CarbonylDB/index.php/detail/protein/%u",
+            "servers": [
+                "https://carbonyldb.missouri.edu/CarbonylDB/index.php"
+            ],
+            "dbUrl": "https://carbonyldb.missouri.edu/CarbonylDB/index.php/detail/protein/%u",
             "category": "PTM databases",
             "statistics": {
                 "reviewedProteinCount": 1159,
-                "unreviewedProteinCount": 242
+                "unreviewedProteinCount": 323
             }
         },
         {
@@ -2238,12 +2444,14 @@
             "pubMedId": "33152070",
             "doiId": "10.1093/nar/gkaa980",
             "linkType": "Explicit",
-            "server": "https://vertebrate.genenames.org/",
+            "servers": [
+                "https://vertebrate.genenames.org/"
+            ],
             "dbUrl": "https://vertebrate.genenames.org/data/gene-symbol-report/#!/vgnc_id/%s",
             "category": "Organism-specific databases",
             "statistics": {
-                "reviewedProteinCount": 4448,
-                "unreviewedProteinCount": 237220
+                "reviewedProteinCount": 3430,
+                "unreviewedProteinCount": 270507
             }
         },
         {
@@ -2253,27 +2461,31 @@
             "pubMedId": "30574787",
             "doiId": "10.1021/acs.jproteome.8b00766",
             "linkType": "Explicit",
-            "server": "https://glyconnect.expasy.org",
+            "servers": [
+                "https://glyconnect.expasy.org"
+            ],
             "dbUrl": "https://glyconnect.expasy.org/browser/proteins/%s",
             "category": "PTM databases",
             "statistics": {
-                "reviewedProteinCount": 2213,
-                "unreviewedProteinCount": 43
+                "reviewedProteinCount": 2215,
+                "unreviewedProteinCount": 45
             }
         },
         {
             "name": "ComplexPortal",
             "id": "DB-0228",
             "abbrev": "ComplexPortal",
-            "pubMedId": "25313161",
-            "doiId": "10.1093/nar/gku975",
+            "pubMedId": "30357405",
+            "doiId": "10.1093/nar/gky1001",
             "linkType": "Explicit",
-            "server": "https://www.ebi.ac.uk/complexportal/",
+            "servers": [
+                "https://www.ebi.ac.uk/complexportal/"
+            ],
             "dbUrl": "https://www.ebi.ac.uk/complexportal/complex/%s",
             "category": "Protein-protein interaction databases",
             "statistics": {
-                "reviewedProteinCount": 7251,
-                "unreviewedProteinCount": 357
+                "reviewedProteinCount": 8213,
+                "unreviewedProteinCount": 554
             }
         },
         {
@@ -2283,12 +2495,14 @@
             "pubMedId": "31665479",
             "doiId": "10.1093/nar/gkz974",
             "linkType": "Explicit",
-            "server": "https://www.proteomicsdb.org/",
+            "servers": [
+                "https://www.proteomicsdb.org/"
+            ],
             "dbUrl": "https://www.proteomicsdb.org/proteomicsdb/#protein/proteinDetails/%s",
             "category": "Proteomic databases",
             "statistics": {
-                "reviewedProteinCount": 45255,
-                "unreviewedProteinCount": 71132
+                "reviewedProteinCount": 45385,
+                "unreviewedProteinCount": 70363
             }
         },
         {
@@ -2298,7 +2512,9 @@
             "pubMedId": "30371819",
             "doiId": "10.1093/nar/gky1039",
             "linkType": "Explicit",
-            "server": "http://moondb.hb.univ-amu.fr",
+            "servers": [
+                "http://moondb.hb.univ-amu.fr"
+            ],
             "dbUrl": "http://moondb.hb.univ-amu.fr/protein/%u",
             "category": "Protein family/group databases",
             "statistics": {
@@ -2313,12 +2529,14 @@
             "pubMedId": "30239928",
             "doiId": "10.1093/nar/gky832",
             "linkType": "Explicit",
-            "server": "https://unilectin.eu",
-            "dbUrl": "https://www.unilectin.eu/curated/protein/%u",
+            "servers": [
+                "https://unilectin.unige.ch/"
+            ],
+            "dbUrl": "https://unilectin.unige.ch/unilectin3D/display_lectin?uniprot=%u",
             "category": "Protein family/group databases",
             "statistics": {
-                "reviewedProteinCount": 305,
-                "unreviewedProteinCount": 270
+                "reviewedProteinCount": 360,
+                "unreviewedProteinCount": 278
             }
         },
         {
@@ -2328,12 +2546,14 @@
             "pubMedId": "27899654",
             "doiId": "10.1093/nar/gkw1080",
             "linkType": "Explicit",
-            "server": "https://globe.jpostdb.org/",
+            "servers": [
+                "https://globe.jpostdb.org/"
+            ],
             "dbUrl": "https://globe.jpostdb.org/protein?id=%u",
             "category": "Proteomic databases",
             "statistics": {
-                "reviewedProteinCount": 26406,
-                "unreviewedProteinCount": 10873
+                "reviewedProteinCount": 26412,
+                "unreviewedProteinCount": 10790
             }
         },
         {
@@ -2343,7 +2563,9 @@
             "pubMedId": "29788355",
             "doiId": "10.1093/nar/gky427",
             "linkType": "Implicit",
-            "server": "https://swissmodel.expasy.org/",
+            "servers": [
+                "https://swissmodel.expasy.org/"
+            ],
             "dbUrl": "https://swissmodel.expasy.org/interactive/?ac=%u",
             "category": "3D structure databases",
             "statistics": {
@@ -2356,12 +2578,14 @@
             "id": "DB-0236",
             "abbrev": "ABCD",
             "linkType": "Explicit",
-            "server": "https://web.expasy.org/abcd",
+            "servers": [
+                "https://web.expasy.org/abcd"
+            ],
             "dbUrl": "https://web.expasy.org/cgi-bin/abcd/search_abcd.pl?input=%u",
             "category": "Protocols and materials databases",
             "statistics": {
-                "reviewedProteinCount": 3010,
-                "unreviewedProteinCount": 563
+                "reviewedProteinCount": 3126,
+                "unreviewedProteinCount": 613
             }
         },
         {
@@ -2369,12 +2593,14 @@
             "id": "DB-0237",
             "abbrev": "NIAGADS",
             "linkType": "Explicit",
-            "server": "https://www.niagads.org/genomics/",
-            "dbUrl": "https://www.niagads.org/genomics/showRecord.do?name=GeneRecordClasses.GeneRecordClass&source_id=%s",
+            "servers": [
+                "https://www.niagads.org/genomics/"
+            ],
+            "dbUrl": "https://www.niagads.org/genomics/app/record/gene/%s",
             "category": "Organism-specific databases",
             "statistics": {
                 "reviewedProteinCount": 69,
-                "unreviewedProteinCount": 258
+                "unreviewedProteinCount": 253
             }
         },
         {
@@ -2384,11 +2610,13 @@
             "pubMedId": "24972168",
             "doiId": "10.1038/nmeth.3002",
             "linkType": "Explicit",
-            "server": "https://assays.cancer.gov/",
+            "servers": [
+                "https://assays.cancer.gov/"
+            ],
             "dbUrl": "https://assays.cancer.gov/%s",
             "category": "Proteomic databases",
             "statistics": {
-                "reviewedProteinCount": 1632,
+                "reviewedProteinCount": 1929,
                 "unreviewedProteinCount": 13
             }
         },
@@ -2396,15 +2624,17 @@
             "name": "DrugCentral",
             "id": "DB-0239",
             "abbrev": "DrugCentral",
-            "pubMedId": "30371892",
-            "doiId": "10.1093/nar/gky963",
+            "pubMedId": "36484092",
+            "doiId": "10.1093/nar/gkac1085",
             "linkType": "Explicit",
-            "server": "https://drugcentral.org/",
-            "dbUrl": "https://drugcentral.org/target/%u",
+            "servers": [
+                "https://drugcentral.org/"
+            ],
+            "dbUrl": "https://drugcentral.org?q=%u",
             "category": "Chemistry databases",
             "statistics": {
-                "reviewedProteinCount": 2564,
-                "unreviewedProteinCount": 159
+                "reviewedProteinCount": 2982,
+                "unreviewedProteinCount": 316
             }
         },
         {
@@ -2414,11 +2644,13 @@
             "pubMedId": "27903890",
             "doiId": "10.1093/nar/gkw1072",
             "linkType": "Explicit",
-            "server": "https://pharos.nih.gov",
+            "servers": [
+                "https://pharos.nih.gov"
+            ],
             "dbUrl": "https://pharos.nih.gov/targets/%u",
             "category": "Miscellaneous databases",
             "statistics": {
-                "reviewedProteinCount": 20235,
+                "reviewedProteinCount": 20221,
                 "unreviewedProteinCount": 0
             }
         },
@@ -2429,12 +2661,14 @@
             "pubMedId": "30172843",
             "doiId": "10.1016/j.cels.2018.08.004",
             "linkType": "Explicit",
-            "server": "https://massive.ucsd.edu/",
+            "servers": [
+                "https://massive.ucsd.edu/"
+            ],
             "dbUrl": "https://massive.ucsd.edu/ProteoSAFe/protein_explorer.jsp?libraries=2&protein_name=%u",
             "category": "Proteomic databases",
             "statistics": {
-                "reviewedProteinCount": 18721,
-                "unreviewedProteinCount": 0
+                "reviewedProteinCount": 19141,
+                "unreviewedProteinCount": 42598
             }
         },
         {
@@ -2444,12 +2678,14 @@
             "pubMedId": "27799469",
             "doiId": "10.1093/nar/gkw932",
             "linkType": "Explicit",
-            "server": "https://plantreactome.gramene.org",
+            "servers": [
+                "https://plantreactome.gramene.org"
+            ],
             "dbUrl": "https://plantreactome.gramene.org/PathwayBrowser/#/%s&FLG=%u",
             "category": "Enzyme and pathway databases",
             "statistics": {
-                "reviewedProteinCount": 749,
-                "unreviewedProteinCount": 863
+                "reviewedProteinCount": 771,
+                "unreviewedProteinCount": 884
             }
         },
         {
@@ -2459,7 +2695,9 @@
             "pubMedId": "31584092",
             "doiId": "10.1093/nar/gkz853",
             "linkType": "Implicit",
-            "server": "https://pdbe-kb.org/",
+            "servers": [
+                "https://pdbe-kb.org/"
+            ],
             "dbUrl": "https://pdbe-kb.org/proteins/%u",
             "category": "3D structure databases",
             "statistics": {
@@ -2474,12 +2712,14 @@
             "pubMedId": "30445601",
             "doiId": "10.1093/nar/gky967",
             "linkType": "Explicit",
-            "server": "https://rnact.crg.eu",
-            "dbUrl": "https://rnact.crg.eu/%d?query=%u",
+            "servers": [
+                "https://rnact.tartaglialab.com/"
+            ],
+            "dbUrl": "https://rnact.tartaglialab.com/protein?query=%u",
             "category": "Miscellaneous databases",
             "statistics": {
-                "reviewedProteinCount": 43051,
-                "unreviewedProteinCount": 2693
+                "reviewedProteinCount": 43109,
+                "unreviewedProteinCount": 2424
             }
         },
         {
@@ -2489,27 +2729,31 @@
             "pubMedId": "31197322",
             "doiId": "10.1093/bioinformatics/btz462",
             "linkType": "Explicit",
-            "server": "https://metosite.uma.es/",
+            "servers": [
+                "https://metosite.uma.es/"
+            ],
             "dbUrl": "https://metosite.uma.es/scan/%u",
             "category": "PTM databases",
             "statistics": {
-                "reviewedProteinCount": 3111,
-                "unreviewedProteinCount": 321
+                "reviewedProteinCount": 3455,
+                "unreviewedProteinCount": 515
             }
         },
         {
             "name": "Pathogen-Host Interaction database",
             "id": "DB-0248",
             "abbrev": "PHI-base",
-            "pubMedId": "24972168",
+            "pubMedId": "27915230",
             "doiId": "10.1093/nar/gkw1089",
             "linkType": "Explicit",
-            "server": "http://www.phi-base.org/",
+            "servers": [
+                "http://www.phi-base.org/"
+            ],
             "dbUrl": "http://www.phi-base.org/searchFacet.htm?queryTerm=%s",
             "category": "Miscellaneous databases",
             "statistics": {
-                "reviewedProteinCount": 1264,
-                "unreviewedProteinCount": 4197
+                "reviewedProteinCount": 1843,
+                "unreviewedProteinCount": 6321
             }
         },
         {
@@ -2519,12 +2763,14 @@
             "pubMedId": "18667413",
             "doiId": "10.1074/mcp.M800264-MCP200",
             "linkType": "Explicit",
-            "server": "https://antibodypedia.com/",
+            "servers": [
+                "https://antibodypedia.com/"
+            ],
             "dbUrl": "https://antibodypedia.com/gene/%s",
             "category": "Protocols and materials databases",
             "statistics": {
-                "reviewedProteinCount": 32032,
-                "unreviewedProteinCount": 74706
+                "reviewedProteinCount": 32204,
+                "unreviewedProteinCount": 72001
             }
         },
         {
@@ -2534,12 +2780,14 @@
             "pubMedId": "24178034",
             "doiId": "10.1093/nar/gkt1010",
             "linkType": "Explicit",
-            "server": "https://www.ideal-db.org/",
+            "servers": [
+                "https://www.ideal-db.org/"
+            ],
             "dbUrl": "https://www.ideal-db.org/ideal.php?id=%s",
             "category": "Family and domain databases",
             "statistics": {
-                "reviewedProteinCount": 986,
-                "unreviewedProteinCount": 9
+                "reviewedProteinCount": 1100,
+                "unreviewedProteinCount": 10
             }
         },
         {
@@ -2549,26 +2797,30 @@
             "pubMedId": "30476227",
             "doiId": "10.1093/nar/gky1079",
             "linkType": "Explicit",
-            "server": "https://orcs.thebiogrid.org",
+            "servers": [
+                "https://orcs.thebiogrid.org"
+            ],
             "dbUrl": "https://orcs.thebiogrid.org/Gene/%s",
             "category": "Miscellaneous databases",
             "statistics": {
-                "reviewedProteinCount": 38634,
-                "unreviewedProteinCount": 59076
+                "reviewedProteinCount": 44427,
+                "unreviewedProteinCount": 56594
             }
         },
         {
             "name": "Pathway Commons web resource for biological pathway data",
             "id": "DB-0253",
             "abbrev": "PathwayCommons",
-            "pubMedId": "21071392",
-            "doiId": "10.1093/nar/gkq1039",
+            "pubMedId": "31647099",
+            "doiId": "10.1093/nar/gkz946/5606621",
             "linkType": "Explicit",
-            "server": "http://www.pathwaycommons.org",
-            "dbUrl": "http://apps.pathwaycommons.org/search?q=%u",
+            "servers": [
+                "https://www.pathwaycommons.org"
+            ],
+            "dbUrl": "https://apps.pathwaycommons.org/search?q=%u",
             "category": "Enzyme and pathway databases",
             "statistics": {
-                "reviewedProteinCount": 19459,
+                "reviewedProteinCount": 19451,
                 "unreviewedProteinCount": 0
             }
         },
@@ -2579,12 +2831,14 @@
             "pubMedId": "31616925",
             "doiId": "10.1093/glycob/cwz080",
             "linkType": "Explicit",
-            "server": "https://glygen.org",
+            "servers": [
+                "https://glygen.org"
+            ],
             "dbUrl": "https://glygen.org/protein/%u#glycosylation",
             "category": "PTM databases",
             "statistics": {
-                "reviewedProteinCount": 15685,
-                "unreviewedProteinCount": 17
+                "reviewedProteinCount": 22246,
+                "unreviewedProteinCount": 172
             }
         },
         {
@@ -2594,12 +2848,14 @@
             "pubMedId": "17984079",
             "doiId": "10.1093/nar/gkm957",
             "linkType": "Explicit",
-            "server": "https://bmrb.io/",
+            "servers": [
+                "https://bmrb.io/"
+            ],
             "dbUrl": "https://bmrb.io/data_library/summary/protein.php?uniprot=%u",
             "category": "3D structure databases",
             "statistics": {
-                "reviewedProteinCount": 6898,
-                "unreviewedProteinCount": 346
+                "reviewedProteinCount": 6910,
+                "unreviewedProteinCount": 314
             }
         },
         {
@@ -2609,12 +2865,14 @@
             "pubMedId": "27613420",
             "doiId": "10.1093/nar/gkw796",
             "linkType": "Explicit",
-            "server": "https://pcddb.cryst.bbk.ac.uk/",
+            "servers": [
+                "https://pcddb.cryst.bbk.ac.uk/"
+            ],
             "dbUrl": "https://pcddb.cryst.bbk.ac.uk/uniprot/%u",
             "category": "3D structure databases",
             "statistics": {
-                "reviewedProteinCount": 127,
-                "unreviewedProteinCount": 15
+                "reviewedProteinCount": 134,
+                "unreviewedProteinCount": 18
             }
         },
         {
@@ -2624,12 +2882,14 @@
             "pubMedId": "31576635",
             "doiId": "10.1002/pro.3731",
             "linkType": "Explicit",
-            "server": "https://www.sasbdb.org/",
+            "servers": [
+                "https://www.sasbdb.org/"
+            ],
             "dbUrl": "https://www.sasbdb.org/uniprot/%u/",
             "category": "3D structure databases",
             "statistics": {
-                "reviewedProteinCount": 684,
-                "unreviewedProteinCount": 212
+                "reviewedProteinCount": 891,
+                "unreviewedProteinCount": 265
             }
         },
         {
@@ -2637,11 +2897,13 @@
             "id": "DB-0259",
             "abbrev": "CPTC",
             "linkType": "Explicit",
-            "server": "https://antibodies.cancer.gov",
+            "servers": [
+                "https://antibodies.cancer.gov"
+            ],
             "dbUrl": "https://antibodies.cancer.gov/uniprot/%u",
             "category": "Protocols and materials databases",
             "statistics": {
-                "reviewedProteinCount": 370,
+                "reviewedProteinCount": 389,
                 "unreviewedProteinCount": 0
             }
         },
@@ -2652,12 +2914,15 @@
             "pubMedId": "35388217",
             "doiId": "10.1038/s41586-022-04558-8",
             "linkType": "Explicit",
-            "server": "https://www.ensembl.org/info/genome/genebuild/mane.html",
+            "servers": [
+                "https://www.ensembl.org/info/genome/genebuild/mane.html",
+                "https://www.ncbi.nlm.nih.gov/refseq/MANE/"
+            ],
             "dbUrl": "https://www.ensembl.org/id/%s",
             "category": "Genome annotation databases",
             "statistics": {
-                "reviewedProteinCount": 18033,
-                "unreviewedProteinCount": 4774
+                "reviewedProteinCount": 18392,
+                "unreviewedProteinCount": 755
             }
         },
         {
@@ -2667,12 +2932,15 @@
             "pubMedId": "34791371",
             "doiId": "10.1093/nar/gkab1061",
             "linkType": "Explicit",
-            "server": "https://alphafold.ebi.ac.uk/",
+            "servers": [
+                "https://alphafold.ebi.ac.uk/",
+                "https://deepmind.com/research/open-source/alphafold-protein-structure-database"
+            ],
             "dbUrl": "https://alphafold.ebi.ac.uk/entry/%u",
             "category": "3D structure databases",
             "statistics": {
-                "reviewedProteinCount": 545213,
-                "unreviewedProteinCount": 200565131
+                "reviewedProteinCount": 547258,
+                "unreviewedProteinCount": 177269877
             }
         },
         {
@@ -2682,7 +2950,9 @@
             "pubMedId": "26014595",
             "doiId": "10.1056/NEJMsr1406261",
             "linkType": "Implicit",
-            "server": "https://www.clinicalgenome.org/",
+            "servers": [
+                "https://www.clinicalgenome.org/"
+            ],
             "dbUrl": "https://search.clinicalgenome.org/kb/genes/%s",
             "category": "Genetic variation databases",
             "statistics": {
@@ -2697,7 +2967,9 @@
             "pubMedId": "35507016",
             "doiId": "10.1016/j.gim.2022.04.017",
             "linkType": "Implicit",
-            "server": "https://thegencc.org/",
+            "servers": [
+                "https://thegencc.org/"
+            ],
             "dbUrl": "https://search.thegencc.org/genes/%s",
             "category": "Genetic variation databases",
             "statistics": {
@@ -2712,12 +2984,100 @@
             "pubMedId": "31552413",
             "doiId": "10.1093/nar/gkz813",
             "linkType": "Explicit",
-            "server": "https://alliancegenome.org/",
+            "servers": [
+                "https://alliancegenome.org/"
+            ],
             "dbUrl": "https://alliancegenome.org/gene/%s",
             "category": "Organism-specific databases",
             "statistics": {
-                "reviewedProteinCount": 60004,
-                "unreviewedProteinCount": 137129
+                "reviewedProteinCount": 68573,
+                "unreviewedProteinCount": 210823
+            }
+        },
+        {
+            "name": "GlyCosmos Portal integrating glycosciences with life sciences",
+            "id": "DB-0267",
+            "abbrev": "GlyCosmos",
+            "pubMedId": "32572234",
+            "doiId": "10.1038/s41592-020-0879-8",
+            "linkType": "Explicit",
+            "servers": [
+                "https://glycosmos.org/"
+            ],
+            "dbUrl": "https://glycosmos.org/glycoproteins/show/uniprot/%u",
+            "category": "PTM databases",
+            "statistics": {
+                "reviewedProteinCount": 28906,
+                "unreviewedProteinCount": 38217
+            }
+        },
+        {
+            "name": "NCBIfam",
+            "id": "DB-0270",
+            "abbrev": "NCBIfam",
+            "pubMedId": "33270901",
+            "doiId": "10.1093/nar/gkaa1105",
+            "linkType": "Explicit",
+            "servers": [
+                "https://www.ncbi.nlm.nih.gov/genome/annotation_prok/evidence/",
+                "https://www.ncbi.nlm.nih.gov/genome/annotation_prok/tigrfams/"
+            ],
+            "dbUrl": "https://www.ncbi.nlm.nih.gov/genome/annotation_prok/evidence/%s/",
+            "category": "Family and domain databases",
+            "statistics": {
+                "reviewedProteinCount": 277572,
+                "unreviewedProteinCount": 45561558
+            }
+        },
+        {
+            "name": "Pumba database of electrophoretic reference migration patterns",
+            "id": "DB-0271",
+            "abbrev": "Pumba",
+            "pubMedId": "36581244",
+            "doiId": "10.1016/j.jmb.2022.167933",
+            "linkType": "Explicit",
+            "servers": [
+                "https://pumba.dcsr.unil.ch"
+            ],
+            "dbUrl": "https://pumba.dcsr.unil.ch/lanes/%s",
+            "category": "Proteomic databases",
+            "statistics": {
+                "reviewedProteinCount": 18207,
+                "unreviewedProteinCount": 0
+            }
+        },
+        {
+            "name": "Electron Microscopy Data Bank",
+            "id": "DB-0272",
+            "abbrev": "EMDB",
+            "pubMedId": "26578576",
+            "doiId": "10.1093/nar/gkv1126",
+            "linkType": "Explicit",
+            "servers": [
+                "https://www.ebi.ac.uk/emdb"
+            ],
+            "dbUrl": "https://www.ebi.ac.uk/emdb/%s",
+            "category": "3D structure databases",
+            "statistics": {
+                "reviewedProteinCount": 8520,
+                "unreviewedProteinCount": 4813
+            }
+        },
+        {
+            "name": "Schizosaccharomyces japonicus model organism database",
+            "id": "DB-0273",
+            "abbrev": "JaponicusDB",
+            "pubMedId": "35380656",
+            "doiId": "10.1093/genetics/iyab223",
+            "linkType": "Explicit",
+            "servers": [
+                "https://www.japonicusdb.org"
+            ],
+            "dbUrl": "https://www.japonicusdb.org/gene/%s",
+            "category": "Organism-specific databases",
+            "statistics": {
+                "reviewedProteinCount": 43,
+                "unreviewedProteinCount": 4798
             }
         }
     ]
