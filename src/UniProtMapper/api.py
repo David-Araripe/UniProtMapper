@@ -187,10 +187,10 @@ class ProtMapper(BaseUniProt):
                 fields = self.default_fields
             else:
                 fields = np.char.lower(np.array(fields))
-                if not np.isin(fields, self.fields_table["Returned_Field"]).all():
+                if not np.isin(fields, self.fields_table["returned_field"]).all():
                     raise ValueError(
                         "Invalid fields. Valid fields are: "
-                        f"{self.fields_table['Returned_Field'].values}"
+                        f"{self.fields_table['returned_field'].values}"
                     )
         if to_db not in ["UniProtKB-Swiss-Prot", "UniProtKB"]:
             if fields is not None:

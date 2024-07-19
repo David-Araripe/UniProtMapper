@@ -5,16 +5,16 @@
 [![GitHub Actions](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2FDavid-Araripe%2FUniProtMapper%2Fbadge%3Fref%3Dmaster&style=flat-square)](https://actions-badge.atrox.dev/David-Araripe/UniProtMapper/goto?ref=master)
 [![Downloads:PyPI](https://img.shields.io/pypi/dm/uniprot-id-mapper?style=flat-square)](https://pypi.org/project/uniprot-id-mapper/)
 
-# UniProtMapper
+# UniProtMapper <img align="left" width="40" height="40" src="https://raw.githubusercontent.com/whitead/protein-emoji/main/src/protein-72-color.svg">
 
 A Python wrapper for UniProt's [Retrieve/ID Mapping](https://www.uniprot.org/id-mapping) RESTful API. This package supports the following functionalities:
 
 1. Map (almost) any UniProt [cross-referenced IDs](https://github.com/David-Araripe/UniProtMapper/blob/master/src/UniProtMapper/resources/uniprot_mapping_dbs.json) to other identifiers & vice-versa;
-2. Programmatically  retrieve any of the supported [return fields](https://www.uniprot.org/help/return_fields) from both UniProt-SwissProt and UniProt-TrEMBL (unreviewed) databases;
+2. Programmatically  retrieve any of the supported [return](https://www.uniprot.org/help/return_fields) and [cross-reference fields](https://www.uniprot.org/help/return_fields_databases) from both UniProt-SwissProt and UniProt-TrEMBL (unreviewed) databases;
 
-For these, check [Example 1](#example-1-mapping-ids) and [Example 2](#example-2-retrieving-information) below. Both functionalities can also be accessed through the CLI. For more information, check [CLI](#cli).
+For these, check [Example 1](#example-1-mapping-ids) and [Example 2](#example-2-retrieving-information) below. Both functionalities can also be accessed through the CLI. For more information, check [CLI](#-cli).
 
-## Installation
+## 📦 Installation
 
 From PyPI:
 ``` Shell
@@ -32,7 +32,7 @@ git clone https://github.com/David-Araripe/UniProtMapper
 cd UniProtMapper
 python -m pip install .
 ```
-# Usage
+# 🛠️ Usage
 ## Example 1: Mapping IDs
 To map IDs, the user can either call the object directly or use the `get` method to obtain the response. The different identifiers that are used by the API are designated by the `from_db` and `to_db` parameters. For example:
 
@@ -59,7 +59,7 @@ Where failed corresponds to a list of the identifiers that failed to be mapped a
 
 ## Example 2: Retrieving information
 
-The supported [return fields](https://www.uniprot.org/help/return_fields) are both accessible through UniProt's website or by the property `.fields_table`. For example:
+The supported [return](https://www.uniprot.org/help/return_fields) and [cross-reference fields](https://www.uniprot.org/help/return_fields_databases) are both accessible through UniProt's website or by the attribute `ProtMapper.fields_table`. For example:
 
 ```Python
 from UniProtMapper import ProtMapper
@@ -68,13 +68,13 @@ mapper = ProtMapper()
 df = mapper.fields_table
 df.head()
 ```
-|    | Label                | Legacy Returned Field   | Returned Field   | Field Type       |
-|---:|:---------------------|:------------------------|:-----------------|:-----------------|
-|  0 | Entry                | id                      | accession        | Names & Taxonomy |
-|  1 | Entry Name           | entry name              | id               | Names & Taxonomy |
-|  2 | Gene Names           | genes                   | gene_names       | Names & Taxonomy |
-|  3 | Gene Names (primary) | genes(PREFERRED)        | gene_primary     | Names & Taxonomy |
-|  4 | Gene Names (synonym) | genes(ALTERNATIVE)      | gene_synonym     | Names & Taxonomy |
+|    | label                | returned_field   | field_type       | has_full_version   | type          |
+|---:|:---------------------|:-----------------|:-----------------|:-------------------|:--------------|
+|  0 | Entry                | accession        | Names & Taxonomy | yes                | uniprot_field |
+|  1 | Entry Name           | id               | Names & Taxonomy | yes                | uniprot_field |
+|  2 | Gene Names           | gene_names       | Names & Taxonomy | yes                | uniprot_field |
+|  3 | Gene Names (primary) | gene_primary     | Names & Taxonomy | yes                | uniprot_field |
+|  4 | Gene Names (synonym) | gene_synonym     | Names & Taxonomy | yes                | uniprot_field |
 
 To retrieve information, the user can either call the object directly or use the `get` method to obtain the response. For example:
 
@@ -86,7 +86,7 @@ result, failed = mapper(["Q02880"])
 >>> Fetched: 1 / 1
 ```
 
-Custom returned fields can be retrieved by passing a list of fields to the `fields` parameter. These fields need to be within `UniProtRetriever.fields_table["Returned_Field"]` and will be returned with columns named as their respective `Label`.
+Custom returned fields can be retrieved by passing a list of fields to the `fields` parameter. These fields need to be within `UniProtRetriever.fields_table["returned_field"]` and will be returned with columns named as their respective `Label`.
 
 The object already has a list of default fields under `self.default_fields`, but these are ignored if the parameter `fields` is passed.
 
@@ -95,7 +95,7 @@ fields = ["accession", "organism_name", "structure_3d"]
 result, failed = mapper.get(["Q02880"], fields=fields)
 ```
 
-# CLI
+# 💻 CLI
 
 The package also comes with a CLI that can be used to map IDs and retrieve information. To map IDs, the user can use the `protmap` command, accessible after installation. Here is a list of the available arguments, shown by `protmap -h`:
 
@@ -136,3 +136,8 @@ Usage example, retrieving default fields from `<pkg_path>/resources/cli_return_f
 <p align="center">
     <img src="https://github.com/David-Araripe/UniProtMapper/blob/master/figures/cli_example_fig.png?raw=true" alt="Image displaying the output of UniProtMapper's CLI, protmap"/>
 </p>
+
+# 👏🏼 Credits:
+
+- [UniProt](https://www.uniprot.org/) for providing the API and the amazing database;
+- [Andrew White and the University of Rochester](https://github.com/whitead/protein-emoji) for the protein emoji;

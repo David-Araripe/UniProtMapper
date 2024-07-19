@@ -23,7 +23,7 @@ class TestUniProtRetriever(unittest.TestCase):
 
     def test_fields_table(self):
         self.assertIsInstance(self.fields_table, pd.DataFrame)
-        self.assertIn("accession", self.fields_table["Returned_Field"].values)
+        self.assertIn("accession", self.fields_table["returned_field"].values)
 
     def test_retrieve_fields_default(self):
         result_df, failed = uni_retriever(test_ids)
@@ -44,8 +44,8 @@ class TestUniProtRetriever(unittest.TestCase):
             "protein_families",
         ]
         result_columns = self.fields_table[
-            self.fields_table["Returned_Field"].isin(custom_fields)
-        ]["Label"]
+            self.fields_table["returned_field"].isin(custom_fields)
+        ]["label"]
         result_df, failed = uni_retriever(test_ids, fields=custom_fields)
         self.assertIsInstance(result_df, pd.DataFrame)
         self.assertEqual(len(result_df), len(test_ids))
