@@ -3,9 +3,51 @@
 import json
 import re
 import zlib
+from pathlib import Path
+from typing import Optional
 
 import pandas as pd
 import pkg_resources
+import requests
+
+
+def get_resources_root() -> Path:
+    """Returns the path to the resources folder."""
+    return Path(pkg_resources.resource_filename("UniProtMapper", "resources"))
+
+
+def fetch_cross_referenced_db_details(
+    output_path: Optional[str] = None, save: bool = True
+) -> dict:
+    """Downloads the latest details on UniProt cross references and stores it. This
+    list of cross references can be found here: https://www.uniprot.org/database?query=*
+
+    Args:
+        output_path: the path to save the downloaded file with the cross references details.
+            If left as None, will update the file stored in the package. Defaults to None.
+        save: whether to save or not the retrieved json. Defaults to True.
+
+    Returns:
+        dict: the json with the cross references details.
+    """
+    if output_path is None:
+        output_path = get_resources_root() / "uniprot_crossref_details.json"
+    else:
+        output_path = Path(output_path)
+    url = "https://rest.uniprot.org/database/stream?&download=true&format=json&query=%28*%29"
+    # Make the GET request with modified Accept-Encoding header
+    response = requests.get(url)
+    # Check if the request was successful
+    if response.status_code == 200:
+        # Write the content to a file
+        if save:
+            with output_path.open("w") as f:
+                json.dump(response.json(), f, indent=4)
+        print("File downloaded successfully.")
+    else:
+        print(f"Failed to download the file. Status code: {response.status_code}")
+
+    return response.json()
 
 
 def read_fields_table():
