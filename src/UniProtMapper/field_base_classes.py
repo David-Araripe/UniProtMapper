@@ -225,7 +225,7 @@ class XRefCountField:
         return xref
 
     def __str__(self):
-        return f"xrefcount_{self.field_name}:[{self.from_value} TO {self.to_value}]"
+        return f"xref_count_{self.field_name}:[{self.from_value} TO {self.to_value}]"
 
     def __new__(cls, *args, **kwargs):
         """Create the field and return it wrapped in a QueryBuilder."""
