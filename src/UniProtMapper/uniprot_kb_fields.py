@@ -22,28 +22,28 @@ from .field_base_classes import (
 # Boolean Fields
 
 
-class Active(BooleanField):
+class active(BooleanField):
     """Boolean. If set to `False`, return obsolete entries"""
 
     def __init__(self, field_value: bool) -> None:
         super().__init__("active", field_value)
 
 
-class Fragment(BooleanField):
+class fragment(BooleanField):
     """Boolean. If set to `True`, list entries with an incomplete sequence."""
 
     def __init__(self, field_value: bool) -> None:
         super().__init__("fragment", field_value)
 
 
-class Reviewed(BooleanField):
+class reviewed(BooleanField):
     """Boolean. If set to `True`, return only reviewed entries"""
 
     def __init__(self, field_value: bool) -> None:
         super().__init__("reviewed", field_value)
 
 
-class IsIsoform(BooleanField):
+class is_isoform(BooleanField):
     """Bolean. If set to `True`, return only isoform entries"""
 
     def __init__(self, field_value: bool) -> None:
@@ -53,32 +53,32 @@ class IsIsoform(BooleanField):
 # Quote Fields
 
 
-class ProteinName(QuoteField):
+class protein_name(QuoteField):
     """Field for protein names. Further functionality:
     - Query for "name_1" while excluding "name_2",
-    >>> ProteinName('name_1 - name_2')
+    >>> protein_name('name_1 - name_2')
 
     - Query for "name_1" *and* "name_2", in this order,
-    >>> ProteinName('name_1 name_2')
+    >>> protein_name('name_1 name_2')
 
     - Glob-like search for all entries with protein names starting with "anti":
-    >>> ProteinName('anti*')
+    >>> protein_name('anti*')
     """
 
     def __init__(self, field_value: str) -> None:
         super().__init__("protein_name", field_value)
 
 
-class OrganismName(QuoteField):
+class organism_name(QuoteField):
     """Field for organism names. Further functionality:
     - Query for "name_1" while excluding "name_2",
-    >>> OrganismName('name_1 - name_2')
+    >>> organism_name('name_1 - name_2')
 
     - Query for "name_1" *and* "name_2", in this order,
-    >>> OrganismName('name_1 name_2')
+    >>> organism_name('name_1 name_2')
 
     - Glob-like search for all entries with organism names starting with "escherichia":
-    >>> OrganismName('escherichia*')
+    >>> organism_name('escherichia*')
 
     For more information on the organism names, see: https://www.uniprot.org/taxonomy?query=*
     """
@@ -90,7 +90,7 @@ class OrganismName(QuoteField):
 # Date Range Fields
 
 
-class DateCreated(DateRangeField):
+class date_created(DateRangeField):
     """Query for entries created within a time range. Date format: `YYYY-MM-DD`.
     `*` can also be used as a wildcard for the latest or the earliest date."""
 
@@ -98,7 +98,7 @@ class DateCreated(DateRangeField):
         super().__init__("date_created", from_date, to_date)
 
 
-class DateModified(DateRangeField):
+class date_modified(DateRangeField):
     """Query for entries modified within a certain time range. Date format: `YYYY-MM-DD`.
     `*` can also be used as a wildcard for the latest or the earliest date."""
 
@@ -106,7 +106,7 @@ class DateModified(DateRangeField):
         super().__init__("date_modified", from_date, to_date)
 
 
-class DateSequenceModified(DateRangeField):
+class date_sequence_modified(DateRangeField):
     """Query for entries with sequence information modified within a certain time range.
     Date format: `YYYY-MM-DD`. `*` can also be used as a wildcard for the latest or the
     earliest date."""
@@ -118,7 +118,7 @@ class DateSequenceModified(DateRangeField):
 # Range Fields
 
 
-class Length(RangeField):
+class length(RangeField):
     """Query entries with sequence length within a certain range. Inputs should be intergers
     or the wildcard `*` for the maximum or minimum value."""
 
@@ -126,7 +126,7 @@ class Length(RangeField):
         super().__init__("length", from_value, to_value)
 
 
-class Mass(RangeField):
+class mass(RangeField):
     """Query entries with mass within a certain range. Inputs should be intergers
     or the wildcard `*` for the maximum or minimum value."""
 
@@ -137,14 +137,14 @@ class Mass(RangeField):
 # XRefCount Field
 
 
-class XRefCount(XRefCountField):
+class xref_count(XRefCountField):
     """Query entries with a certain number of cross-references. All fields within
     `UniProtMapper.utils.read_fields_table()['returned_field']` are supported. For example,
     to query entries with 20 or more cross-references to "PDB", use:
-    >>> XRefCount('pdb', 20, '*')
+    >>> xref_count('pdb', 20, '*')
 
     Or:
-    >>> XRefCount('xref_pdb', 20, '*')
+    >>> xref_count('xref_pdb', 20, '*')
     """
 
     def __init__(self, field_name, from_value: int, to_value: int) -> None:
@@ -154,31 +154,31 @@ class XRefCount(XRefCountField):
 # SimpleField classes
 
 
-class Accession(SimpleField):
+class accession(SimpleField):
     """Query for entries with a certain UniProt accession key."""
 
     def __init__(self, field_value: str) -> None:
         super().__init__("accession", field_value)
 
 
-class LitAuthor(SimpleField):
+class lit_author(SimpleField):
     """Query for entries with at least one reference co-authored by the specified author.
     Extra functionalities include:
     - Query for "name_1" while excluding entries with "name_2" as co-author,
-    >>> LitAuthor('name_1 - name_2')
+    >>> lit_author('name_1 - name_2')
 
     - Query for "name_1" *and* "name_2", in this order,
-    >>> LitAuthor('name_1 name_2')
+    >>> lit_author('name_1 name_2')
 
     - Glob-like search for all entries with author starting with a Cavad:
-    >>> LitAuthor('Cavad*')
+    >>> lit_author('Cavad*')
     """
 
     def __init__(self, field_value: str) -> None:
         super().__init__("lit_author", field_value)
 
 
-class Chebi(SimpleField):
+class chebi(SimpleField):
     """Query for entries with a certain ChEBI identifier. For more information, check the
     following: https://www.uniprot.org/help/chemical_data_search"""
 
@@ -186,14 +186,14 @@ class Chebi(SimpleField):
         super().__init__("chebi", field_value)
 
 
-class Database(SimpleField):
+class database(SimpleField):
     """List all entries with a cross reference to a certain database"""
 
     def __init__(self, field_value: str) -> None:
         super().__init__("database", field_value)
 
 
-class Xref(SimpleField):
+class xref(SimpleField):
     """List all entries with a cross reference to a certain database. E.g. of extra functionality:
 
     - Query all entries with a cross-reference to the PDB database entry `1aut`:
@@ -209,14 +209,14 @@ class Xref(SimpleField):
         super().__init__("xref", field_value)
 
 
-class Ec(SimpleField):
+class ec(SimpleField):
     """Query for entries with a certain EC number - specific for enzymes"""
 
     def __init__(self, field_value: str) -> None:
         super().__init__("ec", field_value)
 
 
-class Existence(SimpleField):
+class existence(SimpleField):
     """Query for entries with a certain existence score. Possible values are:
 
     1. Experimental evidence at protein level
@@ -232,7 +232,7 @@ class Existence(SimpleField):
         super().__init__("existence", field_value)
 
 
-class Family(SimpleField):
+class family(SimpleField):
     """Query for entries within a certain protein family. Further functionalities include:
     - Query for "name_1" while excluding entries with "name_2" as family,
     >>> Family('name_1 - name_2')
@@ -249,7 +249,7 @@ class Family(SimpleField):
         super().__init__("family", field_value)
 
 
-class Gene(SimpleField):
+class gene(SimpleField):
     """Query for entries with a gene name. Caveat, searching for HPSE using this field
     will also retrieve entries with HPSE2. For a more specific search, use `GeneExact`.
     """
@@ -258,14 +258,14 @@ class Gene(SimpleField):
         super().__init__("gene", field_value)
 
 
-class GeneExact(SimpleField):
+class geneExact(SimpleField):
     """Query for entries with an exact gene name match."""
 
     def __init__(self, field_value: str) -> None:
         super().__init__("gene_exact", field_value)
 
 
-class Go(SimpleField):
+class go(SimpleField):
     """Query for entries with a certain Gene Ontology (GO) term. Further functionalities include:
 
     - Query for "name_1" while excluding entries with "name_2" as GO term,
@@ -276,7 +276,7 @@ class Go(SimpleField):
         super().__init__("go", field_value)
 
 
-class VirusHostName(SimpleField):
+class virus_host_name(SimpleField):
     """Search for all entries belonging to viruses that infect the query host organism.
     Input should be the name of the host organism. Both common and scientific names should work.
 
@@ -287,7 +287,7 @@ class VirusHostName(SimpleField):
         super().__init__("virus_host_name", field_value)
 
 
-class VirusHostId(SimpleField):
+class virus_host_id(SimpleField):
     """Search for all entries belonging to viruses that infect the query host organism.
     Input should be the taxonomy ID of the host organism.
 
@@ -301,14 +301,14 @@ class VirusHostId(SimpleField):
         )
 
 
-class AccessionId(SimpleField):
+class accession_id(SimpleField):
     """Query for entries with a certain accession ID."""
 
     def __init__(self, field_value: str) -> None:
         super().__init__("accession_id", field_value)
 
 
-class Inchikey(SimpleField):
+class inchikey(SimpleField):
     """Query entries associated with the small molecule identified by the input InChIKey
 
     For more information, check: https://www.uniprot.org/help/chemical_data_search
@@ -318,7 +318,7 @@ class Inchikey(SimpleField):
         super().__init__("inchikey", field_value)
 
 
-class Interactor(SimpleField):
+class interactor(SimpleField):
     """Input should be a UniProt accession key (ID). Query all entries describing
     interactions with the protein represented by the input."""
 
@@ -326,7 +326,7 @@ class Interactor(SimpleField):
         super().__init__("interactor", field_value)
 
 
-class Keyword(SimpleField):
+class keyword(SimpleField):
     """Query all UniProt entries with a certain keyword. Further functionalities include:
 
     - Query for "name_1" while excluding entries with "name_2" as keyword,
@@ -343,7 +343,7 @@ class Keyword(SimpleField):
         super().__init__("keyword", field_value)
 
 
-class CcMassSpectrometry(SimpleField):
+class cc_mass_spectrometry(SimpleField):
     """Check UniProt's official documentation for the description of this field:
     https://www.uniprot.org/help/query-fields#:~:text=least%20500%2C000%20Da.-,cc_mass_spectrometry,-cc_mass_spectrometry%3Amaldi
     """
@@ -352,7 +352,7 @@ class CcMassSpectrometry(SimpleField):
         super().__init__("cc_mass_spectrometry", field_value)
 
 
-class Organelle(SimpleField):
+class organelle(SimpleField):
     """Query entries for proteins encoded by a gene within a certain organelle. E.g.:
     the mitochondrial chromosome:
     >>> Organelle('Mitochondrion')
@@ -362,7 +362,7 @@ class Organelle(SimpleField):
         super().__init__("organelle", field_value)
 
 
-class OrganismId(SimpleField):
+class organism_id(SimpleField):
     """Query for entries with a certain organism taxonomy ID. For more information on the
     taxonomy IDs, see: https://www.uniprot.org/taxonomy?query=*"""
 
@@ -373,7 +373,7 @@ class OrganismId(SimpleField):
         )
 
 
-class Plasmid(SimpleField):
+class plasmid(SimpleField):
     """Query entries for proteins encoded by a gene that is part of a certain plasmid.
     For the available plasmid vocabulary, check:
      https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/docs/plasmid.txt
@@ -383,7 +383,7 @@ class Plasmid(SimpleField):
         super().__init__("plasmid", field_value)
 
 
-class Proteome(SimpleField):
+class proteome(SimpleField):
     """Query all proteins belonging to a certain proteome. For more information, check:
     https://www.uniprot.org/proteomes"""
 
@@ -391,10 +391,10 @@ class Proteome(SimpleField):
         super().__init__("proteome", field_value)
 
 
-class Proteomecomponent(SimpleField):
+class proteome_component(SimpleField):
     """Query all proteins belonging to a certain proteome component. E.g.:
     Lists all entries from the human chromosome 1.
-    >>> OrganismId('9606') & Proteomecomponent('chromosome:1')
+    >>> OrganismId('9606') & proteome_component('chromosome:1')
 
     """
 
@@ -402,7 +402,7 @@ class Proteomecomponent(SimpleField):
         super().__init__("proteomecomponent", field_value)
 
 
-class SecAcc(SimpleField):
+class sec_acc(SimpleField):
     """Query entries that were created from a merge with a certain UniProt entry. For more
     information, check UniProt's FAQ:
     https://www.uniprot.org/help/difference_accession_entryname"""
@@ -411,7 +411,7 @@ class SecAcc(SimpleField):
         super().__init__("sec_acc", field_value)
 
 
-class Scope(SimpleField):
+class scope(SimpleField):
     """Query entries containing a reference that was used to gather information about `<field_value>`.
     E.g.: for entries containing references with information about "mutagenesis", use:
 
@@ -422,7 +422,7 @@ class Scope(SimpleField):
         super().__init__("scope", field_value)
 
 
-class TaxonomyName(SimpleField):
+class taxonomy_name(SimpleField):
     """Query for entries with a certain organism taxonomy name. For more information on the
     taxonomy names, see: https://www.uniprot.org/taxonomy?query=*
 
@@ -434,7 +434,7 @@ class TaxonomyName(SimpleField):
         super().__init__("taxonomy_name", field_value)
 
 
-class TaxonomyId(SimpleField):
+class taxonomy_id(SimpleField):
     """Query for entries with a certain organism taxonomy ID. For more information on the
     taxonomy IDs, see: https://www.uniprot.org/taxonomy?query=*"""
 
@@ -445,7 +445,7 @@ class TaxonomyId(SimpleField):
         )
 
 
-class Tissue(SimpleField):
+class tissue(SimpleField):
     """Query entries containing a reference describing the protein sequence obtained
     from a clone isolated from a certain tissue. For a full list of UniProt's tissue
     vocabulary, check:
@@ -454,20 +454,20 @@ class Tissue(SimpleField):
 
     Further functionalities include:
     - Query for "name_1" while excluding entries with "name_2" as tissue,
-    >>> Tissue('name_1 - name_2')
+    >>> tissue('name_1 - name_2')
     - Query for "name_1" *and* "name_2", in this order,
-    >>> Tissue('name_1 name_2')
+    >>> tissue('name_1 name_2')
     - Glob-like search for all entries with tissue starting with "brain":
-    >>> Tissue('brain*')
+    >>> tissue('brain*')
     """
 
     def __init__(self, field_value: str) -> None:
         super().__init__("tissue", field_value)
 
 
-class CcWebresource(SimpleField):
+class cc_webresource(SimpleField):
     """Query all entries with a certain web resource. E.g.: all proteins described in Wikipedia:
-    >>> CcWebresource('Wikipedia')
+    >>> cc_webresource('Wikipedia')
     """
 
     def __init__(self, field_value: str) -> None:
