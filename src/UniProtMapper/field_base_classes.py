@@ -4,7 +4,6 @@ Used to create the fields within UniProtMapper.uniprot_kb_fields
 """
 
 import re
-from itertools import product
 from typing import Union
 
 from .utils import read_fields_table
