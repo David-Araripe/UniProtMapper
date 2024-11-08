@@ -2,14 +2,12 @@
 """Holds the implementation of the base class for the UniProt id-mapping REST API."""
 
 import re
-import time
 from abc import ABC
-from urllib.parse import parse_qs, urlparse
 
 import requests
 from requests.adapters import HTTPAdapter, Retry
 
-from .utils import decode_results
+from .utils import read_fields_table
 
 """
 Several methods were either taken or adapted from the Python example for the
@@ -44,6 +42,10 @@ class BaseUniProt(ABC):
         self._setup_session()
         self._re_next_link = re.compile(r'<(.+)>; rel="next"')
 
+    @property
+    def fields_table(self):
+        return read_fields_table()
+
     def _setup_retries(self, total_retries, backoff_factor) -> None:
         return Retry(
             total=total_retries,
@@ -61,75 +63,8 @@ class BaseUniProt(ABC):
             print(response.json())
             raise
 
-    def submit_id_mapping(self, from_db, to_db, ids):
-        request = requests.post(
-            f"{self._API_URL}/idmapping/run",
-            data={"from": from_db, "to": to_db, "ids": ",".join(ids)},
-        )
-        self.check_response(request)
-        return request.json()["jobId"]
-
     def get_next_link(self, headers):
         if "Link" in headers:
             match = self._re_next_link.match(headers["Link"])
             if match:
                 return match.group(1)
-
-    def check_id_mapping_ready(self, job_id, from_db, to_db):
-        while True:
-            request = self.session.get(f"{self._API_URL}/idmapping/status/{job_id}")
-            self.check_response(request)
-            j = request.json()
-            if "jobStatus" in j:
-                if j["jobStatus"] in ["RUNNING", "NEW"]:
-                    print(f"Retrying in {self._POLLING_INTERVAL}s")
-                    time.sleep(self._POLLING_INTERVAL)
-                else:
-                    raise Exception(j["jobStatus"])
-            else:
-                try:
-                    ready = bool(j["results"] or j["failedIds"])
-                except KeyError:
-                    raise requests.RequestException(
-                        f"Unexpected response from {from_db} to {to_db}.\n"
-                        'request.json() missing "results" and "failedIds"'
-                    )
-                return ready
-
-    def get_batch(self, batch_response, file_format, compressed):
-        batch_url = self.get_next_link(batch_response.headers)
-        while batch_url:
-            batch_response = self.session.get(batch_url)
-            batch_response.raise_for_status()
-            yield decode_results(batch_response, file_format, compressed)
-            batch_url = self.get_next_link(batch_response.headers)
-
-    def combine_batches(self, all_results, batch_results, file_format):
-        if file_format == "json":
-            for key in ("results", "failedIds"):
-                if key in batch_results and batch_results[key]:
-                    all_results[key] += batch_results[key]
-        elif file_format == "tsv":
-            return all_results + batch_results[1:]
-        else:
-            return all_results + batch_results
-        return all_results
-
-    def get_id_mapping_results_link(self, job_id):
-        url = f"{self._API_URL}/idmapping/details/{job_id}"
-        request = self.session.get(url)
-        self.check_response(request)
-        return request.json()["redirectURL"]
-
-    def get_id_mapping_results_stream(self, url):
-        if "/stream/" not in url:
-            url = url.replace("/results/", "/results/stream/")
-        request = self.session.get(url)
-        self.check_response(request)
-        parsed = urlparse(url)
-        query = parse_qs(parsed.query)
-        file_format = query["format"][0] if "format" in query else "json"
-        compressed = (
-            query["compressed"][0].lower() == "true" if "compressed" in query else False
-        )
-        return decode_results(request, file_format, compressed)
