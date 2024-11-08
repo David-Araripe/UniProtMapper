@@ -26,6 +26,7 @@ class QueryBuilder:
     - ~ : NOT operation
 
     Example:
+
         >>> reviewed = QueryBuilder([BooleanField("reviewed", True)])
         >>> human = QueryBuilder([SimpleField("organism_id", "9606")])
         >>> query = reviewed & human
