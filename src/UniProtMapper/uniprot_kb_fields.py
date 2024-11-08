@@ -197,7 +197,7 @@ class xref(SimpleField):
     """List all entries with a cross reference to a certain database. E.g. of extra functionality:
 
     - Query all entries with a cross-reference to the PDB database entry `1aut`:
-    >>> Xref('pdb-1aut')
+    >>> xref('pdb-1aut')
 
     This could be specially useful to retrieve all entries involved within a certain pathway,
     or another common cross-referenced database. For a list of supported databases, check
@@ -235,11 +235,11 @@ class existence(SimpleField):
 class family(SimpleField):
     """Query for entries within a certain protein family. Further functionalities include:
     - Query for "name_1" while excluding entries with "name_2" as family,
-    >>> Family('name_1 - name_2')
+    >>> family('name_1 - name_2')
     - Query for "name_1" *and* "name_2", in this order,
-    >>> Family('name_1 name_2')
+    >>> family('name_1 name_2')
     - Glob-like search for all entries with family starting with "chemokine":
-    >>> Family('chemokine*')
+    >>> family('chemokine*')
 
     For a full list of protein families within UniProt, check:
     https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/docs/similar.txt
@@ -269,7 +269,7 @@ class go(SimpleField):
     """Query for entries with a certain Gene Ontology (GO) term. Further functionalities include:
 
     - Query for "name_1" while excluding entries with "name_2" as GO term,
-    >>> Go('name_1 - name_2')
+    >>> go('name_1 - name_2')
     """
 
     def __init__(self, field_value: str) -> None:
@@ -330,11 +330,11 @@ class keyword(SimpleField):
     """Query all UniProt entries with a certain keyword. Further functionalities include:
 
     - Query for "name_1" while excluding entries with "name_2" as keyword,
-    >>> Keyword('name_1 - name_2')
+    >>> keyword('name_1 - name_2')
     - Query for "name_1" *and* "name_2", in this order,
-    >>> Keyword('name_1 name_2')
+    >>> keyword('name_1 name_2')
     - Glob-like search for all entries with keyword starting with "G-protein":
-    >>> Keyword('G-protein*')
+    >>> keyword('G-protein*')
 
     For a list of keywords, check: https://www.uniprot.org/keywords?query=*
     """
@@ -355,7 +355,7 @@ class cc_mass_spectrometry(SimpleField):
 class organelle(SimpleField):
     """Query entries for proteins encoded by a gene within a certain organelle. E.g.:
     the mitochondrial chromosome:
-    >>> Organelle('Mitochondrion')
+    >>> organelle('Mitochondrion')
     """
 
     def __init__(self, field_value: str) -> None:
@@ -394,7 +394,7 @@ class proteome(SimpleField):
 class proteome_component(SimpleField):
     """Query all proteins belonging to a certain proteome component. E.g.:
     Lists all entries from the human chromosome 1.
-    >>> OrganismId('9606') & proteome_component('chromosome:1')
+    >>> organism_id('9606') & proteome_component('chromosome:1')
 
     """
 
@@ -415,7 +415,7 @@ class scope(SimpleField):
     """Query entries containing a reference that was used to gather information about `<field_value>`.
     E.g.: for entries containing references with information about "mutagenesis", use:
 
-    >>> Scope('mutagenesis')
+    >>> scope('mutagenesis')
     """
 
     def __init__(self, field_value: str) -> None:
@@ -427,7 +427,7 @@ class taxonomy_name(SimpleField):
     taxonomy names, see: https://www.uniprot.org/taxonomy?query=*
 
     e.g:
-    >>> TaxonomyName('mammal')
+    >>> taxonomy_name('mammal')
     """
 
     def __init__(self, field_value: str) -> None:
