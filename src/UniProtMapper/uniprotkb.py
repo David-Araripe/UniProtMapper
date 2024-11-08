@@ -1,90 +1,14 @@
-import re
+from logging import info
+from typing import Generator, Optional
 
+import pandas as pd
 import requests
-from requests.adapters import HTTPAdapter, Retry
+
+from .field_base_classes import QueryBuilder
+from .interface import BaseUniProt
 
 
-class SimpleField:
-    """Simple field query. Used for fields like accession, protein_name, etc"""
-
-    def __init__(self, field_name: str, field_value: str) -> None:
-        self.field_name = field_name
-        self.field_value = field_value
-
-    def __repr__(self):
-        return f"{self.field_name}:{self.field_value}"
-
-
-class QuoteField:
-    """Same as SimpleField but it quotes the value. Used for species, for example"""
-
-    def __init__(self, field_name: str, field_value: str) -> None:
-        self.field_name = field_name
-        self.field_value = field_value
-
-    def __repr__(self):
-        return f"{self.field_name}:'{self.field_value}'"
-
-
-class DateRangeField:
-    """Field for date ranges. If desired, the date can be set to '*' to fetch until most recent."""
-
-    def __init__(self, field_name: str, init_date: str, final_date) -> None:
-        self.field_name = field_name
-        self.init_date = self._format_checker(init_date, date_type="Initial")
-        self.final_date = self._format_checker(final_date, date_type="Final")
-
-    def _format_checker(self, date: str, date_type: str) -> str:
-        if not re.match(r"\d{4}-\d{2}-\d{2}", date) and date != "*":
-            raise ValueError(
-                f"{date_type} in the incorrect format. Make sure to have it as YYYY-MM-DD"
-            )
-        return date
-
-    def __repr__(self):
-        return f"{self.field_name}:[{self.init_date} TO {self.final_date}]"
-
-
-class RangeField:
-    """Field for ranges. If desired, numbers can be set to * to fetch until 0 or infinity"""
-
-    def __init__(self, field_name: str, init_value: str, final_value: str) -> None:
-        self.field_name = field_name
-        self.init_value = self._format_checker(init_value, value_type="Initial")
-        self.final_value = self._format_checker(final_value, value_type="Final")
-
-    def _format_checker(self, value: str, value_type: str) -> str:
-        if not re.match(r"\d+", value) and value != "*":
-            raise ValueError(
-                f"{value_type} in the incorrect format. Make sure to have it as a number"
-            )
-        return value
-
-    def __repr__(self):
-        return f"{self.field_name}:[{self.init_value} TO {self.final_value}]"
-
-
-class QueryBuilder:
-    """Query builder for UniProt KB queries. Python bitwise operators (`&`, `|`, `~`)
-    )can be used to combine queries."""
-
-    def __init__(self, query: list) -> None:
-        self.query = query
-
-    def __and__(self, other):
-        return QueryBuilder(self.query + ["AND"] + other.query)
-
-    def __or__(self, other):
-        return QueryBuilder(self.query + ["OR"] + other.query)
-
-    def __invert__(self):
-        return QueryBuilder(["NOT"] + self.query)
-
-    def __repr__(self):
-        return " ".join([str(q) for q in self.query])
-
-
-class UniProtKBWrapper:
+class UniProtKBWrapper(BaseUniProt):
 
     def __init__(
         self,
@@ -93,75 +17,195 @@ class UniProtKBWrapper:
         backoff_factor=0.25,
         api_url="https://rest.uniprot.org",
     ) -> None:
-        self._API_URL = api_url
-        self._POLLING_INTERVAL = pooling_interval
-        self.retries = self._setup_retries(total_retries, backoff_factor)
-        self.session = requests.Session()
-        self._setup_session()
+        """Initialize the class. This will set up the session and retry mechanism.
 
-    def _setup_retries(self, total_retries, backoff_factor) -> None:
-        return Retry(
-            total=total_retries,
-            backoff_factor=backoff_factor,
-            status_forcelist=[500, 502, 503, 504],
+        Args:
+            pooling_interval: The interval in seconds between polling the API.
+                Defaults to 3.
+            total_retries: The total number of retries to attempt. Defaults to 5.
+            backoff_factor: The backoff factor to use when retrying. Defaults to 0.25.
+            api_url: The url for the REST API. Defaults to "https://rest.uniprot.org".
+        """
+        super().__init__(
+            pooling_interval,
+            total_retries,
+            backoff_factor,
+            api_url,
         )
-
-    def _setup_session(self) -> None:
-        self.session.mount("https://", HTTPAdapter(max_retries=self.retries))
-
-    @property
-    def allowed_fields(self) -> list:
-        return [
+        self.default_fields = (
             "accession",
-            "active",
-            "lit_author",
+            "id",
+            "gene_names",
             "protein_name",
-            "chebi",
-            "xrefcount_pdb",
-            "date_created",
-            "date_modified",
-            "date_sequence_modified",
-            "database",
-            "xref",
-            "ec",
-            "existence",
-            "family",
-            "fragment",
-            "gene",
-            "gene_exact",
-            "go",
-            "virus_host_name",
-            "virus_host_id",
-            "accession_id",
-            "inchikey",
-            "protein_name",
-            "interactor",
-            "keyword",
-            "length",
-            "mass",
-            "cc_mass_spectrometry",
-            "protein_name",
-            "organelle",
             "organism_name",
             "organism_id",
-            "plasmid",
-            "proteome",
-            "proteomecomponent",
-            "sec_acc",
-            "reviewed",
-            "scope",
+            "go_id",
+            "go_p",
+            "go_c",
+            "go_f",
+            "cc_subcellular_location",
             "sequence",
-            "strain",
-            "taxonomy_name",
-            "taxonomy_id",
-            "tissue",
-            "cc_webresource",
+        )
+
+    def _build_search_url(
+        self,
+        query: str,
+        fields: list[str],
+        format: str = "tsv",
+        include_isoform: bool = False,
+        compressed: bool = False,
+        size: int = 500,
+    ) -> str:
+        """Build the search URL with the given parameters.
+
+        Args:
+            query: Search query string
+            fields: List of fields to retrieve
+            format: Format of the response
+            include_isoform: Whether to include isoforms
+            compressed: Whether to request compressed response
+            size: Batch size for pagination
+
+        Returns:
+            Complete URL for the API request
+        """
+        params = {
+            "query": query,
+            "fields": ",".join(fields),
+            "format": format,
+            "includeIsoform": str(include_isoform).lower(),
+            "compressed": str(compressed).lower(),
+            "size": size,
+        }
+
+        param_string = "&".join(f"{k}={v}" for k, v in params.items())
+        return f"{self._API_URL}/uniprotkb/search?{param_string}"
+
+    def submit_query(
+        self,
+        query: str,
+        fields: list = None,
+        include_isoform: bool = False,
+        compressed: bool = True,
+        format: str = "tab",
+        size: int = 500,
+    ) -> dict:
+        request = requests.post(
+            f"{self._API_URL}/uniprotkb/search?",
+            data={
+                "query": query,
+                "fields": fields,
+                "includeIsoform": str(include_isoform).lower(),
+                "format": format,
+                "size": size,
+                "compressed": str(compressed).lower(),
+            },
+        )
+        self.check_response(request)
+        return request.json()["jobId"]
+
+    @property
+    def available_formats(self) -> list:
+        return [
+            "json",
+            "xml",
+            "txt",
+            "list",
+            "tsv",
+            "fasta",
+            "gff",
+            "obo",
+            "rdf",
+            "xlsx",
         ]
 
-    def query_builder(self, query: list[dict, str]) -> str:
+    def _get_batches(
+        self, initial_response
+    ) -> Generator[tuple[requests.Response, int], None, None]:
+        """Generator that yields batches of results with pagination.
 
-        return query
+        Args:
+            initial_response: Initial response from the API
 
-    def _set_params(self, **kwargs) -> dict:
+        Yields:
+            Tuple containing:
+                - Response object for the current batch
+                - Total number of results
+        """
+        response = initial_response
+        total = int(response.headers.get("x-total-results", 0))
 
-        pass
+        while True:
+            yield response, total
+
+            next_link = self.get_next_link(response.headers)
+            if not next_link:
+                break
+
+            response = self.session.get(next_link)
+            self.check_response(response)
+
+    def get(
+        self,
+        query: QueryBuilder,
+        fields: Optional[list[str]] = None,
+        format: str = "tsv",
+        include_isoform: bool = False,
+        compressed: bool = False,
+        size: int = 500,
+    ) -> pd.DataFrame:
+        """Main method to retrieve data from UniProtKB. For the query, use the supported fields
+        found within `UniProtMapper.uniprot_kb_fields`.
+
+        An example of this would be:
+
+        Args:
+            fields: QueryBuilder object with the fields to retrieve.
+            format: Format of the response. Defaults to "tsv"
+            include_isoform: Whether to include isoforms. Defaults to False
+            compressed: Whether to request compressed response. Defaults to False
+            size: Batch size for pagination. Defaults to 500
+
+        Returns:
+            - DataFrame with the retrieved data
+        """
+        if fields is None:
+            info(
+                f"No fields provided. Using default fields: {', '.join(self.default_fields)}"
+            )
+            fields = list(self.default_fields)
+
+        url = self._build_search_url(
+            query=str(query),
+            fields=fields,
+            format=format,
+            include_isoform=include_isoform,
+            compressed=compressed,
+            size=size,
+        )
+
+        response = self.session.get(url)
+        self.check_response(response)
+
+        results = []
+        total_results = int(response.headers.get("x-total-results", 0))
+
+        for batch_response, _ in self._get_batches(response):
+            if format == "tsv":
+                batch_data = batch_response.text.splitlines()
+                if results:
+                    batch_data = batch_data[1:]
+                results.extend(batch_data)
+            else:
+                batch_data = batch_response.json()
+                if "results" in batch_data:
+                    results.extend(batch_data["results"])
+
+            print(f"Fetched: {len(results)} / {total_results}")
+
+        if format == "tsv":
+            df = pd.read_csv(pd.io.common.StringIO("\n".join(results)), sep="\t")
+        else:
+            df = pd.DataFrame(results)
+
+        return df
