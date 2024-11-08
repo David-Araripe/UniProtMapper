@@ -1,4 +1,9 @@
-"""Contain all the fields used by the UniProtKB API wrapped as python classes for logical operations
+"""Contain all the fields used by the UniProtKB API wrapped as python classes compatible with
+the following boolean operators:
+
+- & : AND operation
+- | : OR operation
+- ~ : NOT operation
 
 For a list of query fields on UniProt's website, refer to https://www.uniprot.org/help/query-fields
 """
@@ -289,8 +294,11 @@ class VirusHostId(SimpleField):
     For more information on the ID for your organism, see: https://www.uniprot.org/taxonomy?query=*
     """
 
-    def __init__(self, field_value: str) -> None:
-        super().__init__("virus_host_id", field_value)
+    def __init__(self, field_value: Union[str, int]) -> None:
+        super().__init__(
+            "virus_host_id",
+            (field_value if isinstance(field_value, str) else str(field_value)),
+        )
 
 
 class AccessionId(SimpleField):
@@ -358,8 +366,11 @@ class OrganismId(SimpleField):
     """Query for entries with a certain organism taxonomy ID. For more information on the
     taxonomy IDs, see: https://www.uniprot.org/taxonomy?query=*"""
 
-    def __init__(self, field_value: str) -> None:
-        super().__init__("organism_id", field_value)
+    def __init__(self, field_value: Union[str, int]) -> None:
+        super().__init__(
+            "organism_id",
+            (field_value if isinstance(field_value, str) else str(field_value)),
+        )
 
 
 class Plasmid(SimpleField):
@@ -427,8 +438,11 @@ class TaxonomyId(SimpleField):
     """Query for entries with a certain organism taxonomy ID. For more information on the
     taxonomy IDs, see: https://www.uniprot.org/taxonomy?query=*"""
 
-    def __init__(self, field_value: str) -> None:
-        super().__init__("taxonomy_id", field_value)
+    def __init__(self, field_value: Union[str, int]) -> None:
+        super().__init__(
+            "taxonomy_id",
+            (field_value if isinstance(field_value, str) else str(field_value)),
+        )
 
 
 class Tissue(SimpleField):
