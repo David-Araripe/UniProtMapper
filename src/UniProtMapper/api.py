@@ -5,8 +5,10 @@ a list of all supported fields, see https://www.uniprot.org/help/return_fields.
 Supported fields also stored as a data frame in the `fields_table` attribute.
 """
 
+import time
 from logging import warning
 from typing import List, Optional, Tuple, Union
+from urllib.parse import parse_qs, urlparse
 
 import numpy as np
 import pandas as pd
@@ -17,7 +19,6 @@ from .utils import (
     decode_results,
     divide_batches,
     print_progress_batches,
-    read_fields_table,
     supported_mapping_dbs,
 )
 
@@ -76,12 +77,75 @@ class ProtMapper(BaseUniProt):
         )
 
     @property
-    def fields_table(self):
-        return read_fields_table()
-
-    @property
     def _supported_dbs(self) -> list:
         return supported_mapping_dbs()
+
+    def _get_batch(self, batch_response, file_format, compressed):
+        batch_url = self.get_next_link(batch_response.headers)
+        while batch_url:
+            batch_response = self.session.get(batch_url)
+            batch_response.raise_for_status()
+            yield decode_results(batch_response, file_format, compressed)
+            batch_url = self.get_next_link(batch_response.headers)
+
+    def _combine_batches(self, all_results, batch_results, file_format):
+        if file_format == "json":
+            for key in ("results", "failedIds"):
+                if key in batch_results and batch_results[key]:
+                    all_results[key] += batch_results[key]
+        elif file_format == "tsv":
+            return all_results + batch_results[1:]
+        else:
+            return all_results + batch_results
+        return all_results
+
+    def check_id_mapping_ready(self, job_id, from_db, to_db):
+        while True:
+            request = self.session.get(f"{self._API_URL}/idmapping/status/{job_id}")
+            self.check_response(request)
+            j = request.json()
+            if "jobStatus" in j:
+                if j["jobStatus"] in ["RUNNING", "NEW"]:
+                    print(f"Retrying in {self._POLLING_INTERVAL}s")
+                    time.sleep(self._POLLING_INTERVAL)
+                else:
+                    raise Exception(j["jobStatus"])
+            else:
+                try:
+                    ready = bool(j["results"] or j["failedIds"])
+                except KeyError:
+                    raise requests.RequestException(
+                        f"Unexpected response from {from_db} to {to_db}.\n"
+                        'request.json() missing "results" and "failedIds"'
+                    )
+                return ready
+
+    def submit_id_mapping(self, from_db, to_db, ids):
+        request = requests.post(
+            f"{self._API_URL}/idmapping/run",
+            data={"from": from_db, "to": to_db, "ids": ",".join(ids)},
+        )
+        self.check_response(request)
+        return request.json()["jobId"]
+
+    def get_id_mapping_results_link(self, job_id):
+        url = f"{self._API_URL}/idmapping/details/{job_id}"
+        request = self.session.get(url)
+        self.check_response(request)
+        return request.json()["redirectURL"]
+
+    def get_id_mapping_results_stream(self, url):
+        if "/stream/" not in url:
+            url = url.replace("/results/", "/results/stream/")
+        request = self.session.get(url)
+        self.check_response(request)
+        parsed = urlparse(url)
+        query = parse_qs(parsed.query)
+        file_format = query["format"][0] if "format" in query else "json"
+        compressed = (
+            query["compressed"][0].lower() == "true" if "compressed" in query else False
+        )
+        return decode_results(request, file_format, compressed)
 
     def __call__(
         self,
@@ -90,7 +154,7 @@ class ProtMapper(BaseUniProt):
         from_db: str = "UniProtKB_AC-ID",
         to_db: str = "UniProtKB-Swiss-Prot",
         file_format: str = "tsv",
-        compressed: bool = False,
+        compressed: bool = True,
     ) -> Tuple[pd.DataFrame, list]:
         """Wrapper for the `retrieveFields` method.
 
@@ -107,7 +171,7 @@ class ProtMapper(BaseUniProt):
                 you want to include unreviewed accessions, use "UniProtKB". Defaults to
                 "UniProtKB-Swiss-Prot".
             file_format: desired file format. Defaults to "tsv".
-            compressed: compressed API request. Defaults to False.
+            compressed: compressed API request. Defaults to True.
 
         Raises:
             ValueError: If parameters `from_db`or `to_db` are not supported.
@@ -135,8 +199,8 @@ class ProtMapper(BaseUniProt):
         self.check_response(self.session.get(url, allow_redirects=False))
         request = requests.get(url + "/", params=query_dict)
         results = decode_results(request, file_format, compressed=compressed)
-        for i, batch in enumerate(self.get_batch(request, file_format, compressed), 1):
-            results = self.combine_batches(results, batch, file_format)
+        for i, batch in enumerate(self._get_batch(request, file_format, compressed), 1):
+            results = self._combine_batches(results, batch, file_format)
         if file_format == "tsv":
             data = [d.split("\t") for d in results]
         else:
@@ -152,7 +216,7 @@ class ProtMapper(BaseUniProt):
         from_db: str = "UniProtKB_AC-ID",
         to_db: str = "UniProtKB-Swiss-Prot",
         file_format: str = "tsv",
-        compressed: bool = False,
+        compressed: bool = True,
     ) -> Tuple[pd.DataFrame, list]:
         """Gets the requested fields from the UniProt ID Mapping API.
         Supported fields are listed in the `fields_table` attribute. For a complete
@@ -168,7 +232,7 @@ class ProtMapper(BaseUniProt):
                 you want to include unreviewed accessions, use "UniProtKB". Defaults to
                 "UniProtKB-Swiss-Prot".
             file_format: desired file format. Defaults to "tsv".
-            compressed: compressed API request. Defaults to False.
+            compressed: compressed API request. Defaults to True.
 
         Raises:
             ValueError: If parameters `from_db`or `to_db` are not supported.
