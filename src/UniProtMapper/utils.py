@@ -51,7 +51,15 @@ def fetch_cross_referenced_db_details(
 
 
 def read_fields_table():
-    """Reads the fields table from the resources folder."""
+    """Return the fields table from the package resources as a DataFrame containing rows
+    as the information available in UniProt and the following columns:
+
+    - `label`: the label of the information once retrieved from the API.
+    - `returned_field`: the name used in the API to return that information.
+    - `field_type`: the type of information, e.g.: sequence-related, function...
+    - `has_full_version`: whether the annotated field contains the full version of the
+    dataset or not (in case of cross-references).
+    - `type`: the type of data. Either "cross_reference" or "uniprot_field"."""
     csv_path = pkg_resources.resource_filename(
         "UniProtMapper", "resources/uniprot_return_fields.csv"
     )
