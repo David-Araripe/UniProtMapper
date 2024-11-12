@@ -23,30 +23,51 @@ from .field_base_classes import (
 
 
 class active(BooleanField):
-    """Boolean. If set to `False`, return obsolete entries"""
+    """Boolean field. If set to `False`, return obsolete entries"""
 
     def __init__(self, field_value: bool) -> None:
+        """Initalize the `active` UniProtKB data field.
+
+        Args:
+            field_value: If set to `False`, return obsolete entries.
+        """
+
         super().__init__("active", field_value)
 
 
 class fragment(BooleanField):
-    """Boolean. If set to `True`, list entries with an incomplete sequence."""
+    """Boolean field. If set to `True`, list entries with an incomplete sequence."""
 
     def __init__(self, field_value: bool) -> None:
+        """Initalize the `fragment` UniProtKB data field.
+
+        Args:
+            field_value: If set to `True`, list entries with an incomplete sequence.
+        """
         super().__init__("fragment", field_value)
 
 
 class reviewed(BooleanField):
-    """Boolean. If set to `True`, return only reviewed entries"""
+    """Boolean field. If set to `True`, return only reviewed entries"""
 
     def __init__(self, field_value: bool) -> None:
+        """Initalize the `reviewed` UniProtKB data field.
+
+        Args:
+            field_value: If set to `True`, return only reviewed entries.
+        """
         super().__init__("reviewed", field_value)
 
 
 class is_isoform(BooleanField):
-    """Bolean. If set to `True`, return only isoform entries"""
+    """Boolean field. If set to `True`, return only isoform entries"""
 
     def __init__(self, field_value: bool) -> None:
+        """Initalize the `is_isoform` UniProtKB data field.
+
+        Args:
+            field_value: If set to `True`, return only isoform entries.
+        """
         super().__init__("is_isoform", field_value)
 
 
@@ -66,6 +87,11 @@ class protein_name(QuoteField):
     """
 
     def __init__(self, field_value: str) -> None:
+        """Initalize the `protein_name` UniProtKB data field.
+
+        Args:
+            field_value: The protein name to search for.
+        """
         super().__init__("protein_name", field_value)
 
 
@@ -84,6 +110,11 @@ class organism_name(QuoteField):
     """
 
     def __init__(self, field_value: str) -> None:
+        """Initalize the `organism_name` UniProtKB data field.
+
+        Args:
+            field_value: The organism name to search for.
+        """
         super().__init__("organism_name", field_value)
 
 
@@ -91,27 +122,48 @@ class organism_name(QuoteField):
 
 
 class date_created(DateRangeField):
-    """Query for entries created within a time range. Date format: `YYYY-MM-DD`.
-    `*` can also be used as a wildcard for the latest or the earliest date."""
+    """Query entries created within a time range defined from dates. Date format: `YYYY-MM-DD`.
+
+    `*` can also be used as a wildcard for the latest or the earliest/latest date."""
 
     def __init__(self, from_date: str, to_date: str) -> None:
+        """Initalize the `date_created` UniProtKB data field.
+
+        Args:
+            from_date: Starting date as either * (for the earliest) or YYYY-MM-DD.
+            to_date: Ending date as either * (for the latest) or YYYY-MM-DD.
+        """
         super().__init__("date_created", from_date, to_date)
 
 
 class date_modified(DateRangeField):
-    """Query for entries modified within a certain time range. Date format: `YYYY-MM-DD`.
-    `*` can also be used as a wildcard for the latest or the earliest date."""
+    """Query entries modified within a time range defined from dates. Date format: `YYYY-MM-DD`.
+
+    `*` can also be used as a wildcard for the latest or the earliest/latest date."""
 
     def __init__(self, from_date: str, to_date: str) -> None:
+        """Initalize the `date_modified` UniProtKB data field.
+
+        Args:
+            from_date: Starting date as either * (for the earliest) or YYYY-MM-DD.
+            to_date: Ending date as either * (for the latest) or YYYY-MM-DD.
+        """
         super().__init__("date_modified", from_date, to_date)
 
 
 class date_sequence_modified(DateRangeField):
-    """Query for entries with sequence information modified within a certain time range.
-    Date format: `YYYY-MM-DD`. `*` can also be used as a wildcard for the latest or the
-    earliest date."""
+    """Query entries with sequence information modified within a time range defined from dates.
+    Date format: `YYYY-MM-DD`.
+
+    `*` can also be used as a wildcard for the latest or the earliest/latest date."""
 
     def __init__(self, from_date: str, to_date: str) -> None:
+        """Initalize the `date_sequence_modified` UniProtKB data field.
+
+        Args:
+            from_date: Starting date as either * (for the earliest) or YYYY-MM-DD.
+            to_date: Ending date as either * (for the latest) or YYYY-MM-DD.
+        """
         super().__init__("date_sequence_modified", from_date, to_date)
 
 
@@ -119,18 +171,33 @@ class date_sequence_modified(DateRangeField):
 
 
 class length(RangeField):
-    """Query entries with sequence length within a certain range. Inputs should be intergers
-    or the wildcard `*` for the maximum or minimum value."""
+    """Query entries with sequence length within a certain range.
+
+    Arguments should be integers or the wildcard `*` for the maximum or minimum value.
+    """
 
     def __init__(self, from_value: Union[int, str], to_value: Union[int, str]) -> None:
+        """Initalize the `length` UniProtKB data field.
+
+        Args:
+            from_value: The minimum length of the sequence. * can be used as a wildcard for zero.
+            to_value: The maximum length of the sequence. * can be used as a wildcard for infinity.
+        """
         super().__init__("length", from_value, to_value)
 
 
 class mass(RangeField):
-    """Query entries with mass within a certain range. Inputs should be intergers
-    or the wildcard `*` for the maximum or minimum value."""
+    """Query entries with mass within a certain range.
+
+    Arguments should be integersor the wildcard `*` for the maximum or minimum value."""
 
     def __init__(self, from_value: Union[int, str], to_value: Union[int, str]) -> None:
+        """Initalize the `mass` UniProtKB data field.
+
+        Args:
+            from_value: The minimum mass of the sequence. * can be used as a wildcard for zero.
+            to_value: The maximum mass of the sequence. * can be used as a wildcard for infinity.
+        """
         super().__init__("mass", from_value, to_value)
 
 
@@ -139,8 +206,9 @@ class mass(RangeField):
 
 class xref_count(XRefCountField):
     """Query entries with a certain number of cross-references. All fields within
-    `UniProtMapper.utils.read_fields_table()['returned_field']` are supported. For example,
-    to query entries with 20 or more cross-references to "PDB", use:
+    `UniProtMapper.utils.read_fields_table()['returned_field']` are supported.
+
+    E.g.: to query entries with 20 or more cross-references to "PDB", use:
     >>> xref_count('pdb', 20, '*')
 
     Or:
@@ -148,6 +216,13 @@ class xref_count(XRefCountField):
     """
 
     def __init__(self, field_name, from_value: int, to_value: int) -> None:
+        """Initalize the `xref_count` UniProtKB data field.
+
+        Args:
+            field_name: Name of the cross-reference field to query.
+            from_value: Minimum number of cross-references. * can be used as wildcard for zero.
+            to_value: Maximum number of cross-references. * can be used as wildcard for infinity.
+        """
         super().__init__(field_name, from_value, to_value)
 
 
@@ -158,6 +233,11 @@ class accession(SimpleField):
     """Query for entries with a certain UniProt accession key."""
 
     def __init__(self, field_value: str) -> None:
+        """Initalize the `accession` UniProtKB data field.
+
+        Args:
+            field_value: The UniProt accession key to search for.
+        """
         super().__init__("accession", field_value)
 
 
@@ -175,6 +255,11 @@ class lit_author(SimpleField):
     """
 
     def __init__(self, field_value: str) -> None:
+        """Initalize the `lit_author` UniProtKB data field.
+
+        Args:
+            field_value: The author name to search for.
+        """
         super().__init__("lit_author", field_value)
 
 
@@ -183,6 +268,11 @@ class chebi(SimpleField):
     following: https://www.uniprot.org/help/chemical_data_search"""
 
     def __init__(self, field_value: str) -> None:
+        """Initialize the `chebi` UniProtKB data field.
+
+        Args:
+            field_value: The ChEBI identifier to search for.
+        """
         super().__init__("chebi", field_value)
 
 
@@ -190,6 +280,11 @@ class database(SimpleField):
     """List all entries with a cross reference to a certain database"""
 
     def __init__(self, field_value: str) -> None:
+        """Initialize the `database` UniProtKB data field.
+
+        Args:
+            field_value: The database to search for.
+        """
         super().__init__("database", field_value)
 
 
@@ -200,12 +295,17 @@ class xref(SimpleField):
     >>> xref('pdb-1aut')
 
     This could be specially useful to retrieve all entries involved within a certain pathway,
-    or another common cross-referenced database. For a list of supported databases, check
-    `UniProtMapper.utils.read_fields_table()['returned_field']`. Note that the X-References
-    should be passed without the `xref_` prefix.
+    or another common cross-referenced database.
+
+    For a list of supported databases, check `UniProtMapper.utils.read_fields_table()['returned_field']`.
     """
 
     def __init__(self, field_value: str) -> None:
+        """Initialize the `xref` UniProtKB data field.
+
+        Args:
+            field_value: The cross-reference to search for.
+        """
         super().__init__("xref", field_value)
 
 
@@ -213,6 +313,11 @@ class ec(SimpleField):
     """Query for entries with a certain EC number - specific for enzymes"""
 
     def __init__(self, field_value: str) -> None:
+        """Initialize the `ec` UniProtKB data field.
+
+        Args:
+            field_value: The EC number to search for.
+        """
         super().__init__("ec", field_value)
 
 
@@ -229,6 +334,11 @@ class existence(SimpleField):
     """
 
     def __init__(self, field_value: str) -> None:
+        """Initialize the `existence` UniProtKB data field.
+
+        Args:
+            field_value: The existence score to search for.
+        """
         super().__init__("existence", field_value)
 
 
@@ -246,6 +356,11 @@ class family(SimpleField):
     """
 
     def __init__(self, field_value: str) -> None:
+        """Initialize the `family` UniProtKB data field.
+
+        Args:
+            field_value: The protein family to search for.
+        """
         super().__init__("family", field_value)
 
 
@@ -255,13 +370,23 @@ class gene(SimpleField):
     """
 
     def __init__(self, field_value: str) -> None:
+        """Initialize the `gene` UniProtKB data field.
+
+        Args:
+            field_value: The gene name to search for.
+        """
         super().__init__("gene", field_value)
 
 
-class geneExact(SimpleField):
+class gene_exact(SimpleField):
     """Query for entries with an exact gene name match."""
 
     def __init__(self, field_value: str) -> None:
+        """Initialize the `gene_exact` UniProtKB data field.
+
+        Args:
+            field_value: The exact gene name to search for.
+        """
         super().__init__("gene_exact", field_value)
 
 
@@ -273,6 +398,11 @@ class go(SimpleField):
     """
 
     def __init__(self, field_value: str) -> None:
+        """Initialize the `go` UniProtKB data field.
+
+        Args:
+            field_value: The GO identifier to search for.
+        """
         super().__init__("go", field_value)
 
 
@@ -284,6 +414,11 @@ class virus_host_name(SimpleField):
     """
 
     def __init__(self, field_value: str) -> None:
+        """Initalize the `virus_host_name` UniProtKB data field.
+
+        Args:
+            field_value: The host organism name to search for.
+        """
         super().__init__("virus_host_name", field_value)
 
 
@@ -295,6 +430,11 @@ class virus_host_id(SimpleField):
     """
 
     def __init__(self, field_value: Union[str, int]) -> None:
+        """Initalize the `virus_host_id` UniProtKB data field.
+
+        Args:
+            field_value: The host organism taxonomy ID to search for.
+        """
         super().__init__(
             "virus_host_id",
             (field_value if isinstance(field_value, str) else str(field_value)),
@@ -305,6 +445,11 @@ class accession_id(SimpleField):
     """Query for entries with a certain accession ID."""
 
     def __init__(self, field_value: str) -> None:
+        """Initalize the `accession_id` UniProtKB data field.
+
+        Args:
+            field_value: The accession ID to search for.
+        """
         super().__init__("accession_id", field_value)
 
 
@@ -315,6 +460,11 @@ class inchikey(SimpleField):
     """
 
     def __init__(self, field_value: str) -> None:
+        """Initalize the `inchikey` UniProtKB data field.
+
+        Args:
+            field_value: The InChIKey to search for.
+        """
         super().__init__("inchikey", field_value)
 
 
@@ -323,6 +473,11 @@ class interactor(SimpleField):
     interactions with the protein represented by the input."""
 
     def __init__(self, field_value: str) -> None:
+        """Initalize the `interactor` UniProtKB data field.
+
+        Args:
+            field_value: The UniProt accession key to search for.
+        """
         super().__init__("interactor", field_value)
 
 
@@ -340,33 +495,58 @@ class keyword(SimpleField):
     """
 
     def __init__(self, field_value: str) -> None:
+        """Initalize the `keyword` UniProtKB data field.
+
+        Args:
+            field_value: The keyword to search for.
+        """
         super().__init__("keyword", field_value)
 
 
 class cc_mass_spectrometry(SimpleField):
     """Check UniProt's official documentation for the description of this field:
+
     https://www.uniprot.org/help/query-fields#:~:text=least%20500%2C000%20Da.-,cc_mass_spectrometry,-cc_mass_spectrometry%3Amaldi
     """
 
     def __init__(self, field_value: str) -> None:
+        """Initalize the `cc_mass_spectrometry` UniProtKB data field. For more information,
+        check: https://www.uniprot.org/help/query-fields#:~:text=least%20500%2C000%20Da.-,cc_mass_spectrometry,-cc_mass_spectrometry%3Amaldi
+
+        Args:
+            field_value: The mass spectrometry information to search for.
+        """
         super().__init__("cc_mass_spectrometry", field_value)
 
 
 class organelle(SimpleField):
-    """Query entries for proteins encoded by a gene within a certain organelle. E.g.:
-    the mitochondrial chromosome:
+    """Query entries for proteins encoded by a gene within a certain organelle.
+
+    E.g.: query entries encoded by the mitochondrial chromosome:
     >>> organelle('Mitochondrion')
     """
 
     def __init__(self, field_value: str) -> None:
+        """Initalize the `organelle` UniProtKB data field.
+
+        Args:
+            field_value: The organelle to search for.
+        """
         super().__init__("organelle", field_value)
 
 
 class organism_id(SimpleField):
-    """Query for entries with a certain organism taxonomy ID. For more information on the
-    taxonomy IDs, see: https://www.uniprot.org/taxonomy?query=*"""
+    """Query for entries with a certain organism taxonomy ID.
+
+    For more information on the taxonomy IDs, see: https://www.uniprot.org/taxonomy?query=*
+    """
 
     def __init__(self, field_value: Union[str, int]) -> None:
+        """Initalize the `organism_id` UniProtKB data field.
+
+        Args:
+            field_value: The organism taxonomy ID to search for.
+        """
         super().__init__(
             "organism_id",
             (field_value if isinstance(field_value, str) else str(field_value)),
@@ -375,70 +555,112 @@ class organism_id(SimpleField):
 
 class plasmid(SimpleField):
     """Query entries for proteins encoded by a gene that is part of a certain plasmid.
+
     For the available plasmid vocabulary, check:
-     https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/docs/plasmid.txt
+    https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/docs/plasmid.txt
     """
 
     def __init__(self, field_value: str) -> None:
+        """Initalize the `plasmid` UniProtKB data field.
+
+        Args:
+            field_value: The plasmid to search for.
+        """
         super().__init__("plasmid", field_value)
 
 
 class proteome(SimpleField):
-    """Query all proteins belonging to a certain proteome. For more information, check:
-    https://www.uniprot.org/proteomes"""
+    """Query all proteins belonging to a certain proteome.
+
+    For more information, check: https://www.uniprot.org/proteomes"""
 
     def __init__(self, field_value: str) -> None:
+        """Initalize the `proteome` UniProtKB data field.
+
+        Args:
+            field_value: The proteome to search for.
+        """
         super().__init__("proteome", field_value)
 
 
 class proteome_component(SimpleField):
-    """Query all proteins belonging to a certain proteome component. E.g.:
-    Lists all entries from the human chromosome 1.
-    >>> organism_id('9606') & proteome_component('chromosome:1')
+    """Query all proteins belonging to a certain proteome component.
 
+    E.g.: Lists all entries from the human chromosome 1.
+    >>> organism_id('9606') & proteome_component('chromosome:1')
     """
 
     def __init__(self, field_value: str) -> None:
+        """Initalize the `proteome_component` UniProtKB data field.
+
+        Args:
+            field_value: The proteome component to search for.
+        """
         super().__init__("proteomecomponent", field_value)
 
 
 class sec_acc(SimpleField):
-    """Query entries that were created from a merge with a certain UniProt entry. For more
-    information, check UniProt's FAQ:
+    """Query entries that were created from a merge with a certain UniProt entry.
+
+    For more information, check UniProt's FAQ:
     https://www.uniprot.org/help/difference_accession_entryname"""
 
     def __init__(self, field_value: str) -> None:
+        """Initalize the `sec_acc` UniProtKB data field.
+
+        Args:
+            field_value: The secondary accession key to search for.
+        """
         super().__init__("sec_acc", field_value)
 
 
 class scope(SimpleField):
     """Query entries containing a reference that was used to gather information about `<field_value>`.
-    E.g.: for entries containing references with information about "mutagenesis", use:
 
+    E.g.: for entries containing references with information about "mutagenesis", use:
     >>> scope('mutagenesis')
     """
 
     def __init__(self, field_value: str) -> None:
+        """Initalize the `scope` UniProtKB data field.
+
+        Args:
+            field_value: The scope to search for. E.g. "mutagenesis" will search for all entries
+                containing references with information about mutagenesis.
+        """
         super().__init__("scope", field_value)
 
 
 class taxonomy_name(SimpleField):
-    """Query for entries with a certain organism taxonomy name. For more information on the
-    taxonomy names, see: https://www.uniprot.org/taxonomy?query=*
+    """Query for entries with a certain organism taxonomy name.
 
-    e.g:
+    For more information on thetaxonomy names, see: https://www.uniprot.org/taxonomy?query=*
+
+    E.g: to search for all mammal proteins:
     >>> taxonomy_name('mammal')
     """
 
     def __init__(self, field_value: str) -> None:
+        """Initalize the `taxonomy_name` UniProtKB data field.
+
+        Args:
+            field_value: The organism taxonomy name to search for.
+        """
         super().__init__("taxonomy_name", field_value)
 
 
 class taxonomy_id(SimpleField):
-    """Query for entries with a certain organism taxonomy ID. For more information on the
-    taxonomy IDs, see: https://www.uniprot.org/taxonomy?query=*"""
+    """Query for entries with a certain organism taxonomy ID.
+
+    For more information on the taxonomy IDs, see: https://www.uniprot.org/taxonomy?query=*
+    """
 
     def __init__(self, field_value: Union[str, int]) -> None:
+        """Initalize the `taxonomy_id` UniProtKB data field.
+
+        Args:
+            field_value: The organism taxonomy ID to search for.
+        """
         super().__init__(
             "taxonomy_id",
             (field_value if isinstance(field_value, str) else str(field_value)),
@@ -462,14 +684,26 @@ class tissue(SimpleField):
     """
 
     def __init__(self, field_value: str) -> None:
+        """Initalize the `tissue` UniProtKB data field. For a full list of UniProt's tissue
+        vocabulary, check: https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/docs/tisslist.txt
+
+        Args:
+            field_value: The tissue to search for.
+        """
         super().__init__("tissue", field_value)
 
 
 class cc_webresource(SimpleField):
-    """Query all entries with a certain web resource. E.g.: all proteins described in Wikipedia:
+    """Query all entries with a certain web resource.
+
+    E.g.: all proteins described in Wikipedia:
     >>> cc_webresource('Wikipedia')
     """
 
     def __init__(self, field_value: str) -> None:
-        super().__init__("cc_webresource", field_value)
+        """Initalize the `cc_webresource` UniProtKB data field.
+
+        Args:
+            field_value: The web resource to search for.
+        """
         super().__init__("cc_webresource", field_value)
