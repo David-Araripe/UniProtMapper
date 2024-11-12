@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
-"""module to get the correct version information from setuptols_scm generated file"""
+"""Module to get the correct version information from setuptols_scm generated file."""
+
 from pathlib import Path
 
 

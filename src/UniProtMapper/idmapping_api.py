@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Holds ProtMapper: a class for returning specific fields from UniProt. For
 a list of all supported fields, see https://www.uniprot.org/help/return_fields. 
 

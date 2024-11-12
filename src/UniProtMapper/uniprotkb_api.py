@@ -1,3 +1,6 @@
+"""Hold the class to interact with the UniProtKB API. For query construction, use the
+field classes found in `UniProtMapper.uniprotkb_fields`."""
+
 from logging import info
 from typing import Generator, Optional, Union
 
@@ -9,7 +12,7 @@ from .field_base_classes import QueryBuilder
 from .interface import BaseUniProt
 
 
-class UniProtKBWrapper(BaseUniProt):
+class ProtKB(BaseUniProt):
 
     def __init__(
         self,

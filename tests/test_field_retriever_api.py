@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 import pandas as pd
 
-from UniProtMapper.api import ProtMapper
+from UniProtMapper.idmapping_api import ProtMapper
 
 # Test data
 test_ids = ["P30542", "Q16678", "Q02880"]

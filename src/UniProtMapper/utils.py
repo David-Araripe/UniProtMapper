@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
-"""Module with utility functions for UniProtMapper and SwissProtParser."""
+"""Module with utility functions for the package."""
+
 import json
 import re
 import zlib
