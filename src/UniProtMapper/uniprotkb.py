@@ -1,8 +1,9 @@
 from logging import info
-from typing import Generator, Optional
+from typing import Generator, Optional, Union
 
 import pandas as pd
 import requests
+from tqdm import tqdm
 
 from .field_base_classes import QueryBuilder
 from .interface import BaseUniProt
@@ -147,7 +148,7 @@ class UniProtKBWrapper(BaseUniProt):
 
     def get(
         self,
-        query: QueryBuilder,
+        query: Union[QueryBuilder, str],
         fields: Optional[list[str]] = None,
         format: str = "tsv",
         include_isoform: bool = False,
@@ -160,7 +161,7 @@ class UniProtKBWrapper(BaseUniProt):
         An example of this would be:
 
         Args:
-            fields: QueryBuilder object with the fields to retrieve.
+            fields: string or QueryBuilder object with the fields to retrieve.
             format: Format of the response. Defaults to "tsv"
             include_isoform: Whether to include isoforms. Defaults to False
             compressed: Whether to request compressed response. Defaults to False
@@ -176,7 +177,7 @@ class UniProtKBWrapper(BaseUniProt):
             fields = list(self.default_fields)
 
         url = self._build_search_url(
-            query=str(query),
+            query=(str(query) if isinstance(query, QueryBuilder) else query),
             fields=fields,
             format=format,
             include_isoform=include_isoform,
@@ -190,7 +191,13 @@ class UniProtKBWrapper(BaseUniProt):
         results = []
         total_results = int(response.headers.get("x-total-results", 0))
 
-        for batch_response, _ in self._get_batches(response):
+        pbar = tqdm(
+            self._get_batches(response),
+            desc="Fetching data",
+            total=total_results // size + 1,
+        )
+
+        for batch_response, _ in pbar:
             if format == "tsv":
                 batch_data = batch_response.text.splitlines()
                 if results:
@@ -201,7 +208,7 @@ class UniProtKBWrapper(BaseUniProt):
                 if "results" in batch_data:
                     results.extend(batch_data["results"])
 
-            print(f"Fetched: {len(results)} / {total_results}")
+            pbar.set_postfix({"fetched": f"{len(results)-1}/{total_results}"})
 
         if format == "tsv":
             df = pd.read_csv(pd.io.common.StringIO("\n".join(results)), sep="\t")
