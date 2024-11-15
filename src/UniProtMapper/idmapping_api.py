@@ -152,7 +152,6 @@ class ProtMapper(BaseUniProt):
         fields: list = None,
         from_db: str = "UniProtKB_AC-ID",
         to_db: str = "UniProtKB-Swiss-Prot",
-        file_format: str = "tsv",
         compressed: bool = True,
     ) -> Tuple[pd.DataFrame, list]:
         """Wrapper for the `retrieveFields` method.
@@ -169,7 +168,6 @@ class ProtMapper(BaseUniProt):
             to_db: UniProtDB to query to. For reviewed-only accessions, use default. If
                 you want to include unreviewed accessions, use "UniProtKB". Defaults to
                 "UniProtKB-Swiss-Prot".
-            file_format: desired file format. Defaults to "tsv".
             compressed: compressed API request. Defaults to True.
 
         Raises:
@@ -179,15 +177,12 @@ class ProtMapper(BaseUniProt):
             Tuple[pd.DataFrame, list]: First element is a data frame with the
             results, second element is a list of failed IDs.
         """
-        return self.get(ids, fields, from_db, to_db, file_format, compressed)
+        return self.get(ids, fields, from_db, to_db, compressed)
 
-    def get_id_mapping_results_search(
-        self, fields: str, url: str, file_format: str, compressed: bool
-    ):
+    def get_id_mapping_results_search(self, fields: str, url: str, compressed: bool):
         """Get the id mapping results from the UniProt API."""
-        assert file_format in ["json", "tsv", "xlsx", "xml"]
         query_dict = {
-            "format": file_format,
+            "format": "tsv",
             "fields": fields,
             "includeIsoform": "false",
             "size": 500,
@@ -197,13 +192,10 @@ class ProtMapper(BaseUniProt):
             query_dict.pop("fields")
         self.check_response(self.session.get(url, allow_redirects=False))
         request = requests.get(url + "/", params=query_dict)
-        results = decode_results(request, file_format, compressed=compressed)
-        for i, batch in enumerate(self._get_batch(request, file_format, compressed), 1):
-            results = self._combine_batches(results, batch, file_format)
-        if file_format == "tsv":
-            data = [d.split("\t") for d in results]
-        else:
-            raise NotImplementedError("Only tsv format is implemented")
+        results = decode_results(request, "tsv", compressed=compressed)
+        for i, batch in enumerate(self._get_batch(request, "tsv", compressed), 1):
+            results = self._combine_batches(results, batch, "tsv")
+        data = [d.split("\t") for d in results]
         columns = data[0]
         results_df = pd.DataFrame(data=data[1:], columns=columns)
         return results_df
@@ -214,7 +206,6 @@ class ProtMapper(BaseUniProt):
         fields: Optional[Union[str, List]] = "default",
         from_db: str = "UniProtKB_AC-ID",
         to_db: str = "UniProtKB-Swiss-Prot",
-        file_format: str = "tsv",
         compressed: bool = True,
     ) -> Tuple[pd.DataFrame, list]:
         """Gets the requested fields from the UniProt ID Mapping API.
@@ -230,7 +221,6 @@ class ProtMapper(BaseUniProt):
             to_db: UniProtDB to query to. For reviewed-only accessions, use default. If
                 you want to include unreviewed accessions, use "UniProtKB". Defaults to
                 "UniProtKB-Swiss-Prot".
-            file_format: desired file format. Defaults to "tsv".
             compressed: compressed API request. Defaults to True.
 
         Raises:
@@ -274,15 +264,12 @@ class ProtMapper(BaseUniProt):
             fields=fields,
             from_db=from_db,
             to_db=to_db,
-            file_format=file_format,
             compressed=compressed,
         ):
             job_id = self.submit_id_mapping(from_db=from_db, to_db=to_db, ids=ids)
             if self.check_id_mapping_ready(job_id, from_db=from_db, to_db=to_db):
                 link = self.get_id_mapping_results_link(job_id)
-                df = self.get_id_mapping_results_search(
-                    fields, link, file_format, compressed
-                )
+                df = self.get_id_mapping_results_search(fields, link, compressed)
                 retrieved = len(df["From"].values)
                 failed_arr = np.isin(ids, df["From"].values, invert=True)
                 n_failed = failed_arr.astype(int).sum()
