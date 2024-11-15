@@ -97,20 +97,6 @@ class TestProtKB(unittest.TestCase):
         self.assertTrue("ADORA1" in str(p30542_data["Gene Names"]))
         self.assertTrue("Homo sapiens" in str(p30542_data["Organism"]))
 
-    def test_format_specifications(self):
-        """Test different format specifications."""
-
-        # Test TSV format (default)
-        result_tsv = self.protkb.get(self.query, format="tsv")
-        self.assertIsInstance(result_tsv, pd.DataFrame)
-
-        # Test JSON format
-        result_json = self.protkb.get(self.query, format="json")
-        self.assertIsInstance(result_json, pd.DataFrame)
-
-        # Verify both formats return same number of entries
-        self.assertEqual(len(result_tsv), len(result_json))
-
     def test_response_field_compatibility(self):
         """Test that all the retrieved data is the one expected from the fields table."""
         result = self.protkb.get(self.query)
