@@ -8,14 +8,14 @@ Basic Field Queries
 
 Here's a simple example using boolean fields::
 
-    from UniProtMapper import ProtMapper
+    from UniProtMapper import ProtKB
     from UniProtMapper.uniprotkb_fields import reviewed, organism_name
     
-    mapper = ProtMapper()
+    protkb = ProtKB()
     
     # Find reviewed human proteins
     query = reviewed(True) & organism_name("human")
-    result, failed = mapper.query(query)
+    result, failed = protkb.get(query)
 
 Complex Queries
 ---------------
@@ -26,19 +26,23 @@ You can combine multiple fields with boolean operators::
         length,
         mass,
         date_modified,
-        gene_exact
+        gene_exact,
+        xref_count,
     )
     
     # Find human proteins:
     # - modified since 2024
     # - between 200-300 amino acids
     # - mass < 50kDa
+    # - 5 or more deposited PDB structures
     query = (
         organism_name("human") &
         date_modified("2024-01-01", "*") &
         length(200, 300) &
-        mass("*", 50000)
+        mass("*", 50000) &
+        xref_count("pdb", 5, "*")
     )
+    result = protkb.get(query)
 
 Field Types
 -----------
