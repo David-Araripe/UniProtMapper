@@ -29,19 +29,13 @@ jobs:
       - name: Build Documentation
         run: |
           cd docs
-          # Set the correct base URL depending on the branch
-          if [ "${{ github.ref }}" = "refs/heads/dev" ]; then
-            make html SPHINXOPTS="-D html_baseurl=https://david-araripe.github.io/UniProtMapper/dev/"
-          else
-            make html SPHINXOPTS="-D html_baseurl=https://david-araripe.github.io/UniProtMapper/stable/"
-          fi
+          make html
           touch build/html/.nojekyll
 
       - name: Deploy Documentation
         if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev')
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
           folder: docs/build/html
           target-folder: ${{ github.ref == 'refs/heads/dev' && 'dev' || 'stable' }}
