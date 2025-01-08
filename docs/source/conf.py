@@ -38,6 +38,29 @@ exclude_patterns = []
 # The theme to use for HTML and HTML Help pages
 html_theme = 'sphinx_rtd_theme'
 
+# Theme options
+html_theme_options = {
+    'display_version': True,
+    'prev_next_buttons_location': 'bottom',
+    'style_external_links': False,
+    'style_nav_header_background': '#2980B9',
+    # Toc options
+    'collapse_navigation': True,
+    'sticky_navigation': True,
+    'navigation_depth': 4,
+    'includehidden': True,
+    'titles_only': False
+}
+
+# These paths are either relative to html_static_path or fully qualified paths
+html_css_files = []
+html_js_files = []
+
+# Additional settings
+html_show_sourcelink = True
+html_show_sphinx = True
+html_show_copyright = True
+
 # Add any paths that contain custom static files
 html_static_path = ['_static']
 
