@@ -20,25 +20,16 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements-docs.txt
+          cd docs
+          pip install -r requirements.txt
+          cd ..
           pip install .
 
       - name: Build Documentation
         run: |
           cd docs
           make html
-          # Create .nojekyll file to allow _* files
           touch build/html/.nojekyll
-          # Add branch-specific redirect
-          if [ "${{ github.ref }}" = "refs/heads/dev" ]; then
-            echo '<meta http-equiv="refresh" content="0; url=./dev/">' > build/html/index.html
-            mkdir -p build/html/dev
-            cp -r build/html/* build/html/dev/
-          else
-            echo '<meta http-equiv="refresh" content="0; url=./stable/">' > build/html/index.html
-            mkdir -p build/html/stable
-            cp -r build/html/* build/html/stable/
-          fi
 
       - name: Deploy Documentation
         if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev')
