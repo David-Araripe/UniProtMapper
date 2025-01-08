@@ -29,7 +29,12 @@ jobs:
       - name: Build Documentation
         run: |
           cd docs
-          make html
+          # Set the correct base URL depending on the branch
+          if [ "${{ github.ref }}" = "refs/heads/dev" ]; then
+            make html SPHINXOPTS="-D html_baseurl=https://david-araripe.github.io/UniProtMapper/dev/"
+          else
+            make html SPHINXOPTS="-D html_baseurl=https://david-araripe.github.io/UniProtMapper/stable/"
+          fi
           touch build/html/.nojekyll
 
       - name: Deploy Documentation
