@@ -5,7 +5,7 @@
 [![GitHub Actions](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2FDavid-Araripe%2FUniProtMapper%2Fbadge%3Fref%3Dmaster&style=flat-square)](https://actions-badge.atrox.dev/David-Araripe/UniProtMapper/goto?ref=master)
 [![Downloads:PyPI](https://img.shields.io/pypi/dm/uniprot-id-mapper?style=flat-square)](https://pypi.org/project/uniprot-id-mapper/)
 
-# UniProtMapper: UniProt Data Retrieval and ID Mapping <img align="left" width="40" height="40" src="https://raw.githubusercontent.com/whitead/protein-emoji/main/src/protein-72-color.svg">
+# UniProtMapper <img align="left" width="40" height="40" src="https://raw.githubusercontent.com/whitead/protein-emoji/main/src/protein-72-color.svg">
 
 Easily retrieve UniProt data and map protein identifiers using this Python package for UniProt's [Retrieve/ID Mapping](https://www.uniprot.org/id-mapping) RESTful API.
 
