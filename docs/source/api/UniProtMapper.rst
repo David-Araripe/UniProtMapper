@@ -17,14 +17,6 @@ Field Querying
    :undoc-members:
    :show-inheritance:
 
-Base Classes
------------
-
-.. automodule:: UniProtMapper.field_base_classes
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Utilities
 --------
 
