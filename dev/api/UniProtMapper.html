@@ -1,0 +1,689 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UniProtMapper package &mdash; UniProtMapper 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ID Mapping Tutorial" href="../tutorials/mapping.html" />
+    <link rel="prev" title="API Reference" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            UniProtMapper
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../field_reference.html">Return Fields Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">UniProtMapper package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#main-module">Main Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-UniProtMapper.uniprotkb_fields">Field Querying</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.accession"><code class="docutils literal notranslate"><span class="pre">accession</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.accession_id"><code class="docutils literal notranslate"><span class="pre">accession_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.active"><code class="docutils literal notranslate"><span class="pre">active</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.cc_mass_spectrometry"><code class="docutils literal notranslate"><span class="pre">cc_mass_spectrometry</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.cc_webresource"><code class="docutils literal notranslate"><span class="pre">cc_webresource</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.chebi"><code class="docutils literal notranslate"><span class="pre">chebi</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.database"><code class="docutils literal notranslate"><span class="pre">database</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.date_created"><code class="docutils literal notranslate"><span class="pre">date_created</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.date_modified"><code class="docutils literal notranslate"><span class="pre">date_modified</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.date_sequence_modified"><code class="docutils literal notranslate"><span class="pre">date_sequence_modified</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.ec"><code class="docutils literal notranslate"><span class="pre">ec</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.existence"><code class="docutils literal notranslate"><span class="pre">existence</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.family"><code class="docutils literal notranslate"><span class="pre">family</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.fragment"><code class="docutils literal notranslate"><span class="pre">fragment</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.gene"><code class="docutils literal notranslate"><span class="pre">gene</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.gene_exact"><code class="docutils literal notranslate"><span class="pre">gene_exact</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.go"><code class="docutils literal notranslate"><span class="pre">go</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.inchikey"><code class="docutils literal notranslate"><span class="pre">inchikey</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.interactor"><code class="docutils literal notranslate"><span class="pre">interactor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.is_isoform"><code class="docutils literal notranslate"><span class="pre">is_isoform</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.keyword"><code class="docutils literal notranslate"><span class="pre">keyword</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.length"><code class="docutils literal notranslate"><span class="pre">length</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.lit_author"><code class="docutils literal notranslate"><span class="pre">lit_author</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.mass"><code class="docutils literal notranslate"><span class="pre">mass</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.organelle"><code class="docutils literal notranslate"><span class="pre">organelle</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.organism_id"><code class="docutils literal notranslate"><span class="pre">organism_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.organism_name"><code class="docutils literal notranslate"><span class="pre">organism_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.plasmid"><code class="docutils literal notranslate"><span class="pre">plasmid</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.protein_name"><code class="docutils literal notranslate"><span class="pre">protein_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.proteome"><code class="docutils literal notranslate"><span class="pre">proteome</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.proteome_component"><code class="docutils literal notranslate"><span class="pre">proteome_component</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.reviewed"><code class="docutils literal notranslate"><span class="pre">reviewed</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.scope"><code class="docutils literal notranslate"><span class="pre">scope</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.sec_acc"><code class="docutils literal notranslate"><span class="pre">sec_acc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.taxonomy_id"><code class="docutils literal notranslate"><span class="pre">taxonomy_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.taxonomy_name"><code class="docutils literal notranslate"><span class="pre">taxonomy_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.tissue"><code class="docutils literal notranslate"><span class="pre">tissue</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.virus_host_id"><code class="docutils literal notranslate"><span class="pre">virus_host_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.virus_host_name"><code class="docutils literal notranslate"><span class="pre">virus_host_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.xref"><code class="docutils literal notranslate"><span class="pre">xref</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.uniprotkb_fields.xref_count"><code class="docutils literal notranslate"><span class="pre">xref_count</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-UniProtMapper.utils">Utilities</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.utils.decode_results"><code class="docutils literal notranslate"><span class="pre">decode_results()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.utils.divide_batches"><code class="docutils literal notranslate"><span class="pre">divide_batches()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.utils.fetch_cross_referenced_db_details"><code class="docutils literal notranslate"><span class="pre">fetch_cross_referenced_db_details()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.utils.get_resources_root"><code class="docutils literal notranslate"><span class="pre">get_resources_root()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.utils.get_xml_namespace"><code class="docutils literal notranslate"><span class="pre">get_xml_namespace()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.utils.print_progress_batches"><code class="docutils literal notranslate"><span class="pre">print_progress_batches()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.utils.read_fields_table"><code class="docutils literal notranslate"><span class="pre">read_fields_table()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UniProtMapper.utils.supported_mapping_dbs"><code class="docutils literal notranslate"><span class="pre">supported_mapping_dbs()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/mapping.html">ID Mapping Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/retrieving.html">Retrieving Information Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/field_querying.html">Field-Based Querying Tutorial</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UniProtMapper</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">API Reference</a></li>
+      <li class="breadcrumb-item active">UniProtMapper package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/UniProtMapper.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="uniprotmapper-package">
+<h1>UniProtMapper package<a class="headerlink" href="#uniprotmapper-package" title="Link to this heading"></a></h1>
+<section id="main-module">
+<h2>Main Module<a class="headerlink" href="#main-module" title="Link to this heading"></a></h2>
+</section>
+<section id="module-UniProtMapper.uniprotkb_fields">
+<span id="field-querying"></span><h2>Field Querying<a class="headerlink" href="#module-UniProtMapper.uniprotkb_fields" title="Link to this heading"></a></h2>
+<p>Contain all the fields used by the UniProtKB API wrapped as python classes compatible with
+the following boolean operators:</p>
+<ul class="simple">
+<li><p>&amp; : AND operation</p></li>
+<li><p><cite>|</cite> : OR operation</p></li>
+<li><p>~ : NOT operation</p></li>
+</ul>
+<p>For a list of query fields on UniProt’s website, refer to <a class="reference external" href="https://www.uniprot.org/help/query-fields">https://www.uniprot.org/help/query-fields</a></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.accession">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">accession</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#accession"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.accession" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleField</span></code></p>
+<p>Query for entries with a certain UniProt accession key.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.accession_id">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">accession_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#accession_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.accession_id" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleField</span></code></p>
+<p>Query for entries with a certain accession ID.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.active">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">active</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#active"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.active" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BooleanField</span></code></p>
+<p>Boolean field. If set to <cite>False</cite>, return obsolete entries</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.cc_mass_spectrometry">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">cc_mass_spectrometry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#cc_mass_spectrometry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.cc_mass_spectrometry" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleField</span></code></p>
+<p>Check UniProt’s official documentation for the description of this field:</p>
+<p><a class="reference external" href="https://www.uniprot.org/help/query-fields#:~:text=least%20500%2C000%20Da.-,cc_mass_spectrometry,-cc_mass_spectrometry%3Amaldi">https://www.uniprot.org/help/query-fields#:~:text=least%20500%2C000%20Da.-,cc_mass_spectrometry,-cc_mass_spectrometry%3Amaldi</a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.cc_webresource">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">cc_webresource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#cc_webresource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.cc_webresource" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleField</span></code></p>
+<p>Query all entries with a certain web resource.</p>
+<p>E.g.: all proteins described in Wikipedia:
+&gt;&gt;&gt; cc_webresource(‘Wikipedia’)</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.chebi">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">chebi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#chebi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.chebi" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleField</span></code></p>
+<p>Query for entries with a certain ChEBI identifier. For more information, check the
+following: <a class="reference external" href="https://www.uniprot.org/help/chemical_data_search">https://www.uniprot.org/help/chemical_data_search</a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.database">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">database</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#database"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.database" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleField</span></code></p>
+<p>List all entries with a cross reference to a certain database</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.date_created">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">date_created</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#date_created"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.date_created" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">DateRangeField</span></code></p>
+<p>Query entries created within a time range defined from dates. Date format: <cite>YYYY-MM-DD</cite>.</p>
+<p><cite>*</cite> can also be used as a wildcard for the latest or the earliest/latest date.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.date_modified">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">date_modified</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#date_modified"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.date_modified" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">DateRangeField</span></code></p>
+<p>Query entries modified within a time range defined from dates. Date format: <cite>YYYY-MM-DD</cite>.</p>
+<p><cite>*</cite> can also be used as a wildcard for the latest or the earliest/latest date.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.date_sequence_modified">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">date_sequence_modified</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#date_sequence_modified"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.date_sequence_modified" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">DateRangeField</span></code></p>
+<p>Query entries with sequence information modified within a time range defined from dates.
+Date format: <cite>YYYY-MM-DD</cite>.</p>
+<p><cite>*</cite> can also be used as a wildcard for the latest or the earliest/latest date.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.ec">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">ec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#ec"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.ec" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleField</span></code></p>
+<p>Query for entries with a certain EC number - specific for enzymes</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.existence">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">existence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#existence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.existence" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleField</span></code></p>
+<p>Query for entries with a certain existence score. Possible values are:</p>
+<ol class="arabic simple">
+<li><p>Experimental evidence at protein level</p></li>
+<li><p>Experimental evidence at transcript level</p></li>
+<li><p>Protein inferred from homology</p></li>
+<li><p>Protein predicted</p></li>
+<li><p>Protein uncertain</p></li>
+</ol>
+<p>For further information, check: <a class="reference external" href="https://www.uniprot.org/help/protein_existence">https://www.uniprot.org/help/protein_existence</a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.family">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">family</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#family"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.family" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleField</span></code></p>
+<p>Query for entries within a certain protein family. Further functionalities include:
+- Query for “name_1” while excluding entries with “name_2” as family,
+&gt;&gt;&gt; family(‘name_1 - name_2’)
+- Query for “name_1” <em>and</em> “name_2”, in this order,
+&gt;&gt;&gt; family(‘name_1 name_2’)
+- Glob-like search for all entries with family starting with “chemokine”:
+&gt;&gt;&gt; family(‘chemokine*’)</p>
+<p>For a full list of protein families within UniProt, check:
+<a class="reference external" href="https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/docs/similar.txt">https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/docs/similar.txt</a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.fragment">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">fragment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#fragment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.fragment" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BooleanField</span></code></p>
+<p>Boolean field. If set to <cite>True</cite>, list entries with an incomplete sequence.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.gene">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">gene</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#gene"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.gene" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleField</span></code></p>
+<p>Query for entries with a gene name. Caveat, searching for HPSE using this field
+will also retrieve entries with HPSE2. For a more specific search, use <cite>GeneExact</cite>.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.gene_exact">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">gene_exact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#gene_exact"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.gene_exact" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleField</span></code></p>
+<p>Query for entries with an exact gene name match.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.go">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">go</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#go"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.go" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleField</span></code></p>
+<p>Query for entries with a certain Gene Ontology (GO) term. Further functionalities include:</p>
+<ul class="simple">
+<li><p>Query for “name_1” while excluding entries with “name_2” as GO term,</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">go</span><span class="p">(</span><span class="s1">&#39;name_1 - name_2&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.inchikey">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">inchikey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#inchikey"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.inchikey" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleField</span></code></p>
+<p>Query entries associated with the small molecule identified by the input InChIKey</p>
+<p>For more information, check: <a class="reference external" href="https://www.uniprot.org/help/chemical_data_search">https://www.uniprot.org/help/chemical_data_search</a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.interactor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">interactor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#interactor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.interactor" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleField</span></code></p>
+<p>Input should be a UniProt accession key (ID). Query all entries describing
+interactions with the protein represented by the input.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.is_isoform">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">is_isoform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#is_isoform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.is_isoform" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BooleanField</span></code></p>
+<p>Boolean field. If set to <cite>True</cite>, return only isoform entries</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.keyword">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">keyword</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#keyword"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.keyword" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleField</span></code></p>
+<p>Query all UniProt entries with a certain keyword. Further functionalities include:</p>
+<ul class="simple">
+<li><p>Query for “name_1” while excluding entries with “name_2” as keyword,</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">keyword</span><span class="p">(</span><span class="s1">&#39;name_1 - name_2&#39;</span><span class="p">)</span>
+<span class="go">- Query for &quot;name_1&quot; *and* &quot;name_2&quot;, in this order,</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">keyword</span><span class="p">(</span><span class="s1">&#39;name_1 name_2&#39;</span><span class="p">)</span>
+<span class="go">- Glob-like search for all entries with keyword starting with &quot;G-protein&quot;:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">keyword</span><span class="p">(</span><span class="s1">&#39;G-protein*&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For a list of keywords, check: <a class="reference external" href="https://www.uniprot.org/keywords?query=*">https://www.uniprot.org/keywords?query=*</a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.length">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#length"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.length" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RangeField</span></code></p>
+<p>Query entries with sequence length within a certain range.</p>
+<p>Arguments should be integers or the wildcard <cite>*</cite> for the maximum or minimum value.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.lit_author">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">lit_author</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#lit_author"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.lit_author" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleField</span></code></p>
+<p>Query for entries with at least one reference co-authored by the specified author.
+Extra functionalities include:
+- Query for “name_1” while excluding entries with “name_2” as co-author,
+&gt;&gt;&gt; lit_author(‘name_1 - name_2’)</p>
+<ul class="simple">
+<li><p>Query for “name_1” <em>and</em> “name_2”, in this order,</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">lit_author</span><span class="p">(</span><span class="s1">&#39;name_1 name_2&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Glob-like search for all entries with author starting with a Cavad:</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">lit_author</span><span class="p">(</span><span class="s1">&#39;Cavad*&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.mass">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">mass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#mass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.mass" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RangeField</span></code></p>
+<p>Query entries with mass within a certain range.</p>
+<p>Arguments should be integersor the wildcard <cite>*</cite> for the maximum or minimum value.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.organelle">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">organelle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#organelle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.organelle" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleField</span></code></p>
+<p>Query entries for proteins encoded by a gene within a certain organelle.</p>
+<p>E.g.: query entries encoded by the mitochondrial chromosome:
+&gt;&gt;&gt; organelle(‘Mitochondrion’)</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.organism_id">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">organism_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#organism_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.organism_id" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleField</span></code></p>
+<p>Query for entries with a certain organism taxonomy ID.</p>
+<p>For more information on the taxonomy IDs, see: <a class="reference external" href="https://www.uniprot.org/taxonomy?query=*">https://www.uniprot.org/taxonomy?query=*</a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.organism_name">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">organism_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#organism_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.organism_name" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QuoteField</span></code></p>
+<p>Field for organism names. Further functionality:
+- Query for “name_1” while excluding “name_2”,
+&gt;&gt;&gt; organism_name(‘name_1 - name_2’)</p>
+<ul class="simple">
+<li><p>Query for “name_1” <em>and</em> “name_2”, in this order,</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">organism_name</span><span class="p">(</span><span class="s1">&#39;name_1 name_2&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Glob-like search for all entries with organism names starting with “escherichia”:</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">organism_name</span><span class="p">(</span><span class="s1">&#39;escherichia*&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For more information on the organism names, see: <a class="reference external" href="https://www.uniprot.org/taxonomy?query=*">https://www.uniprot.org/taxonomy?query=*</a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.plasmid">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">plasmid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#plasmid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.plasmid" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleField</span></code></p>
+<p>Query entries for proteins encoded by a gene that is part of a certain plasmid.</p>
+<p>For the available plasmid vocabulary, check:
+<a class="reference external" href="https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/docs/plasmid.txt">https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/docs/plasmid.txt</a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.protein_name">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">protein_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#protein_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.protein_name" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QuoteField</span></code></p>
+<p>Field for protein names. Further functionality:
+- Query for “name_1” while excluding “name_2”,
+&gt;&gt;&gt; protein_name(‘name_1 - name_2’)</p>
+<ul class="simple">
+<li><p>Query for “name_1” <em>and</em> “name_2”, in this order,</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">protein_name</span><span class="p">(</span><span class="s1">&#39;name_1 name_2&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Glob-like search for all entries with protein names starting with “anti”:</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">protein_name</span><span class="p">(</span><span class="s1">&#39;anti*&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.proteome">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">proteome</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#proteome"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.proteome" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleField</span></code></p>
+<p>Query all proteins belonging to a certain proteome.</p>
+<p>For more information, check: <a class="reference external" href="https://www.uniprot.org/proteomes">https://www.uniprot.org/proteomes</a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.proteome_component">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">proteome_component</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#proteome_component"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.proteome_component" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleField</span></code></p>
+<p>Query all proteins belonging to a certain proteome component.</p>
+<p>E.g.: Lists all entries from the human chromosome 1.
+&gt;&gt;&gt; organism_id(‘9606’) &amp; proteome_component(‘chromosome:1’)</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.reviewed">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">reviewed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#reviewed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.reviewed" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BooleanField</span></code></p>
+<p>Boolean field. If set to <cite>True</cite>, return only reviewed entries</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.scope">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">scope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#scope"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.scope" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleField</span></code></p>
+<p>Query entries containing a reference that was used to gather information about <cite>&lt;field_value&gt;</cite>.</p>
+<p>E.g.: for entries containing references with information about “mutagenesis”, use:
+&gt;&gt;&gt; scope(‘mutagenesis’)</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.sec_acc">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">sec_acc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#sec_acc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.sec_acc" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleField</span></code></p>
+<p>Query entries that were created from a merge with a certain UniProt entry.</p>
+<p>For more information, check UniProt’s FAQ:
+<a class="reference external" href="https://www.uniprot.org/help/difference_accession_entryname">https://www.uniprot.org/help/difference_accession_entryname</a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.taxonomy_id">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">taxonomy_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#taxonomy_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.taxonomy_id" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleField</span></code></p>
+<p>Query for entries with a certain organism taxonomy ID.</p>
+<p>For more information on the taxonomy IDs, see: <a class="reference external" href="https://www.uniprot.org/taxonomy?query=*">https://www.uniprot.org/taxonomy?query=*</a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.taxonomy_name">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">taxonomy_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#taxonomy_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.taxonomy_name" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleField</span></code></p>
+<p>Query for entries with a certain organism taxonomy name.</p>
+<p>For more information on thetaxonomy names, see: <a class="reference external" href="https://www.uniprot.org/taxonomy?query=*">https://www.uniprot.org/taxonomy?query=*</a></p>
+<p>E.g: to search for all mammal proteins:
+&gt;&gt;&gt; taxonomy_name(‘mammal’)</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.tissue">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">tissue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#tissue"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.tissue" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleField</span></code></p>
+<p>Query entries containing a reference describing the protein sequence obtained
+from a clone isolated from a certain tissue. For a full list of UniProt’s tissue
+vocabulary, check:</p>
+<p><a class="reference external" href="https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/docs/tisslist.txt">https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/docs/tisslist.txt</a></p>
+<p>Further functionalities include:
+- Query for “name_1” while excluding entries with “name_2” as tissue,
+&gt;&gt;&gt; tissue(‘name_1 - name_2’)
+- Query for “name_1” <em>and</em> “name_2”, in this order,
+&gt;&gt;&gt; tissue(‘name_1 name_2’)
+- Glob-like search for all entries with tissue starting with “brain”:
+&gt;&gt;&gt; tissue(‘brain*’)</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.virus_host_id">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">virus_host_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#virus_host_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.virus_host_id" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleField</span></code></p>
+<p>Search for all entries belonging to viruses that infect the query host organism.
+Input should be the taxonomy ID of the host organism.</p>
+<p>For more information on the ID for your organism, see: <a class="reference external" href="https://www.uniprot.org/taxonomy?query=*">https://www.uniprot.org/taxonomy?query=*</a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.virus_host_name">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">virus_host_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#virus_host_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.virus_host_name" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleField</span></code></p>
+<p>Search for all entries belonging to viruses that infect the query host organism.
+Input should be the name of the host organism. Both common and scientific names should work.</p>
+<p>For more information on the organism names, see: <a class="reference external" href="https://www.uniprot.org/taxonomy?query=*">https://www.uniprot.org/taxonomy?query=*</a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.xref">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">xref</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#xref"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.xref" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleField</span></code></p>
+<p>List all entries with a cross reference to a certain database. E.g. of extra functionality:</p>
+<ul class="simple">
+<li><p>Query all entries with a cross-reference to the PDB database entry <cite>1aut</cite>:</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">xref</span><span class="p">(</span><span class="s1">&#39;pdb-1aut&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This could be specially useful to retrieve all entries involved within a certain pathway,
+or another common cross-referenced database.</p>
+<p>For a list of supported databases, check <cite>UniProtMapper.utils.read_fields_table()[‘returned_field’]</cite>.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UniProtMapper.uniprotkb_fields.xref_count">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UniProtMapper.uniprotkb_fields.</span></span><span class="sig-name descname"><span class="pre">xref_count</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/uniprotkb_fields.html#xref_count"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.uniprotkb_fields.xref_count" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">XRefCountField</span></code></p>
+<p>Query entries with a certain number of cross-references. All fields within
+<cite>UniProtMapper.utils.read_fields_table()[‘returned_field’]</cite> are supported.</p>
+<p>E.g.: to query entries with 20 or more cross-references to “PDB”, use:
+&gt;&gt;&gt; xref_count(‘pdb’, 20, ‘*’)</p>
+<p>Or:
+&gt;&gt;&gt; xref_count(‘xref_pdb’, 20, ‘*’)</p>
+</dd></dl>
+
+</section>
+<section id="module-UniProtMapper.utils">
+<span id="utilities"></span><h2>Utilities<a class="headerlink" href="#module-UniProtMapper.utils" title="Link to this heading"></a></h2>
+<p>Module with utility functions for the package.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="UniProtMapper.utils.decode_results">
+<span class="sig-prename descclassname"><span class="pre">UniProtMapper.utils.</span></span><span class="sig-name descname"><span class="pre">decode_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_format</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compressed</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/utils.html#decode_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.utils.decode_results" title="Link to this definition"></a></dt>
+<dd><p>Decodes the response from the UniProt API.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="UniProtMapper.utils.divide_batches">
+<span class="sig-prename descclassname"><span class="pre">UniProtMapper.utils.</span></span><span class="sig-name descname"><span class="pre">divide_batches</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ids</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/utils.html#divide_batches"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.utils.divide_batches" title="Link to this definition"></a></dt>
+<dd><p>Divides a list of UniProtIDs into batches of 500</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="UniProtMapper.utils.fetch_cross_referenced_db_details">
+<span class="sig-prename descclassname"><span class="pre">UniProtMapper.utils.</span></span><span class="sig-name descname"><span class="pre">fetch_cross_referenced_db_details</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="../_modules/UniProtMapper/utils.html#fetch_cross_referenced_db_details"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.utils.fetch_cross_referenced_db_details" title="Link to this definition"></a></dt>
+<dd><p>Downloads the latest details on UniProt cross references and stores it. This
+list of cross references can be found here: <a class="reference external" href="https://www.uniprot.org/database?query=*">https://www.uniprot.org/database?query=*</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output_path</strong> – the path to save the downloaded file with the cross references details.
+If left as None, will update the file stored in the package. Defaults to None.</p></li>
+<li><p><strong>save</strong> – whether to save or not the retrieved json. Defaults to True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the json with the cross references details.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="UniProtMapper.utils.get_resources_root">
+<span class="sig-prename descclassname"><span class="pre">UniProtMapper.utils.</span></span><span class="sig-name descname"><span class="pre">get_resources_root</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.13)"><span class="pre">Path</span></a></span></span><a class="reference internal" href="../_modules/UniProtMapper/utils.html#get_resources_root"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.utils.get_resources_root" title="Link to this definition"></a></dt>
+<dd><p>Returns the path to the resources folder.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="UniProtMapper.utils.get_xml_namespace">
+<span class="sig-prename descclassname"><span class="pre">UniProtMapper.utils.</span></span><span class="sig-name descname"><span class="pre">get_xml_namespace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/utils.html#get_xml_namespace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.utils.get_xml_namespace" title="Link to this definition"></a></dt>
+<dd><p>Get the namespace of an XML element.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="UniProtMapper.utils.print_progress_batches">
+<span class="sig-prename descclassname"><span class="pre">UniProtMapper.utils.</span></span><span class="sig-name descname"><span class="pre">print_progress_batches</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retrieved</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">failed</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/utils.html#print_progress_batches"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.utils.print_progress_batches" title="Link to this definition"></a></dt>
+<dd><p>Prints the progress of a batch process.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="UniProtMapper.utils.read_fields_table">
+<span class="sig-prename descclassname"><span class="pre">UniProtMapper.utils.</span></span><span class="sig-name descname"><span class="pre">read_fields_table</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/utils.html#read_fields_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.utils.read_fields_table" title="Link to this definition"></a></dt>
+<dd><p>Return the fields table from the package resources as a DataFrame containing rows
+as the information available in UniProt and the following columns:</p>
+<ul class="simple">
+<li><p><cite>label</cite>: the label of the information once retrieved from the API.</p></li>
+<li><p><cite>returned_field</cite>: the name used in the API to return that information.</p></li>
+<li><p><cite>field_type</cite>: the type of information, e.g.: sequence-related, function…</p></li>
+<li><p><cite>has_full_version</cite>: whether the annotated field contains the full version of the</p></li>
+</ul>
+<p>dataset or not (in case of cross-references).
+- <cite>type</cite>: the type of data. Either “cross_reference” or “uniprot_field”.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="UniProtMapper.utils.supported_mapping_dbs">
+<span class="sig-prename descclassname"><span class="pre">UniProtMapper.utils.</span></span><span class="sig-name descname"><span class="pre">supported_mapping_dbs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/UniProtMapper/utils.html#supported_mapping_dbs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.utils.supported_mapping_dbs" title="Link to this definition"></a></dt>
+<dd><p>Return a list of the supported datasets as UniProt cross references. This list
+is used to validate the arguments <cite>to_db</cite> and <cite>from_db</cite> in the <cite>FieldRetriever.get()</cite> method.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="API Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../tutorials/mapping.html" class="btn btn-neutral float-right" title="ID Mapping Tutorial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, David Araripe.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

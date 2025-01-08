@@ -1,0 +1,251 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UniProtMapper.utils &mdash; UniProtMapper 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            UniProtMapper
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../field_reference.html">Return Fields Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/mapping.html">ID Mapping Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/retrieving.html">Retrieving Information Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/field_querying.html">Field-Based Querying Tutorial</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">UniProtMapper</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">UniProtMapper.utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for UniProtMapper.utils</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Module with utility functions for the package.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">zlib</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pkg_resources</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+
+
+<div class="viewcode-block" id="get_resources_root">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.utils.get_resources_root">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_resources_root</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns the path to the resources folder.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="s2">&quot;UniProtMapper&quot;</span><span class="p">,</span> <span class="s2">&quot;resources&quot;</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="fetch_cross_referenced_db_details">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.utils.fetch_cross_referenced_db_details">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">fetch_cross_referenced_db_details</span><span class="p">(</span>
+    <span class="n">output_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">save</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Downloads the latest details on UniProt cross references and stores it. This</span>
+<span class="sd">    list of cross references can be found here: https://www.uniprot.org/database?query=*</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        output_path: the path to save the downloaded file with the cross references details.</span>
+<span class="sd">            If left as None, will update the file stored in the package. Defaults to None.</span>
+<span class="sd">        save: whether to save or not the retrieved json. Defaults to True.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: the json with the cross references details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">output_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">output_path</span> <span class="o">=</span> <span class="n">get_resources_root</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;uniprot_crossref_details.json&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">output_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_path</span><span class="p">)</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://rest.uniprot.org/database/stream?&amp;download=true&amp;format=json&amp;query=%28*%29&quot;</span>
+    <span class="c1"># Make the GET request with modified Accept-Encoding header</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="c1"># Check if the request was successful</span>
+    <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+        <span class="c1"># Write the content to a file</span>
+        <span class="k">if</span> <span class="n">save</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">output_path</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">(),</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;File downloaded successfully.&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to download the file. Status code: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="read_fields_table">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.utils.read_fields_table">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_fields_table</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the fields table from the package resources as a DataFrame containing rows</span>
+<span class="sd">    as the information available in UniProt and the following columns:</span>
+
+<span class="sd">    - `label`: the label of the information once retrieved from the API.</span>
+<span class="sd">    - `returned_field`: the name used in the API to return that information.</span>
+<span class="sd">    - `field_type`: the type of information, e.g.: sequence-related, function...</span>
+<span class="sd">    - `has_full_version`: whether the annotated field contains the full version of the</span>
+<span class="sd">    dataset or not (in case of cross-references).</span>
+<span class="sd">    - `type`: the type of data. Either &quot;cross_reference&quot; or &quot;uniprot_field&quot;.&quot;&quot;&quot;</span>
+    <span class="n">csv_path</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span>
+        <span class="s2">&quot;UniProtMapper&quot;</span><span class="p">,</span> <span class="s2">&quot;resources/uniprot_return_fields.csv&quot;</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">csv_path</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="supported_mapping_dbs">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.utils.supported_mapping_dbs">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">supported_mapping_dbs</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a list of the supported datasets as UniProt cross references. This list</span>
+<span class="sd">    is used to validate the arguments `to_db` and `from_db` in the `FieldRetriever.get()` method.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_mapping_dbs_path</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span>
+        <span class="s2">&quot;UniProtMapper&quot;</span><span class="p">,</span> <span class="s2">&quot;resources/uniprot_mapping_dbs.json&quot;</span>
+    <span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">_mapping_dbs_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">dbs_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">dbs_dict</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">dbs_dict</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dbs_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]))])</span></div>
+
+
+
+<div class="viewcode-block" id="decode_results">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.utils.decode_results">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">decode_results</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">file_format</span><span class="p">,</span> <span class="n">compressed</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Decodes the response from the UniProt API.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">compressed</span><span class="p">:</span>
+        <span class="n">decompressed</span> <span class="o">=</span> <span class="n">zlib</span><span class="o">.</span><span class="n">decompress</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="mi">16</span> <span class="o">+</span> <span class="n">zlib</span><span class="o">.</span><span class="n">MAX_WBITS</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">file_format</span> <span class="o">==</span> <span class="s2">&quot;json&quot;</span><span class="p">:</span>
+            <span class="n">j</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">decompressed</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">j</span>
+        <span class="k">elif</span> <span class="n">file_format</span> <span class="o">==</span> <span class="s2">&quot;tsv&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">decompressed</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">line</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">file_format</span> <span class="o">==</span> <span class="s2">&quot;xlsx&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">decompressed</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">file_format</span> <span class="o">==</span> <span class="s2">&quot;xml&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">decompressed</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">decompressed</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">file_format</span> <span class="o">==</span> <span class="s2">&quot;json&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">file_format</span> <span class="o">==</span> <span class="s2">&quot;tsv&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">line</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">file_format</span> <span class="o">==</span> <span class="s2">&quot;xlsx&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">file_format</span> <span class="o">==</span> <span class="s2">&quot;xml&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span></div>
+
+
+
+<div class="viewcode-block" id="get_xml_namespace">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.utils.get_xml_namespace">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_xml_namespace</span><span class="p">(</span><span class="n">element</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the namespace of an XML element.&quot;&quot;&quot;</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\{(.*)\}&quot;</span><span class="p">,</span> <span class="n">element</span><span class="o">.</span><span class="n">tag</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">groups</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">m</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="print_progress_batches">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.utils.print_progress_batches">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">print_progress_batches</span><span class="p">(</span><span class="n">batch_index</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">retrieved</span><span class="p">,</span> <span class="n">failed</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Prints the progress of a batch process.&quot;&quot;&quot;</span>
+    <span class="n">n_fetched</span> <span class="o">=</span> <span class="nb">min</span><span class="p">((</span><span class="n">batch_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">size</span><span class="p">,</span> <span class="n">retrieved</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fetched: </span><span class="si">{</span><span class="n">n_fetched</span><span class="si">}</span><span class="s2"> / </span><span class="si">{</span><span class="n">retrieved</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">failed</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="divide_batches">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.utils.divide_batches">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">divide_batches</span><span class="p">(</span><span class="n">ids</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Divides a list of UniProtIDs into batches of 500&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">ids</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">500</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ids</span><span class="p">),</span> <span class="mi">500</span><span class="p">)]</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, David Araripe.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

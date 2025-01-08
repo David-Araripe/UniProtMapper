@@ -1,0 +1,938 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UniProtMapper.uniprotkb_fields &mdash; UniProtMapper 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            UniProtMapper
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../field_reference.html">Return Fields Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/mapping.html">ID Mapping Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/retrieving.html">Retrieving Information Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/field_querying.html">Field-Based Querying Tutorial</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">UniProtMapper</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">UniProtMapper.uniprotkb_fields</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for UniProtMapper.uniprotkb_fields</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Contain all the fields used by the UniProtKB API wrapped as python classes compatible with</span>
+<span class="sd">the following boolean operators:</span>
+
+<span class="sd">- &amp; : AND operation</span>
+<span class="sd">- `|` : OR operation</span>
+<span class="sd">- ~ : NOT operation</span>
+
+<span class="sd">For a list of query fields on UniProt&#39;s website, refer to https://www.uniprot.org/help/query-fields</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.field_base_classes</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BooleanField</span><span class="p">,</span>
+    <span class="n">DateRangeField</span><span class="p">,</span>
+    <span class="n">QuoteField</span><span class="p">,</span>
+    <span class="n">RangeField</span><span class="p">,</span>
+    <span class="n">SimpleField</span><span class="p">,</span>
+    <span class="n">XRefCountField</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Boolean Fields</span>
+
+
+<div class="viewcode-block" id="active">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.active">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">active</span><span class="p">(</span><span class="n">BooleanField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Boolean field. If set to `False`, return obsolete entries&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initalize the `active` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_value: If set to `False`, return obsolete entries.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;active&quot;</span><span class="p">,</span> <span class="n">field_value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="fragment">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.fragment">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">fragment</span><span class="p">(</span><span class="n">BooleanField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Boolean field. If set to `True`, list entries with an incomplete sequence.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initalize the `fragment` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_value: If set to `True`, list entries with an incomplete sequence.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;fragment&quot;</span><span class="p">,</span> <span class="n">field_value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="reviewed">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.reviewed">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">reviewed</span><span class="p">(</span><span class="n">BooleanField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Boolean field. If set to `True`, return only reviewed entries&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initalize the `reviewed` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_value: If set to `True`, return only reviewed entries.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;reviewed&quot;</span><span class="p">,</span> <span class="n">field_value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="is_isoform">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.is_isoform">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">is_isoform</span><span class="p">(</span><span class="n">BooleanField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Boolean field. If set to `True`, return only isoform entries&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initalize the `is_isoform` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_value: If set to `True`, return only isoform entries.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;is_isoform&quot;</span><span class="p">,</span> <span class="n">field_value</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># Quote Fields</span>
+
+
+<div class="viewcode-block" id="protein_name">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.protein_name">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">protein_name</span><span class="p">(</span><span class="n">QuoteField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Field for protein names. Further functionality:</span>
+<span class="sd">    - Query for &quot;name_1&quot; while excluding &quot;name_2&quot;,</span>
+<span class="sd">    &gt;&gt;&gt; protein_name(&#39;name_1 - name_2&#39;)</span>
+
+<span class="sd">    - Query for &quot;name_1&quot; *and* &quot;name_2&quot;, in this order,</span>
+<span class="sd">    &gt;&gt;&gt; protein_name(&#39;name_1 name_2&#39;)</span>
+
+<span class="sd">    - Glob-like search for all entries with protein names starting with &quot;anti&quot;:</span>
+<span class="sd">    &gt;&gt;&gt; protein_name(&#39;anti*&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initalize the `protein_name` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_value: The protein name to search for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;protein_name&quot;</span><span class="p">,</span> <span class="n">field_value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="organism_name">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.organism_name">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">organism_name</span><span class="p">(</span><span class="n">QuoteField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Field for organism names. Further functionality:</span>
+<span class="sd">    - Query for &quot;name_1&quot; while excluding &quot;name_2&quot;,</span>
+<span class="sd">    &gt;&gt;&gt; organism_name(&#39;name_1 - name_2&#39;)</span>
+
+<span class="sd">    - Query for &quot;name_1&quot; *and* &quot;name_2&quot;, in this order,</span>
+<span class="sd">    &gt;&gt;&gt; organism_name(&#39;name_1 name_2&#39;)</span>
+
+<span class="sd">    - Glob-like search for all entries with organism names starting with &quot;escherichia&quot;:</span>
+<span class="sd">    &gt;&gt;&gt; organism_name(&#39;escherichia*&#39;)</span>
+
+<span class="sd">    For more information on the organism names, see: https://www.uniprot.org/taxonomy?query=*</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initalize the `organism_name` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_value: The organism name to search for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;organism_name&quot;</span><span class="p">,</span> <span class="n">field_value</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># Date Range Fields</span>
+
+
+<div class="viewcode-block" id="date_created">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.date_created">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">date_created</span><span class="p">(</span><span class="n">DateRangeField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query entries created within a time range defined from dates. Date format: `YYYY-MM-DD`.</span>
+
+<span class="sd">    `*` can also be used as a wildcard for the latest or the earliest/latest date.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">from_date</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">to_date</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initalize the `date_created` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            from_date: Starting date as either * (for the earliest) or YYYY-MM-DD.</span>
+<span class="sd">            to_date: Ending date as either * (for the latest) or YYYY-MM-DD.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;date_created&quot;</span><span class="p">,</span> <span class="n">from_date</span><span class="p">,</span> <span class="n">to_date</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="date_modified">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.date_modified">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">date_modified</span><span class="p">(</span><span class="n">DateRangeField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query entries modified within a time range defined from dates. Date format: `YYYY-MM-DD`.</span>
+
+<span class="sd">    `*` can also be used as a wildcard for the latest or the earliest/latest date.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">from_date</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">to_date</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initalize the `date_modified` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            from_date: Starting date as either * (for the earliest) or YYYY-MM-DD.</span>
+<span class="sd">            to_date: Ending date as either * (for the latest) or YYYY-MM-DD.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;date_modified&quot;</span><span class="p">,</span> <span class="n">from_date</span><span class="p">,</span> <span class="n">to_date</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="date_sequence_modified">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.date_sequence_modified">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">date_sequence_modified</span><span class="p">(</span><span class="n">DateRangeField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query entries with sequence information modified within a time range defined from dates.</span>
+<span class="sd">    Date format: `YYYY-MM-DD`.</span>
+
+<span class="sd">    `*` can also be used as a wildcard for the latest or the earliest/latest date.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">from_date</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">to_date</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initalize the `date_sequence_modified` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            from_date: Starting date as either * (for the earliest) or YYYY-MM-DD.</span>
+<span class="sd">            to_date: Ending date as either * (for the latest) or YYYY-MM-DD.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;date_sequence_modified&quot;</span><span class="p">,</span> <span class="n">from_date</span><span class="p">,</span> <span class="n">to_date</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># Range Fields</span>
+
+
+<div class="viewcode-block" id="length">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.length">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">length</span><span class="p">(</span><span class="n">RangeField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query entries with sequence length within a certain range.</span>
+
+<span class="sd">    Arguments should be integers or the wildcard `*` for the maximum or minimum value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">from_value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">to_value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initalize the `length` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            from_value: The minimum length of the sequence. * can be used as a wildcard for zero.</span>
+<span class="sd">            to_value: The maximum length of the sequence. * can be used as a wildcard for infinity.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;length&quot;</span><span class="p">,</span> <span class="n">from_value</span><span class="p">,</span> <span class="n">to_value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="mass">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.mass">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">mass</span><span class="p">(</span><span class="n">RangeField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query entries with mass within a certain range.</span>
+
+<span class="sd">    Arguments should be integersor the wildcard `*` for the maximum or minimum value.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">from_value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">to_value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initalize the `mass` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            from_value: The minimum mass of the sequence. * can be used as a wildcard for zero.</span>
+<span class="sd">            to_value: The maximum mass of the sequence. * can be used as a wildcard for infinity.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;mass&quot;</span><span class="p">,</span> <span class="n">from_value</span><span class="p">,</span> <span class="n">to_value</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># XRefCount Field</span>
+
+
+<div class="viewcode-block" id="xref_count">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.xref_count">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">xref_count</span><span class="p">(</span><span class="n">XRefCountField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query entries with a certain number of cross-references. All fields within</span>
+<span class="sd">    `UniProtMapper.utils.read_fields_table()[&#39;returned_field&#39;]` are supported.</span>
+
+<span class="sd">    E.g.: to query entries with 20 or more cross-references to &quot;PDB&quot;, use:</span>
+<span class="sd">    &gt;&gt;&gt; xref_count(&#39;pdb&#39;, 20, &#39;*&#39;)</span>
+
+<span class="sd">    Or:</span>
+<span class="sd">    &gt;&gt;&gt; xref_count(&#39;xref_pdb&#39;, 20, &#39;*&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_name</span><span class="p">,</span> <span class="n">from_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">to_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initalize the `xref_count` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_name: Name of the cross-reference field to query.</span>
+<span class="sd">            from_value: Minimum number of cross-references. * can be used as wildcard for zero.</span>
+<span class="sd">            to_value: Maximum number of cross-references. * can be used as wildcard for infinity.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">field_name</span><span class="p">,</span> <span class="n">from_value</span><span class="p">,</span> <span class="n">to_value</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># SimpleField classes</span>
+
+
+<div class="viewcode-block" id="accession">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.accession">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">accession</span><span class="p">(</span><span class="n">SimpleField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query for entries with a certain UniProt accession key.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initalize the `accession` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_value: The UniProt accession key to search for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;accession&quot;</span><span class="p">,</span> <span class="n">field_value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="lit_author">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.lit_author">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">lit_author</span><span class="p">(</span><span class="n">SimpleField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query for entries with at least one reference co-authored by the specified author.</span>
+<span class="sd">    Extra functionalities include:</span>
+<span class="sd">    - Query for &quot;name_1&quot; while excluding entries with &quot;name_2&quot; as co-author,</span>
+<span class="sd">    &gt;&gt;&gt; lit_author(&#39;name_1 - name_2&#39;)</span>
+
+<span class="sd">    - Query for &quot;name_1&quot; *and* &quot;name_2&quot;, in this order,</span>
+<span class="sd">    &gt;&gt;&gt; lit_author(&#39;name_1 name_2&#39;)</span>
+
+<span class="sd">    - Glob-like search for all entries with author starting with a Cavad:</span>
+<span class="sd">    &gt;&gt;&gt; lit_author(&#39;Cavad*&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initalize the `lit_author` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_value: The author name to search for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;lit_author&quot;</span><span class="p">,</span> <span class="n">field_value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="chebi">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.chebi">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">chebi</span><span class="p">(</span><span class="n">SimpleField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query for entries with a certain ChEBI identifier. For more information, check the</span>
+<span class="sd">    following: https://www.uniprot.org/help/chemical_data_search&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the `chebi` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_value: The ChEBI identifier to search for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;chebi&quot;</span><span class="p">,</span> <span class="n">field_value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="database">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.database">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">database</span><span class="p">(</span><span class="n">SimpleField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;List all entries with a cross reference to a certain database&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the `database` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_value: The database to search for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;database&quot;</span><span class="p">,</span> <span class="n">field_value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="xref">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.xref">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">xref</span><span class="p">(</span><span class="n">SimpleField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;List all entries with a cross reference to a certain database. E.g. of extra functionality:</span>
+
+<span class="sd">    - Query all entries with a cross-reference to the PDB database entry `1aut`:</span>
+<span class="sd">    &gt;&gt;&gt; xref(&#39;pdb-1aut&#39;)</span>
+
+<span class="sd">    This could be specially useful to retrieve all entries involved within a certain pathway,</span>
+<span class="sd">    or another common cross-referenced database.</span>
+
+<span class="sd">    For a list of supported databases, check `UniProtMapper.utils.read_fields_table()[&#39;returned_field&#39;]`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the `xref` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_value: The cross-reference to search for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;xref&quot;</span><span class="p">,</span> <span class="n">field_value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="ec">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.ec">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ec</span><span class="p">(</span><span class="n">SimpleField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query for entries with a certain EC number - specific for enzymes&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the `ec` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_value: The EC number to search for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;ec&quot;</span><span class="p">,</span> <span class="n">field_value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="existence">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.existence">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">existence</span><span class="p">(</span><span class="n">SimpleField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query for entries with a certain existence score. Possible values are:</span>
+
+<span class="sd">    1. Experimental evidence at protein level</span>
+<span class="sd">    2. Experimental evidence at transcript level</span>
+<span class="sd">    3. Protein inferred from homology</span>
+<span class="sd">    4. Protein predicted</span>
+<span class="sd">    5. Protein uncertain</span>
+
+<span class="sd">    For further information, check: https://www.uniprot.org/help/protein_existence</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the `existence` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_value: The existence score to search for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;existence&quot;</span><span class="p">,</span> <span class="n">field_value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="family">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.family">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">family</span><span class="p">(</span><span class="n">SimpleField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query for entries within a certain protein family. Further functionalities include:</span>
+<span class="sd">    - Query for &quot;name_1&quot; while excluding entries with &quot;name_2&quot; as family,</span>
+<span class="sd">    &gt;&gt;&gt; family(&#39;name_1 - name_2&#39;)</span>
+<span class="sd">    - Query for &quot;name_1&quot; *and* &quot;name_2&quot;, in this order,</span>
+<span class="sd">    &gt;&gt;&gt; family(&#39;name_1 name_2&#39;)</span>
+<span class="sd">    - Glob-like search for all entries with family starting with &quot;chemokine&quot;:</span>
+<span class="sd">    &gt;&gt;&gt; family(&#39;chemokine*&#39;)</span>
+
+<span class="sd">    For a full list of protein families within UniProt, check:</span>
+<span class="sd">    https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/docs/similar.txt</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the `family` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_value: The protein family to search for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;family&quot;</span><span class="p">,</span> <span class="n">field_value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="gene">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.gene">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">gene</span><span class="p">(</span><span class="n">SimpleField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query for entries with a gene name. Caveat, searching for HPSE using this field</span>
+<span class="sd">    will also retrieve entries with HPSE2. For a more specific search, use `GeneExact`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the `gene` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_value: The gene name to search for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;gene&quot;</span><span class="p">,</span> <span class="n">field_value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="gene_exact">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.gene_exact">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">gene_exact</span><span class="p">(</span><span class="n">SimpleField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query for entries with an exact gene name match.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the `gene_exact` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_value: The exact gene name to search for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;gene_exact&quot;</span><span class="p">,</span> <span class="n">field_value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="go">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.go">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">go</span><span class="p">(</span><span class="n">SimpleField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query for entries with a certain Gene Ontology (GO) term. Further functionalities include:</span>
+
+<span class="sd">    - Query for &quot;name_1&quot; while excluding entries with &quot;name_2&quot; as GO term,</span>
+<span class="sd">    &gt;&gt;&gt; go(&#39;name_1 - name_2&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the `go` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_value: The GO identifier to search for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;go&quot;</span><span class="p">,</span> <span class="n">field_value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="virus_host_name">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.virus_host_name">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">virus_host_name</span><span class="p">(</span><span class="n">SimpleField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Search for all entries belonging to viruses that infect the query host organism.</span>
+<span class="sd">    Input should be the name of the host organism. Both common and scientific names should work.</span>
+
+<span class="sd">    For more information on the organism names, see: https://www.uniprot.org/taxonomy?query=*</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initalize the `virus_host_name` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_value: The host organism name to search for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;virus_host_name&quot;</span><span class="p">,</span> <span class="n">field_value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="virus_host_id">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.virus_host_id">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">virus_host_id</span><span class="p">(</span><span class="n">SimpleField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Search for all entries belonging to viruses that infect the query host organism.</span>
+<span class="sd">    Input should be the taxonomy ID of the host organism.</span>
+
+<span class="sd">    For more information on the ID for your organism, see: https://www.uniprot.org/taxonomy?query=*</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initalize the `virus_host_id` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_value: The host organism taxonomy ID to search for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="s2">&quot;virus_host_id&quot;</span><span class="p">,</span>
+            <span class="p">(</span><span class="n">field_value</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">field_value</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">field_value</span><span class="p">)),</span>
+        <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="accession_id">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.accession_id">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">accession_id</span><span class="p">(</span><span class="n">SimpleField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query for entries with a certain accession ID.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initalize the `accession_id` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_value: The accession ID to search for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;accession_id&quot;</span><span class="p">,</span> <span class="n">field_value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="inchikey">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.inchikey">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">inchikey</span><span class="p">(</span><span class="n">SimpleField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query entries associated with the small molecule identified by the input InChIKey</span>
+
+<span class="sd">    For more information, check: https://www.uniprot.org/help/chemical_data_search</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initalize the `inchikey` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_value: The InChIKey to search for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;inchikey&quot;</span><span class="p">,</span> <span class="n">field_value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="interactor">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.interactor">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">interactor</span><span class="p">(</span><span class="n">SimpleField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Input should be a UniProt accession key (ID). Query all entries describing</span>
+<span class="sd">    interactions with the protein represented by the input.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initalize the `interactor` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_value: The UniProt accession key to search for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;interactor&quot;</span><span class="p">,</span> <span class="n">field_value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="keyword">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.keyword">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">keyword</span><span class="p">(</span><span class="n">SimpleField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query all UniProt entries with a certain keyword. Further functionalities include:</span>
+
+<span class="sd">    - Query for &quot;name_1&quot; while excluding entries with &quot;name_2&quot; as keyword,</span>
+<span class="sd">    &gt;&gt;&gt; keyword(&#39;name_1 - name_2&#39;)</span>
+<span class="sd">    - Query for &quot;name_1&quot; *and* &quot;name_2&quot;, in this order,</span>
+<span class="sd">    &gt;&gt;&gt; keyword(&#39;name_1 name_2&#39;)</span>
+<span class="sd">    - Glob-like search for all entries with keyword starting with &quot;G-protein&quot;:</span>
+<span class="sd">    &gt;&gt;&gt; keyword(&#39;G-protein*&#39;)</span>
+
+<span class="sd">    For a list of keywords, check: https://www.uniprot.org/keywords?query=*</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initalize the `keyword` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_value: The keyword to search for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;keyword&quot;</span><span class="p">,</span> <span class="n">field_value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="cc_mass_spectrometry">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.cc_mass_spectrometry">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">cc_mass_spectrometry</span><span class="p">(</span><span class="n">SimpleField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check UniProt&#39;s official documentation for the description of this field:</span>
+
+<span class="sd">    https://www.uniprot.org/help/query-fields#:~:text=least%20500%2C000%20Da.-,cc_mass_spectrometry,-cc_mass_spectrometry%3Amaldi</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initalize the `cc_mass_spectrometry` UniProtKB data field. For more information,</span>
+<span class="sd">        check: https://www.uniprot.org/help/query-fields#:~:text=least%20500%2C000%20Da.-,cc_mass_spectrometry,-cc_mass_spectrometry%3Amaldi</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_value: The mass spectrometry information to search for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;cc_mass_spectrometry&quot;</span><span class="p">,</span> <span class="n">field_value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="organelle">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.organelle">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">organelle</span><span class="p">(</span><span class="n">SimpleField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query entries for proteins encoded by a gene within a certain organelle.</span>
+
+<span class="sd">    E.g.: query entries encoded by the mitochondrial chromosome:</span>
+<span class="sd">    &gt;&gt;&gt; organelle(&#39;Mitochondrion&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initalize the `organelle` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_value: The organelle to search for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;organelle&quot;</span><span class="p">,</span> <span class="n">field_value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="organism_id">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.organism_id">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">organism_id</span><span class="p">(</span><span class="n">SimpleField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query for entries with a certain organism taxonomy ID.</span>
+
+<span class="sd">    For more information on the taxonomy IDs, see: https://www.uniprot.org/taxonomy?query=*</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initalize the `organism_id` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_value: The organism taxonomy ID to search for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="s2">&quot;organism_id&quot;</span><span class="p">,</span>
+            <span class="p">(</span><span class="n">field_value</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">field_value</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">field_value</span><span class="p">)),</span>
+        <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="plasmid">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.plasmid">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">plasmid</span><span class="p">(</span><span class="n">SimpleField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query entries for proteins encoded by a gene that is part of a certain plasmid.</span>
+
+<span class="sd">    For the available plasmid vocabulary, check:</span>
+<span class="sd">    https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/docs/plasmid.txt</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initalize the `plasmid` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_value: The plasmid to search for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;plasmid&quot;</span><span class="p">,</span> <span class="n">field_value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="proteome">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.proteome">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">proteome</span><span class="p">(</span><span class="n">SimpleField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query all proteins belonging to a certain proteome.</span>
+
+<span class="sd">    For more information, check: https://www.uniprot.org/proteomes&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initalize the `proteome` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_value: The proteome to search for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;proteome&quot;</span><span class="p">,</span> <span class="n">field_value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="proteome_component">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.proteome_component">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">proteome_component</span><span class="p">(</span><span class="n">SimpleField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query all proteins belonging to a certain proteome component.</span>
+
+<span class="sd">    E.g.: Lists all entries from the human chromosome 1.</span>
+<span class="sd">    &gt;&gt;&gt; organism_id(&#39;9606&#39;) &amp; proteome_component(&#39;chromosome:1&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initalize the `proteome_component` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_value: The proteome component to search for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;proteomecomponent&quot;</span><span class="p">,</span> <span class="n">field_value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="sec_acc">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.sec_acc">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">sec_acc</span><span class="p">(</span><span class="n">SimpleField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query entries that were created from a merge with a certain UniProt entry.</span>
+
+<span class="sd">    For more information, check UniProt&#39;s FAQ:</span>
+<span class="sd">    https://www.uniprot.org/help/difference_accession_entryname&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initalize the `sec_acc` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_value: The secondary accession key to search for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;sec_acc&quot;</span><span class="p">,</span> <span class="n">field_value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="scope">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.scope">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">scope</span><span class="p">(</span><span class="n">SimpleField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query entries containing a reference that was used to gather information about `&lt;field_value&gt;`.</span>
+
+<span class="sd">    E.g.: for entries containing references with information about &quot;mutagenesis&quot;, use:</span>
+<span class="sd">    &gt;&gt;&gt; scope(&#39;mutagenesis&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initalize the `scope` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_value: The scope to search for. E.g. &quot;mutagenesis&quot; will search for all entries</span>
+<span class="sd">                containing references with information about mutagenesis.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;scope&quot;</span><span class="p">,</span> <span class="n">field_value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="taxonomy_name">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.taxonomy_name">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">taxonomy_name</span><span class="p">(</span><span class="n">SimpleField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query for entries with a certain organism taxonomy name.</span>
+
+<span class="sd">    For more information on thetaxonomy names, see: https://www.uniprot.org/taxonomy?query=*</span>
+
+<span class="sd">    E.g: to search for all mammal proteins:</span>
+<span class="sd">    &gt;&gt;&gt; taxonomy_name(&#39;mammal&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initalize the `taxonomy_name` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_value: The organism taxonomy name to search for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;taxonomy_name&quot;</span><span class="p">,</span> <span class="n">field_value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="taxonomy_id">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.taxonomy_id">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">taxonomy_id</span><span class="p">(</span><span class="n">SimpleField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query for entries with a certain organism taxonomy ID.</span>
+
+<span class="sd">    For more information on the taxonomy IDs, see: https://www.uniprot.org/taxonomy?query=*</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initalize the `taxonomy_id` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_value: The organism taxonomy ID to search for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="s2">&quot;taxonomy_id&quot;</span><span class="p">,</span>
+            <span class="p">(</span><span class="n">field_value</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">field_value</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">field_value</span><span class="p">)),</span>
+        <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="tissue">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.tissue">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">tissue</span><span class="p">(</span><span class="n">SimpleField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query entries containing a reference describing the protein sequence obtained</span>
+<span class="sd">    from a clone isolated from a certain tissue. For a full list of UniProt&#39;s tissue</span>
+<span class="sd">    vocabulary, check:</span>
+
+<span class="sd">    https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/docs/tisslist.txt</span>
+
+<span class="sd">    Further functionalities include:</span>
+<span class="sd">    - Query for &quot;name_1&quot; while excluding entries with &quot;name_2&quot; as tissue,</span>
+<span class="sd">    &gt;&gt;&gt; tissue(&#39;name_1 - name_2&#39;)</span>
+<span class="sd">    - Query for &quot;name_1&quot; *and* &quot;name_2&quot;, in this order,</span>
+<span class="sd">    &gt;&gt;&gt; tissue(&#39;name_1 name_2&#39;)</span>
+<span class="sd">    - Glob-like search for all entries with tissue starting with &quot;brain&quot;:</span>
+<span class="sd">    &gt;&gt;&gt; tissue(&#39;brain*&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initalize the `tissue` UniProtKB data field. For a full list of UniProt&#39;s tissue</span>
+<span class="sd">        vocabulary, check: https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/docs/tisslist.txt</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_value: The tissue to search for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;tissue&quot;</span><span class="p">,</span> <span class="n">field_value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="cc_webresource">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.uniprotkb_fields.cc_webresource">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">cc_webresource</span><span class="p">(</span><span class="n">SimpleField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query all entries with a certain web resource.</span>
+
+<span class="sd">    E.g.: all proteins described in Wikipedia:</span>
+<span class="sd">    &gt;&gt;&gt; cc_webresource(&#39;Wikipedia&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initalize the `cc_webresource` UniProtKB data field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_value: The web resource to search for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;cc_webresource&quot;</span><span class="p">,</span> <span class="n">field_value</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, David Araripe.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
