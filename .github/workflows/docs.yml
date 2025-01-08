@@ -32,6 +32,10 @@ jobs:
           make html
           touch build/html/.nojekyll
 
+      - name: List Built Documentation Files
+        run: |
+          ls -R docs/build/html
+
       - name: Deploy Documentation
         if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev')
         uses: JamesIves/github-pages-deploy-action@v4
