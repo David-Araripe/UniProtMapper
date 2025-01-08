@@ -1,16 +1,10 @@
 Return Fields Reference
-=====================
+=======================
 
 UniProtMapper supports a wide range of return fields from UniProt. These fields are organized by their types and can be used to specify which data you want to retrieve.
 
-.. csv-table:: Supported Return Fields
-   :header: "Label", "Field", "Type", "Category"
-   :widths: 30, 25, 15, 30
-   :file: ../../src/UniProtMapper/resources/uniprot_return_fields.csv
-   :encoding: utf-8
-
 Field Categories
---------------
+----------------
 
 The return fields are organized into several categories:
 
@@ -34,8 +28,15 @@ The return fields are organized into several categories:
    - Links to external databases
    - Organized by database type (e.g., genomic, proteomic, etc.)
 
+Supported fields
+----------------
+
+.. csv-table:: Supported Return Fields
+   :header-rows: 1
+   :file: _static/uniprot_return_fields.csv
+
 Usage Example
------------
+-------------
 
 To specify which fields to retrieve::
 
