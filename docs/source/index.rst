@@ -6,6 +6,7 @@ Welcome to UniProtMapper's documentation!
    :caption: Contents:
 
    installation
+   field_reference
    api/modules
    tutorials/mapping
    tutorials/retrieving
