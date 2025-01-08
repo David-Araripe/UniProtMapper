@@ -1,10 +1,10 @@
 Retrieving Information Tutorial
-===========================
+===============================
 
 This tutorial shows how to retrieve information about proteins from UniProt.
 
 Basic Retrieval
--------------
+---------------
 
 Here's how to retrieve information about a protein::
 
@@ -16,7 +16,7 @@ Here's how to retrieve information about a protein::
     result, failed = mapper.get(["Q02880"])
 
 Customizing Return Fields
-----------------------
+-------------------------
 
 You can specify which fields to retrieve::
 
@@ -29,7 +29,7 @@ You can specify which fields to retrieve::
     result, failed = mapper.get(["Q02880"], fields=fields)
 
 Default Fields
-------------
+--------------
 
 UniProtMapper comes with a set of default fields, but you can override them::
 
@@ -43,7 +43,7 @@ UniProtMapper comes with a set of default fields, but you can override them::
     )
 
 Handling Multiple Entries
-----------------------
+-------------------------
 
 You can retrieve information for multiple proteins at once::
 

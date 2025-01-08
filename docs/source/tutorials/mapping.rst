@@ -1,10 +1,10 @@
 ID Mapping Tutorial
-=================
+===================
 
 This tutorial demonstrates how to use UniProtMapper to map between different types of identifiers.
 
 Basic Mapping
-------------
+-------------
 
 Here's a simple example of mapping UniProt accession IDs to Ensembl IDs::
 
@@ -21,12 +21,12 @@ Here's a simple example of mapping UniProt accession IDs to Ensembl IDs::
 The result is a pandas DataFrame containing the mapped IDs, and failed is a list of IDs that couldn't be mapped.
 
 Available Databases
------------------
+-------------------
 
 UniProtMapper supports mapping between numerous databases. You can view the complete list of supported databases in the mapping_dbs.json file or check UniProt's documentation.
 
 Handling Failed Mappings
-----------------------
+------------------------
 
 Some IDs might fail to map due to various reasons. Here's how to handle failed mappings::
 
@@ -37,7 +37,7 @@ Some IDs might fail to map due to various reasons. Here's how to handle failed m
             print(f"- {id}")
 
 Batch Processing
---------------
+----------------
 
 For large sets of IDs, UniProtMapper automatically handles batch processing::
 

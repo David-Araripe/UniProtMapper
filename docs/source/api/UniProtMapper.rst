@@ -1,8 +1,8 @@
 UniProtMapper package
-==================
+=====================
 
 Main Module
-----------
+-----------
 
 .. automodule:: UniProtMapper.protmapper
    :members:
@@ -10,7 +10,7 @@ Main Module
    :show-inheritance:
 
 Field Querying
--------------
+--------------
 
 .. automodule:: UniProtMapper.uniprotkb_fields
    :members:
@@ -18,7 +18,7 @@ Field Querying
    :show-inheritance:
 
 Utilities
---------
+---------
 
 .. automodule:: UniProtMapper.utils
    :members:

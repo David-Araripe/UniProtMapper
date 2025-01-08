@@ -1,10 +1,10 @@
 Field-Based Querying Tutorial
-==========================
+=============================
 
 This tutorial demonstrates how to use UniProtMapper's field-based querying functionality.
 
 Basic Field Queries
-----------------
+-------------------
 
 Here's a simple example using boolean fields::
 
@@ -18,7 +18,7 @@ Here's a simple example using boolean fields::
     result, failed = mapper.query(query)
 
 Complex Queries
--------------
+---------------
 
 You can combine multiple fields with boolean operators::
 
@@ -41,12 +41,12 @@ You can combine multiple fields with boolean operators::
     )
 
 Field Types
-----------
+-----------
 
 UniProtMapper supports several types of fields:
 
 Boolean Fields
-~~~~~~~~~~~~
+~~~~~~~~~~~~~~
 ::
 
     from UniProtMapper.uniprotkb_fields import reviewed, fragment, is_isoform
@@ -55,7 +55,7 @@ Boolean Fields
     query = reviewed(True) & ~fragment(True)
 
 Range Fields
-~~~~~~~~~~
+~~~~~~~~~~~~
 ::
 
     from UniProtMapper.uniprotkb_fields import length, mass
@@ -64,7 +64,7 @@ Range Fields
     query = length(200, 300)
 
 Date Range Fields
-~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
 ::
 
     from UniProtMapper.uniprotkb_fields import date_created, date_modified
@@ -73,7 +73,7 @@ Date Range Fields
     query = date_created("2023-01-01", "2023-12-31")
 
 Text-Based Fields
-~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
 ::
 
     from UniProtMapper.uniprotkb_fields import gene_exact, keyword, family

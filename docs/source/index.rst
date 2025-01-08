@@ -1,5 +1,5 @@
 Welcome to UniProtMapper's documentation!
-=====================================
+=========================================
 
 .. toctree::
    :maxdepth: 2
@@ -15,7 +15,7 @@ Welcome to UniProtMapper's documentation!
 UniProtMapper is a Python wrapper for UniProt's Retrieve/ID Mapping RESTful API.
 
 Main Features
-------------
+-------------
 
 1. Map UniProt cross-referenced IDs to other identifiers & vice-versa
 2. Programmatically retrieve supported return and cross-reference fields
