@@ -11,22 +11,25 @@ Easily retrieve UniProt data and map protein identifiers using this Python packa
 
 ## 📚 Table of Contents
 
-- ⛏️ [Features](#-features)
-- 📦 [Installation](#-installation)
-- 🛠️ [Usage](#-usage)
+- [⛏️ Features](#️-features)
+- [📦 Installation](#-installation)
+- [🛠️ Usage](#️-usage)
   - [Mapping IDs](#mapping-ids)
   - [Retrieving Information](#retrieving-information)
-- 💻 [Command Line Interface (CLI)](#-command-line-interface-cli)
-- 👏🏼 [Credits](#-credits)
+  - [Field-based Querying](#field-based-querying)
+- [💻 Command Line Interface (CLI)](#-command-line-interface-cli)
+- [👏🏼 Credits](#-credits)
 
 ## ⛏️ Features
-UniProtMapper is a tool for bioinformatics and proteomics research that supports the following functionalities:
+UniProtMapper is a tool for bioinformatics and proteomics research that supports:
 
-1. Map (almost) any UniProt [cross-referenced IDs](https://github.com/David-Araripe/UniProtMapper/blob/master/src/UniProtMapper/resources/uniprot_mapping_dbs.json) to other identifiers & vice-versa;
-2. Programmatically  retrieve any of the supported [return](https://www.uniprot.org/help/return_fields) and [cross-reference fields](https://www.uniprot.org/help/return_fields_databases) from both UniProt-SwissProt and UniProt-TrEMBL (unreviewed) databases;
-3. Easy integration of the functionalities above into bioinformatics pipelines through a Command-line interface (CLI);
+1. Mapping any UniProt [cross-referenced IDs](https://github.com/David-Araripe/UniProtMapper/blob/master/src/UniProtMapper/resources/uniprot_mapping_dbs.json) to other identifiers & vice-versa;
+2. Programmatically retrieving any of the supported [return](https://www.uniprot.org/help/return_fields) and [cross-reference fields](https://www.uniprot.org/help/return_fields_databases) from both UniProt-SwissProt and UniProt-TrEMBL (unreviewed) databases;
+3. Querying UniProtKB entries using complex field-based queries with boolean operators `~` (NOT), `|` (OR), `&` (AND).
 
-For these, check [Mapping IDs](#mapping-ids) and [Retrieving Information](#retrieving-information) below. For the implemented CLI, check [Command Line Interface (CLI)](#-command-line-interface-cli).
+For the first two functionalities, check the examples [Mapping IDs](#mapping-ids) and [Retrieving Information](#retrieving-information) below. The third, see [Field-based Querying](#field-based-querying). 
+
+All functionalities can also be accessed through the CLI. For more information, check [CLI](#-command-line-interface-cli).
 
 ## 📦 Installation
 
@@ -47,6 +50,7 @@ cd UniProtMapper
 python -m pip install .
 ```
 # 🛠️ Usage
+
 ## Mapping IDs
 Use UniProtMapper to easily map between different protein identifiers:
 
@@ -97,6 +101,32 @@ result, failed = mapper.get(["Q02880"])
 fields = ["accession", "organism_name", "structure_3d"]
 result, failed = mapper.get(["Q02880"], fields=fields)
 >>> Fetched: 1 / 1
+```
+
+## Field-based Querying
+
+UniProtMapper supports complex field-based queries using boolean operators (AND, OR, NOT) through the `uniprotkb_fields` module. This allows you to create sophisticated searches combining multiple criteria. For example:
+
+```Python
+from UniProtMapper import ProtKB
+from UniProtMapper.uniprotkb_fields import (
+    organism_name, 
+    length, 
+    reviewed, 
+    date_modified
+)
+
+# Find reviewed human proteins with length between 100-200 amino acids
+# that were modified after January 1st, 2024
+query = (
+    organism_name("human") & 
+    reviewed(True) & 
+    length(100, 200) & 
+    date_modified("2024-01-01", "*")
+)
+
+protkb = ProtKB()
+result = protkb.get(query)
 ```
 
 # 💻 Command Line Interface (CLI)

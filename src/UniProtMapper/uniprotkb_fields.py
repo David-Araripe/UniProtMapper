@@ -2,7 +2,7 @@
 the following boolean operators:
 
 - & : AND operation
-- | : OR operation
+- `|` : OR operation
 - ~ : NOT operation
 
 For a list of query fields on UniProt's website, refer to https://www.uniprot.org/help/query-fields
