@@ -28,13 +28,12 @@ UniProtMapper supports mapping between numerous databases. You can view the comp
 Handling Failed Mappings
 ------------------------
 
-Some IDs might fail to map due to various reasons. Here's how to handle failed mappings::
+Some IDs might fail to map if the identifier you're working with is not listed on the cross-references of a certain UniProt entry. Therefore, `ProtMapper.get` method will always return two values, with the first being the result and the second, a list of IDs that failed to be mapped (an empty list if all IDs were successfully mapped). Here's how to handle failed mappings::
 
     # Check if there were any failed mappings
     if failed:
         print(f"Failed to map {len(failed)} IDs:")
-        for id in failed:
-            print(f"- {id}")
+        print(f"- {' '.join(id)}")
 
 Batch Processing
 ----------------
