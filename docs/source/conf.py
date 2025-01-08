@@ -2,7 +2,16 @@
 
 import os
 import sys
+import shutil
+
 sys.path.insert(0, os.path.abspath('../../src'))
+
+# Copy the CSV file to the docs directory
+csv_source = '../../src/UniProtMapper/resources/uniprot_return_fields.csv'
+csv_dest = os.path.join(os.path.dirname(__file__), '_static')
+if not os.path.exists(csv_dest):
+    os.makedirs(csv_dest)
+shutil.copy2(csv_source, os.path.join(csv_dest, 'uniprot_return_fields.csv'))
 
 # Project information
 project = 'UniProtMapper'
