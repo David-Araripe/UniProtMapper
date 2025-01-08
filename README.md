@@ -58,10 +58,6 @@ mapper = ProtMapper()
 result, failed = mapper.get(
     ids=["P30542", "Q16678", "Q02880"], from_db="UniProtKB_AC-ID", to_db="Ensembl"
 )
-
-result, failed = mapper(
-    ids=["P30542", "Q16678", "Q02880"], from_db="UniProtKB_AC-ID", to_db="Ensembl"
-)
 ```
 The `result` is a pandas DataFrame containing the mapped IDs (see below), while `failed` is a list of identifiers that couldn't be mapped.
 

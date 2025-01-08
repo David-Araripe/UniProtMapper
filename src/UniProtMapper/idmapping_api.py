@@ -146,39 +146,6 @@ class ProtMapper(BaseUniProt):
         )
         return decode_results(request, file_format, compressed)
 
-    def __call__(
-        self,
-        ids: Union[List[str], str],
-        fields: list = None,
-        from_db: str = "UniProtKB_AC-ID",
-        to_db: str = "UniProtKB-Swiss-Prot",
-        compressed: bool = True,
-    ) -> Tuple[pd.DataFrame, list]:
-        """Wrapper for the `retrieveFields` method.
-
-        Retrieves the requested fields from the UniProt ID Mapping API.
-        Supported fields are listed in the `fields_table` attribute.
-
-        Args:
-            ids: list of IDs to be mapped or single string.
-            fields: list of UniProt fields to be retrieved. If None, will return the API's
-                default fields. `Note:` parameter not supported for datasets that aren't
-                strictly UniProtKB, e.g.: UniParc, UniRef... Defaults to None.
-            from_db: database for the ids. Defaults to "UniProtKB_AC-ID".
-            to_db: UniProtDB to query to. For reviewed-only accessions, use default. If
-                you want to include unreviewed accessions, use "UniProtKB". Defaults to
-                "UniProtKB-Swiss-Prot".
-            compressed: compressed API request. Defaults to True.
-
-        Raises:
-            ValueError: If parameters `from_db`or `to_db` are not supported.
-
-        Returns:
-            Tuple[pd.DataFrame, list]: First element is a data frame with the
-            results, second element is a list of failed IDs.
-        """
-        return self.get(ids, fields, from_db, to_db, compressed)
-
     def get_id_mapping_results_search(self, fields: str, url: str, compressed: bool):
         """Get the id mapping results from the UniProt API."""
         query_dict = {
