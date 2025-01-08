@@ -27,7 +27,7 @@
   <div class="wy-grid-for-nav">
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search"  style="background: #2980B9" >
+        <div class="wy-side-nav-search" >
 
           
           
@@ -117,7 +117,7 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">UniProtMapper</a>
       </nav>
@@ -130,7 +130,6 @@
           <li class="breadcrumb-item"><a href="modules.html">API Reference</a></li>
       <li class="breadcrumb-item active">UniProtMapper package</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/api/UniProtMapper.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -592,7 +591,7 @@ or another common cross-referenced database.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="UniProtMapper.utils.fetch_cross_referenced_db_details">
-<span class="sig-prename descclassname"><span class="pre">UniProtMapper.utils.</span></span><span class="sig-name descname"><span class="pre">fetch_cross_referenced_db_details</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="../_modules/UniProtMapper/utils.html#fetch_cross_referenced_db_details"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.utils.fetch_cross_referenced_db_details" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">UniProtMapper.utils.</span></span><span class="sig-name descname"><span class="pre">fetch_cross_referenced_db_details</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#dict" title="(in Python v3.9)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="../_modules/UniProtMapper/utils.html#fetch_cross_referenced_db_details"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.utils.fetch_cross_referenced_db_details" title="Link to this definition"></a></dt>
 <dd><p>Downloads the latest details on UniProt cross references and stores it. This
 list of cross references can be found here: <a class="reference external" href="https://www.uniprot.org/database?query=*">https://www.uniprot.org/database?query=*</a></p>
 <dl class="field-list simple">
@@ -607,14 +606,14 @@ If left as None, will update the file stored in the package. Defaults to None.</
 <dd class="field-even"><p>the json with the cross references details.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#dict" title="(in Python v3.9)">dict</a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="UniProtMapper.utils.get_resources_root">
-<span class="sig-prename descclassname"><span class="pre">UniProtMapper.utils.</span></span><span class="sig-name descname"><span class="pre">get_resources_root</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.13)"><span class="pre">Path</span></a></span></span><a class="reference internal" href="../_modules/UniProtMapper/utils.html#get_resources_root"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.utils.get_resources_root" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">UniProtMapper.utils.</span></span><span class="sig-name descname"><span class="pre">get_resources_root</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.9/library/pathlib.html#pathlib.Path" title="(in Python v3.9)"><span class="pre">Path</span></a></span></span><a class="reference internal" href="../_modules/UniProtMapper/utils.html#get_resources_root"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UniProtMapper.utils.get_resources_root" title="Link to this definition"></a></dt>
 <dd><p>Returns the path to the resources folder.</p>
 </dd></dl>
 
