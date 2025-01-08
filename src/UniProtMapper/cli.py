@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Module contains the implementation of the command-line interface"""
 
 import argparse
@@ -8,7 +7,7 @@ from io import StringIO
 from itertools import cycle
 from pathlib import Path
 
-from .api import ProtMapper
+from .idmapping_api import ProtMapper
 
 CROSSREF_PATH = Path(__file__).parent / "resources/uniprot_mapping_dbs.json"
 FIELDS_CONFIG_PATH = Path(__file__).parent / "resources/cli_return_fields.txt"

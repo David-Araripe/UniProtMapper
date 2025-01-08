@@ -7,7 +7,7 @@ Gene Names (synonym),gene_synonym,Names & Taxonomy,yes,uniprot_field
 Gene Names (ordered locus),gene_oln,Names & Taxonomy,yes,uniprot_field
 Gene Names (ORF),gene_orf,Names & Taxonomy,yes,uniprot_field
 Organism,organism_name,Names & Taxonomy,yes,uniprot_field
-Organism ID,organism_id,Names & Taxonomy,yes,uniprot_field
+Organism (ID),organism_id,Names & Taxonomy,yes,uniprot_field
 Protein names,protein_name,Names & Taxonomy,yes,uniprot_field
 Proteomes,xref_proteomes,Names & Taxonomy,yes,uniprot_field
 Taxonomic lineage,lineage,Names & Taxonomy,yes,uniprot_field

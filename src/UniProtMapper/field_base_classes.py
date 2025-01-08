@@ -39,17 +39,13 @@ class QueryBuilder:
     """
 
     def __init__(self, query: Union[list[Union[str, "AnyField"]], "AnyField"]) -> None:
-        """
-        Initialize a query builder with a list of query elements or a single field.
+        """Initialize QueryBuilder with a query."""
+        # Convert single field to list for consistency
+        self.query = [query] if hasattr(query, "field_name") else query
 
-        Args:
-            query: List of query elements (fields and operators) or a single field
-        """
-        # Handle single field initialization
-        if hasattr(query, "field_name"):  # It's a Field instance
-            self.query = [query]
-        else:
-            self.query = query
+        # Track operation type for precedence handling
+        self.operation = None  # Can be 'AND', 'OR', or 'NOT'
+        self.grouped = False
 
         # Validate query elements
         for q in self.query:
@@ -58,45 +54,96 @@ class QueryBuilder:
                     f"Query elements must be strings or Field objects, got {type(q)}"
                 )
 
-    def __and__(self, other: "QueryBuilder") -> "QueryBuilder":
-        """Combine queries with AND operator."""
+    def __call__(self) -> "QueryBuilder":
+        """Handle explicit parentheses grouping."""
+        self.grouped = True
+        return self
+
+    def _combine(self, other: "QueryBuilder", operation: str) -> "QueryBuilder":
+        """Helper method for combining queries with operators."""
         if not isinstance(other, QueryBuilder):
             raise TypeError(
                 f"Can only combine QueryBuilder instances, got {type(other)}"
             )
-        # Add parentheses for complex expressions
-        if len(self.query) > 1 and len(other.query) > 1:
-            return QueryBuilder(
-                ["("] + self.query + [")"] + ["AND"] + ["("] + other.query + [")"]
-            )
-        return QueryBuilder(self.query + ["AND"] + other.query)
+
+        result = QueryBuilder([])
+        result.operation = operation
+
+        # Handle left operand
+        if self.operation == operation and not self.grouped:
+            result.query.extend(self.query)
+        else:
+            left_needs_parens = self.operation is not None and not self.grouped
+            if left_needs_parens:
+                result.query.extend(["("] + self.query + [")"])
+            else:
+                result.query.extend(self.query)
+
+        # Add operator
+        result.query.append(operation)
+
+        # Handle right operand
+        if other.operation == operation and not other.grouped:
+            result.query.extend(other.query)
+        else:
+            right_needs_parens = other.operation is not None and not other.grouped
+            if right_needs_parens:
+                result.query.extend(["("] + other.query + [")"])
+            else:
+                result.query.extend(other.query)
+
+        return result
+
+    def __and__(self, other: "QueryBuilder") -> "QueryBuilder":
+        """Combine queries with AND operator."""
+        return self._combine(other, "AND")
 
     def __or__(self, other: "QueryBuilder") -> "QueryBuilder":
         """Combine queries with OR operator."""
-        if not isinstance(other, QueryBuilder):
-            raise TypeError(
-                f"Can only combine QueryBuilder instances, got {type(other)}"
-            )
-        # Add parentheses for complex expressions
-        if len(self.query) > 1 and len(other.query) > 1:
-            return QueryBuilder(
-                ["("] + self.query + [")"] + ["OR"] + ["("] + other.query + [")"]
-            )
-        return QueryBuilder(self.query + ["OR"] + other.query)
+        return self._combine(other, "OR")
 
     def __invert__(self) -> "QueryBuilder":
         """Negate the query with NOT operator."""
-        # Add parentheses for complex expressions
-        if len(self.query) > 1:
-            return QueryBuilder(["NOT", "("] + self.query + [")"])
-        return QueryBuilder(["NOT"] + self.query)
+        result = QueryBuilder([])
+        result.operation = "NOT"
+
+        # Add NOT operator
+        result.query.append("NOT")
+
+        # Add parentheses if needed
+        if self.operation is not None and not self.grouped:
+            result.query.extend(["("] + self.query + [")"])
+        else:
+            result.query.extend(self.query)
+
+        return result
 
     def __str__(self) -> str:
         """Convert query to string representation."""
-        return " ".join(str(q) for q in self.query)
+        parts = []
+        for i, element in enumerate(self.query):
+            curr_str = str(element)
+
+            # Special cases for no spaces
+            if curr_str in ["(", ")"]:
+                parts.append(curr_str)
+                continue
+
+            if curr_str == "NOT":
+                if i > 0 and parts[-1] != "(":
+                    parts.append(" ")
+                parts.append(curr_str)
+                continue
+
+            # Add space before if needed
+            if i > 0 and parts[-1] not in ["("]:
+                parts.append(" ")
+
+            parts.append(curr_str)
+
+        return "".join(parts)
 
     def __repr__(self) -> str:
-        """Same as str() for consistency."""
         return self.__str__()
 
 

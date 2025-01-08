@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Holds the implementation of the base class for the UniProt id-mapping REST API."""
 
 import re
@@ -17,7 +16,11 @@ https://www.uniprot.org/help/id_mapping#submitting-an-id-mapping-job
 
 
 class BaseUniProt(ABC):
-    """Implementation of the base class for the UniProt REST API."""
+    """Base class for the UniProt rest APIs covered by this package:
+
+    - BaseUniProt -> ProtMapper (ID mapping API)
+    - BaseUniProt -> ProtKB (UniProtKB API)
+    """
 
     def __init__(
         self,

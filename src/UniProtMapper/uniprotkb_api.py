@@ -1,3 +1,6 @@
+"""Hold the class to interact with the UniProtKB API. For query construction, use the
+field classes found in `UniProtMapper.uniprotkb_fields`."""
+
 from logging import info
 from typing import Generator, Optional, Union
 
@@ -5,11 +8,13 @@ import pandas as pd
 import requests
 from tqdm import tqdm
 
+from UniProtMapper.utils import decode_results
+
 from .field_base_classes import QueryBuilder
 from .interface import BaseUniProt
 
 
-class UniProtKBWrapper(BaseUniProt):
+class ProtKB(BaseUniProt):
 
     def __init__(
         self,
@@ -88,7 +93,6 @@ class UniProtKBWrapper(BaseUniProt):
         fields: list = None,
         include_isoform: bool = False,
         compressed: bool = True,
-        format: str = "tab",
         size: int = 500,
     ) -> dict:
         request = requests.post(
@@ -97,28 +101,13 @@ class UniProtKBWrapper(BaseUniProt):
                 "query": query,
                 "fields": fields,
                 "includeIsoform": str(include_isoform).lower(),
-                "format": format,
+                "format": "tsv",
                 "size": size,
                 "compressed": str(compressed).lower(),
             },
         )
         self.check_response(request)
         return request.json()["jobId"]
-
-    @property
-    def available_formats(self) -> list:
-        return [
-            "json",
-            "xml",
-            "txt",
-            "list",
-            "tsv",
-            "fasta",
-            "gff",
-            "obo",
-            "rdf",
-            "xlsx",
-        ]
 
     def _get_batches(
         self, initial_response
@@ -150,7 +139,6 @@ class UniProtKBWrapper(BaseUniProt):
         self,
         query: Union[QueryBuilder, str],
         fields: Optional[list[str]] = None,
-        format: str = "tsv",
         include_isoform: bool = False,
         compressed: bool = False,
         size: int = 500,
@@ -162,7 +150,6 @@ class UniProtKBWrapper(BaseUniProt):
 
         Args:
             fields: string or QueryBuilder object with the fields to retrieve.
-            format: Format of the response. Defaults to "tsv"
             include_isoform: Whether to include isoforms. Defaults to False
             compressed: Whether to request compressed response. Defaults to False
             size: Batch size for pagination. Defaults to 500
@@ -179,7 +166,6 @@ class UniProtKBWrapper(BaseUniProt):
         url = self._build_search_url(
             query=(str(query) if isinstance(query, QueryBuilder) else query),
             fields=fields,
-            format=format,
             include_isoform=include_isoform,
             compressed=compressed,
             size=size,
@@ -198,21 +184,14 @@ class UniProtKBWrapper(BaseUniProt):
         )
 
         for batch_response, _ in pbar:
-            if format == "tsv":
-                batch_data = batch_response.text.splitlines()
-                if results:
-                    batch_data = batch_data[1:]
-                results.extend(batch_data)
-            else:
-                batch_data = batch_response.json()
-                if "results" in batch_data:
-                    results.extend(batch_data["results"])
+            batch_data = decode_results(
+                batch_response, file_format="tsv", compressed=compressed
+            )
+            if results:
+                batch_data = batch_data[1:]
+            results.extend(batch_data)
 
             pbar.set_postfix({"fetched": f"{len(results)-1}/{total_results}"})
 
-        if format == "tsv":
-            df = pd.read_csv(pd.io.common.StringIO("\n".join(results)), sep="\t")
-        else:
-            df = pd.DataFrame(results)
-
+        df = pd.read_csv(pd.io.common.StringIO("\n".join(results)), sep="\t")
         return df
