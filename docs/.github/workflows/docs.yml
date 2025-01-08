@@ -31,16 +31,33 @@ jobs:
           make html
           # Create .nojekyll file to allow _* files
           touch build/html/.nojekyll
-          # Add branch-specific redirect
+
+      - name: Prepare deployment directory
+        run: |
+          cd docs/build/html
           if [ "${{ github.ref }}" = "refs/heads/dev" ]; then
-            echo '<meta http-equiv="refresh" content="0; url=./dev/">' > build/html/index.html
-            mkdir -p build/html/dev
-            cp -r build/html/* build/html/dev/
+            mkdir -p dev
+            cp -r assets dev/
+            cp -r _sources dev/
+            cp -r _static dev/
+            cp -r api dev/
+            cp -r tutorials dev/
+            cp -r *.html dev/
+            cp -r .nojekyll dev/
+            cp -r *.js* dev/
           else
-            echo '<meta http-equiv="refresh" content="0; url=./stable/">' > build/html/index.html
-            mkdir -p build/html/stable
-            cp -r build/html/* build/html/stable/
+            mkdir -p stable
+            cp -r assets stable/
+            cp -r _sources stable/
+            cp -r _static stable/
+            cp -r api stable/
+            cp -r tutorials stable/
+            cp -r *.html stable/
+            cp -r .nojekyll stable/
+            cp -r *.js* stable/
           fi
+          # Create redirect index
+          echo '<meta http-equiv="refresh" content="0; url=./dev/">' > index.html
 
       - name: Deploy Documentation
         if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev')
