@@ -10,9 +10,10 @@
 A Python wrapper for UniProt's [Retrieve/ID Mapping](https://www.uniprot.org/id-mapping) RESTful API. This package supports the following functionalities:
 
 1. Map (almost) any UniProt [cross-referenced IDs](https://github.com/David-Araripe/UniProtMapper/blob/master/src/UniProtMapper/resources/uniprot_mapping_dbs.json) to other identifiers & vice-versa;
-2. Programmatically  retrieve any of the supported [return](https://www.uniprot.org/help/return_fields) and [cross-reference fields](https://www.uniprot.org/help/return_fields_databases) from both UniProt-SwissProt and UniProt-TrEMBL (unreviewed) databases;
+2. Programmatically retrieve any of the supported [return](https://www.uniprot.org/help/return_fields) and [cross-reference fields](https://www.uniprot.org/help/return_fields_databases) from both UniProt-SwissProt and UniProt-TrEMBL (unreviewed) databases;
+3. Query UniProtKB entries using complex field-based queries with boolean operators (AND, OR, NOT).
 
-For these, check [Example 1](#example-1-mapping-ids) and [Example 2](#example-2-retrieving-information) below. Both functionalities can also be accessed through the CLI. For more information, check [CLI](#-cli).
+For the first two functionalities, check [Example 1](#example-1-mapping-ids) and [Example 2](#example-2-retrieving-information) below. For field-based querying, see [Example 3](#example-3-field-based-querying). All functionalities can also be accessed through the CLI. For more information, check [CLI](#-cli).
 
 ## 📦 Installation
 
@@ -53,9 +54,9 @@ Where failed corresponds to a list of the identifiers that failed to be mapped a
 
 |    | UniProtKB_AC-ID   | Ensembl            |
 |---:|:------------------|:-------------------|
-|  0 | P30542            | ENSG00000163485.17 |
-|  1 | Q16678            | ENSG00000138061.12 |
-|  2 | Q02880            | ENSG00000077097.17 |
+|  0 | P30542           | ENSG00000163485.17 |
+|  1 | Q16678           | ENSG00000138061.12 |
+|  2 | Q02880           | ENSG00000077097.17 |
 
 ## Example 2: Retrieving information
 
@@ -94,6 +95,86 @@ The object already has a list of default fields under `self.default_fields`, but
 fields = ["accession", "organism_name", "structure_3d"]
 result, failed = mapper.get(["Q02880"], fields=fields)
 ```
+
+## Example 3: Field-based Querying
+
+UniProtMapper supports complex field-based queries using boolean operators (AND, OR, NOT) through the `uniprotkb_fields` module. This allows you to create sophisticated searches combining multiple criteria. For example:
+
+```Python
+from UniProtMapper.uniprotkb_fields import (
+    organism_name, 
+    length, 
+    reviewed, 
+    date_modified
+)
+
+# Find reviewed human proteins with length between 100-200 amino acids
+# that were modified after January 1st, 2024
+query = (
+    organism_name("human") & 
+    reviewed(True) & 
+    length(100, 200) & 
+    date_modified("2024-01-01", "*")
+)
+
+result, failed = mapper.query(query)
+```
+
+The field classes support various types of queries:
+
+1. **Boolean Fields**: Simple true/false queries
+```Python
+from UniProtMapper.uniprotkb_fields import reviewed, fragment, is_isoform
+
+# Get only reviewed entries
+query = reviewed(True)
+
+# Get entries that are not fragments and not isoforms
+query = ~fragment(True) & ~is_isoform(True)
+```
+
+2. **Range Fields**: Query numeric ranges
+```Python
+from UniProtMapper.uniprotkb_fields import length, mass
+
+# Proteins between 200-300 amino acids
+query = length(200, 300)
+
+# Proteins with mass greater than 50kDa
+query = mass(50000, "*")
+```
+
+3. **Date Range Fields**: Query by dates
+```Python
+from UniProtMapper.uniprotkb_fields import date_created, date_modified
+
+# Entries created in 2023
+query = date_created("2023-01-01", "2023-12-31")
+
+# Entries modified since 2024
+query = date_modified("2024-01-01", "*")
+```
+
+4. **Simple Fields**: Text-based queries with advanced features
+```Python
+from UniProtMapper.uniprotkb_fields import (
+    gene_exact,
+    organism_name,
+    keyword,
+    family
+)
+
+# Exact gene name match
+query = gene_exact("TP53")
+
+# Proteins in a specific family with a keyword
+query = family("Kinase*") & keyword("ATP-binding")
+
+# Complex organism query
+query = organism_name("Homo sapiens") | organism_name("Mus musculus")
+```
+
+For a complete list of available fields and their documentation, check the [API documentation](https://uniprot-id-mapper.readthedocs.io).
 
 # 💻 CLI
 
