@@ -2,7 +2,7 @@
 field classes found in `UniProtMapper.uniprotkb_fields`."""
 
 from logging import info
-from typing import Generator, List, Optional, Union
+from typing import Generator, List, Optional, Tuple, Union
 
 import pandas as pd
 import requests
@@ -111,7 +111,7 @@ class ProtKB(BaseUniProt):
 
     def _get_batches(
         self, initial_response
-    ) -> Generator[tuple[requests.Response, int], None, None]:
+    ) -> Generator[Tuple[requests.Response, int], None, None]:
         """Generator that yields batches of results with pagination.
 
         Args:
