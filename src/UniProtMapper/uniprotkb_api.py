@@ -2,7 +2,7 @@
 field classes found in `UniProtMapper.uniprotkb_fields`."""
 
 from logging import info
-from typing import Generator, Optional, Union
+from typing import Generator, List, Optional, Union
 
 import pandas as pd
 import requests
@@ -56,7 +56,7 @@ class ProtKB(BaseUniProt):
     def _build_search_url(
         self,
         query: str,
-        fields: list[str],
+        fields: List[str],
         format: str = "tsv",
         include_isoform: bool = False,
         compressed: bool = False,
@@ -138,7 +138,7 @@ class ProtKB(BaseUniProt):
     def get(
         self,
         query: Union[QueryBuilder, str],
-        fields: Optional[list[str]] = None,
+        fields: Optional[List[str]] = None,
         include_isoform: bool = False,
         compressed: bool = False,
         size: int = 500,
