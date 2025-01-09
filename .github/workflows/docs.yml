@@ -30,11 +30,20 @@ jobs:
         run: |
           cd docs
           make html
-          touch build/html/.nojekyll
 
-      - name: List Built Documentation Files
+      - name: Create root .nojekyll # Should be at the root, so we create sub-dir & push it
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev')
         run: |
-          ls -R docs/build/html
+          mkdir -p gh-pages-root
+          touch gh-pages-root/.nojekyll
+
+      - name: Deploy .nojekyll
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev')
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: gh-pages-root
+          clean: false
 
       - name: Deploy Documentation
         if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev')
@@ -43,4 +52,4 @@ jobs:
           branch: gh-pages
           folder: docs/build/html
           target-folder: ${{ github.ref == 'refs/heads/dev' && 'dev' || 'stable' }}
-          clean: true
+          clean: false
