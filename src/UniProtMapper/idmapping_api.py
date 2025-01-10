@@ -40,10 +40,10 @@ class ProtMapper(BaseUniProt):
 
     def __init__(
         self,
-        pooling_interval=3,
-        total_retries=5,
-        backoff_factor=0.25,
-        api_url="https://rest.uniprot.org",
+        pooling_interval: int = 3,
+        total_retries: int = 5,
+        backoff_factor: float = 0.25,
+        api_url: str = "https://rest.uniprot.org",
     ) -> None:
         """Initialize the class. This will set up the session and retry mechanism.
 
