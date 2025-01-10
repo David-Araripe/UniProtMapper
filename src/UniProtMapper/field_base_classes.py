@@ -4,7 +4,7 @@ Used to create the fields within UniProtMapper.uniprot_kb_fields
 """
 
 import re
-from typing import Union
+from typing import List, Union
 
 from .utils import read_fields_table
 
@@ -38,7 +38,7 @@ class QueryBuilder:
         'NOT reviewed:true OR (organism_id:9606 AND length:[100 TO 200])'
     """
 
-    def __init__(self, query: Union[list[Union[str, "AnyField"]], "AnyField"]) -> None:
+    def __init__(self, query: Union[List[Union[str, "AnyField"]], "AnyField"]) -> None:
         """Initialize QueryBuilder with a query."""
         # Convert single field to list for consistency
         self.query = [query] if hasattr(query, "field_name") else query

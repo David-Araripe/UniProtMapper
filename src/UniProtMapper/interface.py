@@ -24,10 +24,10 @@ class BaseUniProt(ABC):
 
     def __init__(
         self,
-        pooling_interval=3,
-        total_retries=5,
-        backoff_factor=0.25,
-        api_url="https://rest.uniprot.org",
+        pooling_interval: int = 3,
+        total_retries: int = 5,
+        backoff_factor: float = 0.25,
+        api_url: str = "https://rest.uniprot.org",
     ) -> None:
         """Initialize the class. This will set up the session and retry mechanism.
 
@@ -46,7 +46,7 @@ class BaseUniProt(ABC):
         self._re_next_link = re.compile(r'<(.+)>; rel="next"')
 
     @property
-    def fields_table(self):
+    def fields_table(self) -> None:
         return read_fields_table()
 
     def _setup_retries(self, total_retries, backoff_factor) -> None:
@@ -59,14 +59,14 @@ class BaseUniProt(ABC):
     def _setup_session(self) -> None:
         self.session.mount("https://", HTTPAdapter(max_retries=self.retries))
 
-    def check_response(self, response):
+    def check_response(self, response) -> None:
         try:
             response.raise_for_status()
         except requests.HTTPError:
             print(response.json())
             raise
 
-    def get_next_link(self, headers):
+    def get_next_link(self, headers) -> str:
         if "Link" in headers:
             match = self._re_next_link.match(headers["Link"])
             if match:

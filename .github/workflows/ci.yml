@@ -4,15 +4,33 @@ on:
   push:
     branches: [ master ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, dev ]
 
 jobs:
-  ubuntu_3_11:
-    runs-on: ubuntu-latest
+  ubuntu_matrix:
+    runs-on: ubuntu-22.04 # latest fails testing python 3.7 - https://github.com/actions/setup-python/issues/962
+    strategy:
+      matrix:
+        python-version: ['3.7', '3.8', '3.9', '3.10', '3.11', '3.12', '3.13']
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        pip install -e .
+        pip install -e ".[dev]"
+    - name: Run tests
+      run: python -m unittest discover tests/
+
+  macos:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v4
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v5
       with:
         python-version: '3.11'
     - name: Install dependencies
@@ -20,50 +38,19 @@ jobs:
         pip install -e .
         pip install -e ".[dev]"
     - name: Run tests
-      run: python -m unittest discover
-
-  ubuntu_3_7:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.7'
-    - name: Install dependencies
-      run: |
-        pip install -e .
-        pip install -e ".[dev]"
-    - name: Run tests
-      run: python -m unittest discover
-
-  macos:
-    runs-on: macos-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.9'
-    - name: Install dependencies
-      run: |
-        pip install -e .
-        pip install -e ".[dev]"
-    - name: Run tests
-      run: python -m unittest discover
+      run: python -m unittest discover tests/
 
   windows:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v5
       with:
-        python-version: '3.9'
+        python-version: '3.11'
     - name: Install dependencies
       run: |
         pip install -e .
         pip install -e ".[dev]"
     - name: Run tests
-      run: python -m unittest discover
-
+      run: python -m unittest discover tests/
