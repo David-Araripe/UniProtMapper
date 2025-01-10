@@ -83,15 +83,28 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pkg_resources</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+
+
+<div class="viewcode-block" id="get_resource_file">
+<a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.utils.get_resource_file">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_resource_file</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">pkg_resources</span>
+
+        <span class="k">return</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="s2">&quot;UniProtMapper&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">importlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">resources</span>
+
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="s2">&quot;UniProtMapper&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="n">filename</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="get_resources_root">
 <a class="viewcode-back" href="../../api/UniProtMapper.html#UniProtMapper.utils.get_resources_root">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_resources_root</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns the path to the resources folder.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="s2">&quot;UniProtMapper&quot;</span><span class="p">,</span> <span class="s2">&quot;resources&quot;</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="n">get_resource_file</span><span class="p">(</span><span class="s2">&quot;resources&quot;</span><span class="p">))</span></div>
 
 
 
@@ -144,9 +157,7 @@
 <span class="sd">    - `has_full_version`: whether the annotated field contains the full version of the</span>
 <span class="sd">    dataset or not (in case of cross-references).</span>
 <span class="sd">    - `type`: the type of data. Either &quot;cross_reference&quot; or &quot;uniprot_field&quot;.&quot;&quot;&quot;</span>
-    <span class="n">csv_path</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span>
-        <span class="s2">&quot;UniProtMapper&quot;</span><span class="p">,</span> <span class="s2">&quot;resources/uniprot_return_fields.csv&quot;</span>
-    <span class="p">)</span>
+    <span class="n">csv_path</span> <span class="o">=</span> <span class="n">get_resource_file</span><span class="p">(</span><span class="s2">&quot;resources/uniprot_return_fields.csv&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">csv_path</span><span class="p">)</span></div>
 
 
@@ -157,9 +168,7 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a list of the supported datasets as UniProt cross references. This list</span>
 <span class="sd">    is used to validate the arguments `to_db` and `from_db` in the `FieldRetriever.get()` method.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">_mapping_dbs_path</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span>
-        <span class="s2">&quot;UniProtMapper&quot;</span><span class="p">,</span> <span class="s2">&quot;resources/uniprot_mapping_dbs.json&quot;</span>
-    <span class="p">)</span>
+    <span class="n">_mapping_dbs_path</span> <span class="o">=</span> <span class="n">get_resource_file</span><span class="p">(</span><span class="s2">&quot;resources/uniprot_mapping_dbs.json&quot;</span><span class="p">)</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">_mapping_dbs_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">dbs_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
     <span class="k">return</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">dbs_dict</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">dbs_dict</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dbs_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]))])</span></div>
