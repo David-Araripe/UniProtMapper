@@ -15,6 +15,7 @@ UniProt return fields are organized into the categories:
 
 5. **Cross-references**: Links to external databases, subdivided into different categories according to the database being cross-referenced. *E.g.:* `Chemistry` for datasets like `DrugBank`, `Genome annotation` for `Ensembl`, etc.
 
+.. _supported_fields:
 Supported fields
 ----------------
 
