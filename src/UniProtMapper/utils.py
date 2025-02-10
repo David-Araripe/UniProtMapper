@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
-"""Module with utility functions for UniProtMapper and SwissProtParser."""
+"""Module with utility functions for the package."""
+
 import json
 import re
 import zlib
@@ -7,13 +7,23 @@ from pathlib import Path
 from typing import Optional
 
 import pandas as pd
-import pkg_resources
 import requests
+
+
+def get_resource_file(filename: str) -> str:
+    try:
+        import pkg_resources
+
+        return pkg_resources.resource_filename("UniProtMapper", filename)
+    except ImportError:
+        from importlib import resources
+
+        return str(resources.files("UniProtMapper") / filename)
 
 
 def get_resources_root() -> Path:
     """Returns the path to the resources folder."""
-    return Path(pkg_resources.resource_filename("UniProtMapper", "resources"))
+    return Path(get_resource_file("resources"))
 
 
 def fetch_cross_referenced_db_details(
@@ -51,10 +61,16 @@ def fetch_cross_referenced_db_details(
 
 
 def read_fields_table():
-    """Reads the fields table from the resources folder."""
-    csv_path = pkg_resources.resource_filename(
-        "UniProtMapper", "resources/uniprot_return_fields.csv"
-    )
+    """Return the fields table from the package resources as a DataFrame containing rows
+    as the information available in UniProt and the following columns:
+
+    - `label`: the label of the information once retrieved from the API.
+    - `returned_field`: the name used in the API to return that information.
+    - `field_type`: the type of information, e.g.: sequence-related, function...
+    - `has_full_version`: whether the annotated field contains the full version of the
+    dataset or not (in case of cross-references).
+    - `type`: the type of data. Either "cross_reference" or "uniprot_field"."""
+    csv_path = get_resource_file("resources/uniprot_return_fields.csv")
     return pd.read_csv(csv_path)
 
 
@@ -62,9 +78,7 @@ def supported_mapping_dbs():
     """Return a list of the supported datasets as UniProt cross references. This list
     is used to validate the arguments `to_db` and `from_db` in the `FieldRetriever.get()` method.
     """
-    _mapping_dbs_path = pkg_resources.resource_filename(
-        "UniProtMapper", "resources/uniprot_mapping_dbs.json"
-    )
+    _mapping_dbs_path = get_resource_file("resources/uniprot_mapping_dbs.json")
     with open(_mapping_dbs_path, "r") as f:
         dbs_dict = json.load(f)
     return sorted([dbs_dict[k][i] for k in dbs_dict for i in range(len(dbs_dict[k]))])

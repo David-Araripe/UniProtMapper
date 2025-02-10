@@ -1,12 +1,13 @@
-# -*- coding: utf-8 -*-
 """Holds ProtMapper: a class for returning specific fields from UniProt. For
 a list of all supported fields, see https://www.uniprot.org/help/return_fields. 
 
 Supported fields also stored as a data frame in the `fields_table` attribute.
 """
 
+import time
 from logging import warning
 from typing import List, Optional, Tuple, Union
+from urllib.parse import parse_qs, urlparse
 
 import numpy as np
 import pandas as pd
@@ -17,7 +18,6 @@ from .utils import (
     decode_results,
     divide_batches,
     print_progress_batches,
-    read_fields_table,
     supported_mapping_dbs,
 )
 
@@ -40,10 +40,10 @@ class ProtMapper(BaseUniProt):
 
     def __init__(
         self,
-        pooling_interval=3,
-        total_retries=5,
-        backoff_factor=0.25,
-        api_url="https://rest.uniprot.org",
+        pooling_interval: int = 3,
+        total_retries: int = 5,
+        backoff_factor: float = 0.25,
+        api_url: str = "https://rest.uniprot.org",
     ) -> None:
         """Initialize the class. This will set up the session and retry mechanism.
 
@@ -76,55 +76,80 @@ class ProtMapper(BaseUniProt):
         )
 
     @property
-    def fields_table(self):
-        return read_fields_table()
-
-    @property
     def _supported_dbs(self) -> list:
         return supported_mapping_dbs()
 
-    def __call__(
-        self,
-        ids: Union[List[str], str],
-        fields: list = None,
-        from_db: str = "UniProtKB_AC-ID",
-        to_db: str = "UniProtKB-Swiss-Prot",
-        file_format: str = "tsv",
-        compressed: bool = False,
-    ) -> Tuple[pd.DataFrame, list]:
-        """Wrapper for the `retrieveFields` method.
+    def _get_batch(self, batch_response, file_format, compressed):
+        batch_url = self.get_next_link(batch_response.headers)
+        while batch_url:
+            batch_response = self.session.get(batch_url)
+            batch_response.raise_for_status()
+            yield decode_results(batch_response, file_format, compressed)
+            batch_url = self.get_next_link(batch_response.headers)
 
-        Retrieves the requested fields from the UniProt ID Mapping API.
-        Supported fields are listed in the `fields_table` attribute.
+    def _combine_batches(self, all_results, batch_results, file_format):
+        if file_format == "json":
+            for key in ("results", "failedIds"):
+                if key in batch_results and batch_results[key]:
+                    all_results[key] += batch_results[key]
+        elif file_format == "tsv":
+            return all_results + batch_results[1:]
+        else:
+            return all_results + batch_results
+        return all_results
 
-        Args:
-            ids: list of IDs to be mapped or single string.
-            fields: list of UniProt fields to be retrieved. If None, will return the API's
-                default fields. `Note:` parameter not supported for datasets that aren't
-                strictly UniProtKB, e.g.: UniParc, UniRef... Defaults to None.
-            from_db: database for the ids. Defaults to "UniProtKB_AC-ID".
-            to_db: UniProtDB to query to. For reviewed-only accessions, use default. If
-                you want to include unreviewed accessions, use "UniProtKB". Defaults to
-                "UniProtKB-Swiss-Prot".
-            file_format: desired file format. Defaults to "tsv".
-            compressed: compressed API request. Defaults to False.
+    def check_id_mapping_ready(self, job_id, from_db, to_db):
+        while True:
+            request = self.session.get(f"{self._API_URL}/idmapping/status/{job_id}")
+            self.check_response(request)
+            j = request.json()
+            if "jobStatus" in j:
+                if j["jobStatus"] in ["RUNNING", "NEW"]:
+                    print(f"Retrying in {self._POLLING_INTERVAL}s")
+                    time.sleep(self._POLLING_INTERVAL)
+                else:
+                    raise Exception(j["jobStatus"])
+            else:
+                try:
+                    ready = bool(j["results"] or j["failedIds"])
+                except KeyError:
+                    raise requests.RequestException(
+                        f"Unexpected response from {from_db} to {to_db}.\n"
+                        'request.json() missing "results" and "failedIds"'
+                    )
+                return ready
 
-        Raises:
-            ValueError: If parameters `from_db`or `to_db` are not supported.
+    def submit_id_mapping(self, from_db, to_db, ids):
+        request = requests.post(
+            f"{self._API_URL}/idmapping/run",
+            data={"from": from_db, "to": to_db, "ids": ",".join(ids)},
+        )
+        self.check_response(request)
+        return request.json()["jobId"]
 
-        Returns:
-            Tuple[pd.DataFrame, list]: First element is a data frame with the
-            results, second element is a list of failed IDs.
-        """
-        return self.get(ids, fields, from_db, to_db, file_format, compressed)
+    def get_id_mapping_results_link(self, job_id):
+        url = f"{self._API_URL}/idmapping/details/{job_id}"
+        request = self.session.get(url)
+        self.check_response(request)
+        return request.json()["redirectURL"]
 
-    def get_id_mapping_results_search(
-        self, fields: str, url: str, file_format: str, compressed: bool
-    ):
+    def get_id_mapping_results_stream(self, url):
+        if "/stream/" not in url:
+            url = url.replace("/results/", "/results/stream/")
+        request = self.session.get(url)
+        self.check_response(request)
+        parsed = urlparse(url)
+        query = parse_qs(parsed.query)
+        file_format = query["format"][0] if "format" in query else "json"
+        compressed = (
+            query["compressed"][0].lower() == "true" if "compressed" in query else False
+        )
+        return decode_results(request, file_format, compressed)
+
+    def get_id_mapping_results_search(self, fields: str, url: str, compressed: bool):
         """Get the id mapping results from the UniProt API."""
-        assert file_format in ["json", "tsv", "xlsx", "xml"]
         query_dict = {
-            "format": file_format,
+            "format": "tsv",
             "fields": fields,
             "includeIsoform": "false",
             "size": 500,
@@ -134,13 +159,10 @@ class ProtMapper(BaseUniProt):
             query_dict.pop("fields")
         self.check_response(self.session.get(url, allow_redirects=False))
         request = requests.get(url + "/", params=query_dict)
-        results = decode_results(request, file_format, compressed=compressed)
-        for i, batch in enumerate(self.get_batch(request, file_format, compressed), 1):
-            results = self.combine_batches(results, batch, file_format)
-        if file_format == "tsv":
-            data = [d.split("\t") for d in results]
-        else:
-            raise NotImplementedError("Only tsv format is implemented")
+        results = decode_results(request, "tsv", compressed=compressed)
+        for i, batch in enumerate(self._get_batch(request, "tsv", compressed), 1):
+            results = self._combine_batches(results, batch, "tsv")
+        data = [d.split("\t") for d in results]
         columns = data[0]
         results_df = pd.DataFrame(data=data[1:], columns=columns)
         return results_df
@@ -151,8 +173,7 @@ class ProtMapper(BaseUniProt):
         fields: Optional[Union[str, List]] = "default",
         from_db: str = "UniProtKB_AC-ID",
         to_db: str = "UniProtKB-Swiss-Prot",
-        file_format: str = "tsv",
-        compressed: bool = False,
+        compressed: bool = True,
     ) -> Tuple[pd.DataFrame, list]:
         """Gets the requested fields from the UniProt ID Mapping API.
         Supported fields are listed in the `fields_table` attribute. For a complete
@@ -167,8 +188,7 @@ class ProtMapper(BaseUniProt):
             to_db: UniProtDB to query to. For reviewed-only accessions, use default. If
                 you want to include unreviewed accessions, use "UniProtKB". Defaults to
                 "UniProtKB-Swiss-Prot".
-            file_format: desired file format. Defaults to "tsv".
-            compressed: compressed API request. Defaults to False.
+            compressed: compressed API request. Defaults to True.
 
         Raises:
             ValueError: If parameters `from_db`or `to_db` are not supported.
@@ -211,15 +231,12 @@ class ProtMapper(BaseUniProt):
             fields=fields,
             from_db=from_db,
             to_db=to_db,
-            file_format=file_format,
             compressed=compressed,
         ):
             job_id = self.submit_id_mapping(from_db=from_db, to_db=to_db, ids=ids)
             if self.check_id_mapping_ready(job_id, from_db=from_db, to_db=to_db):
                 link = self.get_id_mapping_results_link(job_id)
-                df = self.get_id_mapping_results_search(
-                    fields, link, file_format, compressed
-                )
+                df = self.get_id_mapping_results_search(fields, link, compressed)
                 retrieved = len(df["From"].values)
                 failed_arr = np.isin(ids, df["From"].values, invert=True)
                 n_failed = failed_arr.astype(int).sum()

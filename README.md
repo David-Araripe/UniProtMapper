@@ -7,34 +7,54 @@
 
 # UniProtMapper <img align="left" width="40" height="40" src="https://raw.githubusercontent.com/whitead/protein-emoji/main/src/protein-72-color.svg">
 
-A Python wrapper for UniProt's [Retrieve/ID Mapping](https://www.uniprot.org/id-mapping) RESTful API. This package supports the following functionalities:
+Easily retrieve UniProt data and map protein identifiers using this Python package for UniProt's Retrieve & ID Mapping RESTful APIs. [Read the full documentation](https://david-araripe.github.io/UniProtMapper/stable/index.html).
 
-1. Map (almost) any UniProt [cross-referenced IDs](https://github.com/David-Araripe/UniProtMapper/blob/master/src/UniProtMapper/resources/uniprot_mapping_dbs.json) to other identifiers & vice-versa;
-2. Programmatically  retrieve any of the supported [return](https://www.uniprot.org/help/return_fields) and [cross-reference fields](https://www.uniprot.org/help/return_fields_databases) from both UniProt-SwissProt and UniProt-TrEMBL (unreviewed) databases;
+## 📚 Table of Contents
 
-For these, check [Example 1](#example-1-mapping-ids) and [Example 2](#example-2-retrieving-information) below. Both functionalities can also be accessed through the CLI. For more information, check [CLI](#-cli).
+- [⛏️ Features](#️-features)
+- [📦 Installation](#-installation)
+- [🛠️ Usage](#️-usage)
+  - [Mapping IDs](#mapping-ids)
+  - [Retrieving Information](#retrieving-information)
+  - [Field-based Querying](#field-based-querying)
+- [📖 Documentation](#-documentation)
+- [💻 Command Line Interface (CLI)](#-command-line-interface-cli)
+- [👏🏼 Credits](#-credits)
+
+## ⛏️ Features
+UniProtMapper is a tool for bioinformatics and proteomics research that supports:
+
+1. Mapping any UniProt [cross-referenced IDs](https://github.com/David-Araripe/UniProtMapper/blob/master/src/UniProtMapper/resources/uniprot_mapping_dbs.json) to other identifiers & vice-versa;
+2. Programmatically retrieving any of the supported [return](https://www.uniprot.org/help/return_fields) and [cross-reference fields](https://www.uniprot.org/help/return_fields_databases) from both UniProt-SwissProt and UniProt-TrEMBL (unreviewed) databases. For a full table containing all the supported resources, refer to the [supported fields](https://david-araripe.github.io/UniProtMapper/stable/field_reference.html#supported-fields) in the docs;
+3. Querying UniProtKB entries using complex field-based queries with boolean operators `~` (NOT), `|` (OR), `&` (AND).
+
+For the first two functionalities, check the examples [Mapping IDs](#mapping-ids) and [Retrieving Information](#retrieving-information) below. The third, see [Field-based Querying](#field-based-querying). 
+
+The ID mapping API can also be accessed through the CLI. For more information, check [CLI](#-command-line-interface-cli).
 
 ## 📦 Installation
 
-From PyPI:
-``` Shell
+### From PyPI (recommended):
+```shell
 python -m pip install uniprot-id-mapper
 ```
 
-Directly from GitHub:
-``` Shell
+### Directly from GitHub:
+```shell
 python -m pip install git+https://github.com/David-Araripe/UniProtMapper.git
 ```
 
-From source:
-``` Shell
+### From source:
+```shell
 git clone https://github.com/David-Araripe/UniProtMapper
 cd UniProtMapper
 python -m pip install .
 ```
+
 # 🛠️ Usage
-## Example 1: Mapping IDs
-To map IDs, the user can either call the object directly or use the `get` method to obtain the response. The different identifiers that are used by the API are designated by the `from_db` and `to_db` parameters. For example:
+
+## Mapping IDs
+Use UniProtMapper to easily map between different protein identifiers:
 
 ``` python
 from UniProtMapper import ProtMapper
@@ -44,12 +64,8 @@ mapper = ProtMapper()
 result, failed = mapper.get(
     ids=["P30542", "Q16678", "Q02880"], from_db="UniProtKB_AC-ID", to_db="Ensembl"
 )
-
-result, failed = mapper(
-    ids=["P30542", "Q16678", "Q02880"], from_db="UniProtKB_AC-ID", to_db="Ensembl"
-)
 ```
-Where failed corresponds to a list of the identifiers that failed to be mapped and result is the following pandas DataFrame:
+The `result` is a pandas DataFrame containing the mapped IDs (see below), while `failed` is a list of identifiers that couldn't be mapped.
 
 |    | UniProtKB_AC-ID   | Ensembl            |
 |---:|:------------------|:-------------------|
@@ -57,9 +73,9 @@ Where failed corresponds to a list of the identifiers that failed to be mapped a
 |  1 | Q16678            | ENSG00000138061.12 |
 |  2 | Q02880            | ENSG00000077097.17 |
 
-## Example 2: Retrieving information
+## Retrieving Information
 
-The supported [return](https://www.uniprot.org/help/return_fields) and [cross-reference fields](https://www.uniprot.org/help/return_fields_databases) are both accessible through UniProt's website or by the attribute `ProtMapper.fields_table`. For example:
+All [supported return fields](https://david-araripe.github.io/UniProtMapper/stable/field_reference.html#supported-fields) are both accessible through the attribute `ProtMapper.fields_table`:
 
 ```Python
 from UniProtMapper import ProtMapper
@@ -76,28 +92,54 @@ df.head()
 |  3 | Gene Names (primary) | gene_primary     | Names & Taxonomy | yes                | uniprot_field |
 |  4 | Gene Names (synonym) | gene_synonym     | Names & Taxonomy | yes                | uniprot_field |
 
-To retrieve information, the user can either call the object directly or use the `get` method to obtain the response. For example:
+From the DataFrame, all `return_field` entries can be used to access UniProt data programmatically:
 
 ```Python
+# To retrieve the default fields:
 result, failed = mapper.get(["Q02880"])
 >>> Fetched: 1 / 1
 
-result, failed = mapper(["Q02880"])
+# Retrieve custom fields:
+fields = ["accession", "organism_name", "structure_3d"]
+result, failed = mapper.get(["Q02880"], fields=fields)
 >>> Fetched: 1 / 1
 ```
 
-Custom returned fields can be retrieved by passing a list of fields to the `fields` parameter. These fields need to be within `UniProtRetriever.fields_table["returned_field"]` and will be returned with columns named as their respective `Label`.
+## Field-based Querying
 
-The object already has a list of default fields under `self.default_fields`, but these are ignored if the parameter `fields` is passed.
+UniProtMapper supports complex field-based protein queries using boolean operators (AND, OR, NOT) through the `uniprotkb_fields` module. This allows you to create sophisticated searches combining multiple criteria. For example:
 
-```Python
-fields = ["accession", "organism_name", "structure_3d"]
-result, failed = mapper.get(["Q02880"], fields=fields)
+```python
+from UniProtMapper import ProtKB
+from UniProtMapper.uniprotkb_fields import (
+    organism_name, 
+    length, 
+    reviewed, 
+    date_modified
+)
+
+# Find reviewed human proteins with length between 100-200 amino acids
+# that were modified after January 1st, 2024
+query = (
+    organism_name("human") & 
+    reviewed(True) & 
+    length(100, 200) & 
+    date_modified("2024-01-01", "*")
+)
+
+protkb = ProtKB()
+result = protkb.get(query)
 ```
+For a list of all fields and their descriptions, check the API reference for the [uniprotkb_fields](https://david-araripe.github.io/UniProtMapper/stable/api/UniProtMapper.html#module-UniProtMapper.uniprotkb_fields) module reference.
 
-# 💻 CLI
+## 📖 Documentation
 
-The package also comes with a CLI that can be used to map IDs and retrieve information. To map IDs, the user can use the `protmap` command, accessible after installation. Here is a list of the available arguments, shown by `protmap -h`:
+- [Stable Branch Documentation](https://david-araripe.github.io/UniProtMapper/stable/index.html) (master branch)
+- [Development  Documentation](https://david-araripe.github.io/UniProtMapper/dev/index.html) (dev branch)
+
+# 💻 Command Line Interface (CLI)
+
+UniProtMapper provides a CLI for the ID Mapping class, `ProtMapper`, for easy access to lookups and data retrieval. Here is a list of the available arguments, shown by `protmap -h`:
 
 ```text
 usage: UniProtMapper [-h] -i [IDS ...] [-r [RETURN_FIELDS ...]] [--default-fields] [-o OUTPUT]
@@ -130,14 +172,18 @@ optional arguments:
                         references, see: <pkg_path>/resources/uniprot_mapping_dbs.json
   -over, --overwrite    If desired to overwrite an existing file when using -o/--output
   -pf, --print-fields   Prints the available return fields and exits the program.
-  ```
+```
 
 Usage example, retrieving default fields from `<pkg_path>/resources/cli_return_fields.txt`:
 <p align="center">
     <img src="https://github.com/David-Araripe/UniProtMapper/blob/master/figures/cli_example_fig.png?raw=true" alt="Image displaying the output of UniProtMapper's CLI, protmap"/>
 </p>
 
-# 👏🏼 Credits:
+## 👏🏼 Credits
 
 - [UniProt](https://www.uniprot.org/) for providing the API and the amazing database;
 - [Andrew White and the University of Rochester](https://github.com/whitead/protein-emoji) for the protein emoji;
+
+---
+
+For issues, feature requests, or questions, please open an issue on the GitHub repository.
