@@ -115,8 +115,8 @@
 <h2>Main Features<a class="headerlink" href="#main-features" title="Link to this heading"></a></h2>
 <ol class="arabic simple">
 <li><p>Map UniProt cross-referenced IDs to other identifiers &amp; vice-versa</p></li>
-<li><p>Programmatically retrieve supported return and cross-reference fields</p></li>
-<li><p>Query UniProtKB entries using complex field-based queries</p></li>
+<li><p>Programmatically retrieve supported return and cross-reference fields (see <a class="reference internal" href="field_reference.html#supported-fields"><span class="std std-ref">Supported fields</span></a>)</p></li>
+<li><p>Query UniProtKB entries using complex field-based queries (see <a class="reference internal" href="api/UniProtMapper.html#field-querying"><span class="std std-ref">Field Querying</span></a>)</p></li>
 </ol>
 </section>
 <section id="quick-start">
@@ -125,17 +125,47 @@
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">uniprot</span><span class="o">-</span><span class="nb">id</span><span class="o">-</span><span class="n">mapper</span>
 </pre></div>
 </div>
-<p>Basic usage:</p>
+<p><strong>Example 1</strong>. Use UniProtMapper to easily map between different protein identifiers:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">UniProtMapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProtMapper</span>
 
 <span class="n">mapper</span> <span class="o">=</span> <span class="n">ProtMapper</span><span class="p">()</span>
 
-<span class="c1"># Map IDs</span>
 <span class="n">result</span><span class="p">,</span> <span class="n">failed</span> <span class="o">=</span> <span class="n">mapper</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-    <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;P30542&quot;</span><span class="p">,</span> <span class="s2">&quot;Q16678&quot;</span><span class="p">],</span>
-    <span class="n">from_db</span><span class="o">=</span><span class="s2">&quot;UniProtKB_AC-ID&quot;</span><span class="p">,</span>
-    <span class="n">to_db</span><span class="o">=</span><span class="s2">&quot;Ensembl&quot;</span>
+    <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;P30542&quot;</span><span class="p">,</span> <span class="s2">&quot;Q16678&quot;</span><span class="p">,</span> <span class="s2">&quot;Q02880&quot;</span><span class="p">],</span> <span class="n">from_db</span><span class="o">=</span><span class="s2">&quot;UniProtKB_AC-ID&quot;</span><span class="p">,</span> <span class="n">to_db</span><span class="o">=</span><span class="s2">&quot;Ensembl&quot;</span>
 <span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Example 2</strong>. Programmatically retrieve fields from UniProtKB entries:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">UniProtMapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProtMapper</span>
+
+<span class="n">mapper</span> <span class="o">=</span> <span class="n">ProtMapper</span><span class="p">()</span>
+
+<span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;accession&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_names&quot;</span><span class="p">,</span> <span class="s2">&quot;organism_name&quot;</span><span class="p">]</span>
+<span class="n">result</span><span class="p">,</span> <span class="n">failed</span> <span class="o">=</span> <span class="n">mapper</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+    <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;P30542&quot;</span><span class="p">,</span> <span class="s2">&quot;Q16678&quot;</span><span class="p">,</span> <span class="s2">&quot;Q02880&quot;</span><span class="p">],</span> <span class="n">fields</span><span class="o">=</span><span class="n">fields</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Example 3</strong>. Query UniProtKB entries using complex field-based queries:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">UniProtMapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProtKB</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UniProtMapper.uniprotkb_fields</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">organism_name</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">,</span>
+    <span class="n">reviewed</span><span class="p">,</span>
+    <span class="n">date_modified</span>
+<span class="p">)</span>
+
+<span class="c1"># Find reviewed human proteins with length between 100-200 amino acids</span>
+<span class="c1"># that were modified after January 1st, 2024</span>
+<span class="n">query</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">organism_name</span><span class="p">(</span><span class="s2">&quot;human&quot;</span><span class="p">)</span> <span class="o">&amp;</span>
+    <span class="n">reviewed</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span> <span class="o">&amp;</span>
+    <span class="n">length</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span> <span class="o">&amp;</span>
+    <span class="n">date_modified</span><span class="p">(</span><span class="s2">&quot;2024-01-01&quot;</span><span class="p">,</span> <span class="s2">&quot;*&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">protkb</span> <span class="o">=</span> <span class="n">ProtKB</span><span class="p">()</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">protkb</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
