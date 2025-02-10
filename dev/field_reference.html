@@ -46,14 +46,13 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Return Fields Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#field-categories">Field Categories</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#supported-fields">Supported fields</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#usage-example">Usage Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#specify-return-fields-with-id-mapping-api">Specify Return Fields with ID Mapping API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#specify-return-fields-with-uniprotkb-api">Specify Return Fields with UniProtKB API</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api/modules.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/mapping.html">ID Mapping Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/retrieving.html">Retrieving Information Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/field_querying.html">Field-Based Querying Tutorial</a></li>
 </ul>
 
@@ -82,32 +81,28 @@
              
   <section id="return-fields-reference">
 <h1>Return Fields Reference<a class="headerlink" href="#return-fields-reference" title="Link to this heading"></a></h1>
-<p>UniProtMapper supports a wide range of return fields from UniProt. These fields are organized by their types and can be used to specify which data you want to retrieve.</p>
-<section id="field-categories">
-<h2>Field Categories<a class="headerlink" href="#field-categories" title="Link to this heading"></a></h2>
-<p>The return fields are organized into several categories:</p>
+<p>UniProtMapper supports a wide range of return fields from UniProt. These fields are organized by their types and can be used to specify data you want to get for the proteins retrieved by your query.</p>
+<p>UniProt return fields are organized into the categories:</p>
 <ol class="arabic simple">
-<li><p>Names &amp; Taxonomy
-- Basic identification and taxonomic information
-- Gene names, organism details, etc.</p></li>
-<li><p>Sequences
-- Sequence-related information
-- Length, mass, variants, etc.</p></li>
-<li><p>Function
-- Functional annotations
-- Activity, pathways, binding sites, etc.</p></li>
-<li><p>Structure
-- Structural information
-- 3D structure, secondary structure elements, etc.</p></li>
-<li><p>Cross-references
-- Links to external databases
-- Organized by database type (e.g., genomic, proteomic, etc.)</p></li>
+<li><p><strong>Names &amp; Taxonomy</strong>: Basic identification and taxonomic information. <em>E.g.:</em>: Gene names, organism details, etc.</p></li>
+<li><p><strong>Sequences</strong>: Sequence-related information. <em>E.g.:</em>: Length, mass, variants, etc.</p></li>
+<li><p><strong>Function</strong>: Functional annotations. <em>E.g.:</em>: Activity, pathways, binding sites, etc.</p></li>
+<li><p><strong>Structure</strong>: Structural information. <em>E.g.:</em>: 3D structure, secondary structure elements, etc.</p></li>
+<li><p><strong>Cross-references</strong>: Links to external databases, subdivided into different categories according to the database being cross-referenced. <em>E.g.:</em> <cite>Chemistry</cite> for datasets like <cite>DrugBank</cite>, <cite>Genome annotation</cite> for <cite>Ensembl</cite>, etc.</p></li>
 </ol>
-</section>
 <section id="supported-fields">
-<h2>Supported fields<a class="headerlink" href="#supported-fields" title="Link to this heading"></a></h2>
-<table class="docutils align-default" id="id1">
-<caption><span class="caption-text">Supported Return Fields</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
+<span id="id1"></span><h2>Supported fields<a class="headerlink" href="#supported-fields" title="Link to this heading"></a></h2>
+<p>The supported return fields are listed below. The columns contain different information about the fields:</p>
+<ul class="simple">
+<li><p><strong>label</strong>: The label used by UniProt to represent this field. Also used as column names on the <cite>pd.DataFrame</cite> returned from <cite>get</cite> methods implemented on both APIs.</p></li>
+<li><p><strong>returned_field</strong>: Name used to specify which information to retrieve by the APIs. For examples, check below.</p></li>
+<li><p><strong>field_type</strong>: The category of the field, as listed above under <cite>Field Categories</cite>. Note that for <cite>type==’cross_reference’</cite>, the field_type is the category of the cross-referenced database.</p></li>
+<li><p><strong>has_full_version</strong>: Always <cite>yes</cite> for <cite>type==’uniprot_field’</cite>. Is used by UniProt to indicate whether a cross-referenced database is fully integrated.</p></li>
+<li><p><strong>type</strong>: Either “uniprot_field” or “cross_reference”. The former indicates a field that is directly related to the protein, while the latter indicates a field that is a cross-reference to another database and not native to UniProt.</p></li>
+</ul>
+<p>For more up-to-date information on <cite>has_full_version</cite> of cross-referenced fields, check the official UniProt documentation: <a class="reference external" href="https://www.uniprot.org/help/return_fields_databases">Return Fields</a></p>
+<table class="docutils align-default" id="id2">
+<caption><span class="caption-text">Supported Return Fields</span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>label</p></th>
 <th class="head"><p>returned_field</p></th>
@@ -1800,17 +1795,34 @@
 </tbody>
 </table>
 </section>
-<section id="usage-example">
-<h2>Usage Example<a class="headerlink" href="#usage-example" title="Link to this heading"></a></h2>
-<p>To specify which fields to retrieve:</p>
+<section id="specify-return-fields-with-id-mapping-api">
+<h2>Specify Return Fields with ID Mapping API<a class="headerlink" href="#specify-return-fields-with-id-mapping-api" title="Link to this heading"></a></h2>
+<p>Specify which fields to retrieve on a ID mapping request:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">UniProtMapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProtMapper</span>
 
 <span class="n">mapper</span> <span class="o">=</span> <span class="n">ProtMapper</span><span class="p">()</span>
 
-<span class="c1"># Get specific fields</span>
+<span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;accession&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_names&quot;</span><span class="p">,</span> <span class="s2">&quot;organism_name&quot;</span><span class="p">]</span>
 <span class="n">result</span><span class="p">,</span> <span class="n">failed</span> <span class="o">=</span> <span class="n">mapper</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
     <span class="p">[</span><span class="s2">&quot;P30542&quot;</span><span class="p">],</span>
-    <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;accession&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_names&quot;</span><span class="p">,</span> <span class="s2">&quot;organism_name&quot;</span><span class="p">]</span>
+    <span class="n">fields</span><span class="o">=</span><span class="n">fields</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="specify-return-fields-with-uniprotkb-api">
+<h2>Specify Return Fields with UniProtKB API<a class="headerlink" href="#specify-return-fields-with-uniprotkb-api" title="Link to this heading"></a></h2>
+<p>Specify which fields to retrieve on a field-based query:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">UniProtMapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProtKB</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UniProtMapper.uniprotkb_fields</span><span class="w"> </span><span class="kn">import</span> <span class="n">accession</span>
+
+<span class="n">protkb</span> <span class="o">=</span> <span class="n">ProtKB</span><span class="p">()</span>
+
+<span class="n">query</span> <span class="o">=</span> <span class="n">accession</span><span class="p">(</span><span class="s2">&quot;P30542&quot;</span><span class="p">)</span>
+<span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;accession&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_names&quot;</span><span class="p">,</span> <span class="s2">&quot;organism_name&quot;</span><span class="p">]</span>
+<span class="n">result</span><span class="p">,</span> <span class="n">failed</span> <span class="o">=</span> <span class="n">protkb</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+     <span class="n">query</span><span class="p">,</span>
+     <span class="n">fields</span><span class="o">=</span><span class="n">fields</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>

@@ -19,7 +19,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Retrieving Information Tutorial" href="retrieving.html" />
+    <link rel="next" title="Field-Based Querying Tutorial" href="field_querying.html" />
     <link rel="prev" title="UniProtMapper package" href="../api/UniProtMapper.html" /> 
 </head>
 
@@ -49,12 +49,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../api/modules.html">API Reference</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">ID Mapping Tutorial</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#basic-mapping">Basic Mapping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mapping-through-cross-referenced-fields">Mapping Through Cross-Referenced Fields</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#available-databases">Available Databases</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#handling-failed-mappings">Handling Failed Mappings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#batch-processing">Batch Processing</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="retrieving.html">Retrieving Information Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="field_querying.html">Field-Based Querying Tutorial</a></li>
 </ul>
 
@@ -98,11 +98,30 @@
 <span class="p">)</span>
 </pre></div>
 </div>
-<p>The result is a pandas DataFrame containing the mapped IDs, and failed is a list of IDs that couldn’t be mapped.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">result</span></code> is a <cite>pandas.DataFrame</cite> containing the query and mapped IDs (column names <cite>From</cite> and <cite>To</cite>, respectively), while <code class="docutils literal notranslate"><span class="pre">failed</span></code> is a list of IDs that couldn’t be mapped.</p>
+</section>
+<section id="mapping-through-cross-referenced-fields">
+<h2>Mapping Through Cross-Referenced Fields<a class="headerlink" href="#mapping-through-cross-referenced-fields" title="Link to this heading"></a></h2>
+<p>Ensembl is also cross-referenced in UniProt entries. In case you’re interested in checking all cross-referenced Ensembl IDs for a given UniProt entry, you can do so by:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">UniProtMapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProtMapper</span>
+
+<span class="n">mapper</span> <span class="o">=</span> <span class="n">ProtMapper</span><span class="p">()</span>
+
+<span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;xref_ensembl&quot;</span><span class="p">]</span>
+<span class="n">result</span><span class="p">,</span> <span class="n">failed</span> <span class="o">=</span> <span class="n">mapper</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+    <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;P30542&quot;</span><span class="p">,</span> <span class="s2">&quot;Q16678&quot;</span><span class="p">,</span> <span class="s2">&quot;Q02880&quot;</span><span class="p">],</span>
+    <span class="n">fields</span><span class="o">=</span><span class="n">fields</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For a full list of the supported fields, check the <a class="reference internal" href="../field_reference.html#supported-fields"><span class="std std-ref">Supported fields</span></a> section of the docs. Here, result is again a <cite>pandas.DataFrame</cite> containing the query and mapped IDs (column names <cite>From</cite> and <cite>Ensembl</cite>, following the <cite>label</cite> column in the reference table).</p>
+</div>
 </section>
 <section id="available-databases">
 <h2>Available Databases<a class="headerlink" href="#available-databases" title="Link to this heading"></a></h2>
-<p>UniProtMapper supports mapping between numerous databases. You can view the complete list of supported databases in the mapping_dbs.json file or check UniProt’s documentation.</p>
+<p>UniProtMapper supports mapping between numerous databases. You can view the complete list of supported databases in <code class="docutils literal notranslate"><span class="pre">ProtMapper()._supported_dbs</span></code> or check UniProt’s documentation.</p>
 </section>
 <section id="handling-failed-mappings">
 <h2>Handling Failed Mappings<a class="headerlink" href="#handling-failed-mappings" title="Link to this heading"></a></h2>
@@ -136,7 +155,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../api/UniProtMapper.html" class="btn btn-neutral float-left" title="UniProtMapper package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="retrieving.html" class="btn btn-neutral float-right" title="Retrieving Information Tutorial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="field_querying.html" class="btn btn-neutral float-right" title="Field-Based Querying Tutorial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
