@@ -1,0 +1,1863 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Return Fields Reference &mdash; UniProtMapper 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API Reference" href="api/modules.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            UniProtMapper
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Return Fields Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#supported-fields">Supported fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#specify-return-fields-with-id-mapping-api">Specify Return Fields with ID Mapping API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#specify-return-fields-with-uniprotkb-api">Specify Return Fields with UniProtKB API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/mapping.html">ID Mapping Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/field_querying.html">Field-Based Querying Tutorial</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">UniProtMapper</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Return Fields Reference</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="return-fields-reference">
+<h1>Return Fields Reference<a class="headerlink" href="#return-fields-reference" title="Link to this heading"></a></h1>
+<p>UniProtMapper supports a wide range of return fields from UniProt. These fields are organized by their types and can be used to specify data you want to get for the proteins retrieved by your query.</p>
+<p>UniProt return fields are organized into the categories:</p>
+<ol class="arabic simple">
+<li><p><strong>Names &amp; Taxonomy</strong>: Basic identification and taxonomic information. <em>E.g.:</em>: Gene names, organism details, etc.</p></li>
+<li><p><strong>Sequences</strong>: Sequence-related information. <em>E.g.:</em>: Length, mass, variants, etc.</p></li>
+<li><p><strong>Function</strong>: Functional annotations. <em>E.g.:</em>: Activity, pathways, binding sites, etc.</p></li>
+<li><p><strong>Structure</strong>: Structural information. <em>E.g.:</em>: 3D structure, secondary structure elements, etc.</p></li>
+<li><p><strong>Cross-references</strong>: Links to external databases, subdivided into different categories according to the database being cross-referenced. <em>E.g.:</em> <cite>Chemistry</cite> for datasets like <cite>DrugBank</cite>, <cite>Genome annotation</cite> for <cite>Ensembl</cite>, etc.</p></li>
+</ol>
+<section id="supported-fields">
+<span id="id1"></span><h2>Supported fields<a class="headerlink" href="#supported-fields" title="Link to this heading"></a></h2>
+<p>The supported return fields are listed below. The columns contain different information about the fields:</p>
+<ul class="simple">
+<li><p><strong>label</strong>: The label used by UniProt to represent this field. Also used as column names on the <cite>pd.DataFrame</cite> returned from <cite>get</cite> methods implemented on both APIs.</p></li>
+<li><p><strong>returned_field</strong>: Name used to specify which information to retrieve by the APIs. For examples, check below.</p></li>
+<li><p><strong>field_type</strong>: The category of the field, as listed above under <cite>Field Categories</cite>. Note that for <cite>type==’cross_reference’</cite>, the field_type is the category of the cross-referenced database.</p></li>
+<li><p><strong>has_full_version</strong>: Always <cite>yes</cite> for <cite>type==’uniprot_field’</cite>. Is used by UniProt to indicate whether a cross-referenced database is fully integrated.</p></li>
+<li><p><strong>type</strong>: Either “uniprot_field” or “cross_reference”. The former indicates a field that is directly related to the protein, while the latter indicates a field that is a cross-reference to another database and not native to UniProt.</p></li>
+</ul>
+<p>For more up-to-date information on <cite>has_full_version</cite> of cross-referenced fields, check the official UniProt documentation: <a class="reference external" href="https://www.uniprot.org/help/return_fields_databases">Return Fields</a></p>
+<table class="docutils align-default" id="id2">
+<caption><span class="caption-text">Supported Return Fields</span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>label</p></th>
+<th class="head"><p>returned_field</p></th>
+<th class="head"><p>field_type</p></th>
+<th class="head"><p>has_full_version</p></th>
+<th class="head"><p>type</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Entry</p></td>
+<td><p>accession</p></td>
+<td><p>Names &amp; Taxonomy</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Entry Name</p></td>
+<td><p>id</p></td>
+<td><p>Names &amp; Taxonomy</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Gene Names</p></td>
+<td><p>gene_names</p></td>
+<td><p>Names &amp; Taxonomy</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Gene Names (primary)</p></td>
+<td><p>gene_primary</p></td>
+<td><p>Names &amp; Taxonomy</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Gene Names (synonym)</p></td>
+<td><p>gene_synonym</p></td>
+<td><p>Names &amp; Taxonomy</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Gene Names (ordered locus)</p></td>
+<td><p>gene_oln</p></td>
+<td><p>Names &amp; Taxonomy</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Gene Names (ORF)</p></td>
+<td><p>gene_orf</p></td>
+<td><p>Names &amp; Taxonomy</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Organism</p></td>
+<td><p>organism_name</p></td>
+<td><p>Names &amp; Taxonomy</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Organism (ID)</p></td>
+<td><p>organism_id</p></td>
+<td><p>Names &amp; Taxonomy</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Protein names</p></td>
+<td><p>protein_name</p></td>
+<td><p>Names &amp; Taxonomy</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Proteomes</p></td>
+<td><p>xref_proteomes</p></td>
+<td><p>Names &amp; Taxonomy</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Taxonomic lineage</p></td>
+<td><p>lineage</p></td>
+<td><p>Names &amp; Taxonomy</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Taxonomic lineage (IDs)</p></td>
+<td><p>lineage_ids</p></td>
+<td><p>Names &amp; Taxonomy</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Virus hosts</p></td>
+<td><p>virus_hosts</p></td>
+<td><p>Names &amp; Taxonomy</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Alternative products</p></td>
+<td><p>cc_alternative_products</p></td>
+<td><p>Sequences</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Alternative sequence</p></td>
+<td><p>ft_var_seq</p></td>
+<td><p>Sequences</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Erroneous gene model prediction</p></td>
+<td><p>error_gmodel_pred</p></td>
+<td><p>Sequences</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Fragment</p></td>
+<td><p>fragment</p></td>
+<td><p>Sequences</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Gene encoded by</p></td>
+<td><p>organelle</p></td>
+<td><p>Sequences</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Length</p></td>
+<td><p>length</p></td>
+<td><p>Sequences</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Mass</p></td>
+<td><p>mass</p></td>
+<td><p>Sequences</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Mass spectrometry</p></td>
+<td><p>cc_mass_spectrometry</p></td>
+<td><p>Sequences</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Natural variant</p></td>
+<td><p>ft_variant</p></td>
+<td><p>Sequences</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Non-adjacent residues</p></td>
+<td><p>ft_non_cons</p></td>
+<td><p>Sequences</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Non-standard residue</p></td>
+<td><p>ft_non_std</p></td>
+<td><p>Sequences</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Non-terminal residue</p></td>
+<td><p>ft_non_ter</p></td>
+<td><p>Sequences</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Polymorphism</p></td>
+<td><p>cc_polymorphism</p></td>
+<td><p>Sequences</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>RNA editing</p></td>
+<td><p>cc_rna_editing</p></td>
+<td><p>Sequences</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Sequence</p></td>
+<td><p>sequence</p></td>
+<td><p>Sequences</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Sequence caution</p></td>
+<td><p>cc_sequence_caution</p></td>
+<td><p>Sequences</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Sequence conflict</p></td>
+<td><p>ft_conflict</p></td>
+<td><p>Sequences</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Sequence uncertainty</p></td>
+<td><p>ft_unsure</p></td>
+<td><p>Sequences</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Sequence version</p></td>
+<td><p>sequence_version</p></td>
+<td><p>Sequences</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Absorption</p></td>
+<td><p>absorption</p></td>
+<td><p>Function</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Active site</p></td>
+<td><p>ft_act_site</p></td>
+<td><p>Function</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Activity regulation</p></td>
+<td><p>cc_activity_regulation</p></td>
+<td><p>Function</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Binding site</p></td>
+<td><p>ft_binding</p></td>
+<td><p>Function</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Catalytic activity</p></td>
+<td><p>cc_catalytic_activity</p></td>
+<td><p>Function</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Cofactor</p></td>
+<td><p>cc_cofactor</p></td>
+<td><p>Function</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>DNA binding</p></td>
+<td><p>ft_dna_bind</p></td>
+<td><p>Function</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>EC number</p></td>
+<td><p>ec</p></td>
+<td><p>Function</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Function [CC]</p></td>
+<td><p>cc_function</p></td>
+<td><p>Function</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Kinetics</p></td>
+<td><p>kinetics</p></td>
+<td><p>Function</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Pathway</p></td>
+<td><p>cc_pathway</p></td>
+<td><p>Function</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>pH dependence</p></td>
+<td><p>ph_dependence</p></td>
+<td><p>Function</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Redox potential</p></td>
+<td><p>redox_potential</p></td>
+<td><p>Function</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Rhea ID</p></td>
+<td><p>rhea</p></td>
+<td><p>Function</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Site</p></td>
+<td><p>ft_site</p></td>
+<td><p>Function</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Temperature dependence</p></td>
+<td><p>temp_dependence</p></td>
+<td><p>Function</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Annotation</p></td>
+<td><p>annotation_score</p></td>
+<td><p>Miscellaneous</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Caution</p></td>
+<td><p>cc_caution</p></td>
+<td><p>Miscellaneous</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Comment Count</p></td>
+<td><p>comment_count</p></td>
+<td><p>Miscellaneous</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Features</p></td>
+<td><p>feature_count</p></td>
+<td><p>Miscellaneous</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Keyword ID</p></td>
+<td><p>keywordid</p></td>
+<td><p>Miscellaneous</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Keywords</p></td>
+<td><p>keyword</p></td>
+<td><p>Miscellaneous</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Miscellaneous [CC]</p></td>
+<td><p>cc_miscellaneous</p></td>
+<td><p>Miscellaneous</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Protein existence</p></td>
+<td><p>protein_existence</p></td>
+<td><p>Miscellaneous</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Reviewed</p></td>
+<td><p>reviewed</p></td>
+<td><p>Miscellaneous</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Tools</p></td>
+<td><p>tools</p></td>
+<td><p>Miscellaneous</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>UniParc</p></td>
+<td><p>uniparc_id</p></td>
+<td><p>Miscellaneous</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Interacts with</p></td>
+<td><p>cc_interaction</p></td>
+<td><p>Interaction</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Subunit structure [CC]</p></td>
+<td><p>cc_subunit</p></td>
+<td><p>Interaction</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Developmental stage</p></td>
+<td><p>cc_developmental_stage</p></td>
+<td><p>Expression</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Induction</p></td>
+<td><p>cc_induction</p></td>
+<td><p>Expression</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Tissue specificity</p></td>
+<td><p>cc_tissue_specificity</p></td>
+<td><p>Expression</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Gene Ontology (biological process)</p></td>
+<td><p>go_p</p></td>
+<td><p>Gene Ontology (GO)</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Gene Ontology (cellular component)</p></td>
+<td><p>go_c</p></td>
+<td><p>Gene Ontology (GO)</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Gene Ontology (GO)</p></td>
+<td><p>go</p></td>
+<td><p>Gene Ontology (GO)</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Gene Ontology (molecular function)</p></td>
+<td><p>go_f</p></td>
+<td><p>Gene Ontology (GO)</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Gene Ontology IDs</p></td>
+<td><p>go_id</p></td>
+<td><p>Gene Ontology (GO)</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Allergenic properties</p></td>
+<td><p>cc_allergen</p></td>
+<td><p>Pathology &amp; Biotech</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Biotechnological use</p></td>
+<td><p>cc_biotechnology</p></td>
+<td><p>Pathology &amp; Biotech</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Disruption phenotype</p></td>
+<td><p>cc_disruption_phenotype</p></td>
+<td><p>Pathology &amp; Biotech</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Involvement in disease</p></td>
+<td><p>cc_disease</p></td>
+<td><p>Pathology &amp; Biotech</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Mutagenesis</p></td>
+<td><p>ft_mutagen</p></td>
+<td><p>Pathology &amp; Biotech</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Pharmaceutical use</p></td>
+<td><p>cc_pharmaceutical</p></td>
+<td><p>Pathology &amp; Biotech</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Toxic dose</p></td>
+<td><p>cc_toxic_dose</p></td>
+<td><p>Pathology &amp; Biotech</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Intramembrane</p></td>
+<td><p>ft_intramem</p></td>
+<td><p>Subcellular location</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Subcellular location [CC]</p></td>
+<td><p>cc_subcellular_location</p></td>
+<td><p>Subcellular location</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Topological domain</p></td>
+<td><p>ft_topo_dom</p></td>
+<td><p>Subcellular location</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Transmembrane</p></td>
+<td><p>ft_transmem</p></td>
+<td><p>Subcellular location</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Chain</p></td>
+<td><p>ft_chain</p></td>
+<td><p>PTM / Processsing</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Cross-link</p></td>
+<td><p>ft_crosslnk</p></td>
+<td><p>PTM / Processsing</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Disulfide bond</p></td>
+<td><p>ft_disulfid</p></td>
+<td><p>PTM / Processsing</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Glycosylation</p></td>
+<td><p>ft_carbohyd</p></td>
+<td><p>PTM / Processsing</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Initiator methionine</p></td>
+<td><p>ft_init_met</p></td>
+<td><p>PTM / Processsing</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Lipidation</p></td>
+<td><p>ft_lipid</p></td>
+<td><p>PTM / Processsing</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Modified residue</p></td>
+<td><p>ft_mod_res</p></td>
+<td><p>PTM / Processsing</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Peptide</p></td>
+<td><p>ft_peptide</p></td>
+<td><p>PTM / Processsing</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Post-translational modification</p></td>
+<td><p>cc_ptm</p></td>
+<td><p>PTM / Processsing</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Propeptide</p></td>
+<td><p>ft_propep</p></td>
+<td><p>PTM / Processsing</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Signal peptide</p></td>
+<td><p>ft_signal</p></td>
+<td><p>PTM / Processsing</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Transit peptide</p></td>
+<td><p>ft_transit</p></td>
+<td><p>PTM / Processsing</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>3D</p></td>
+<td><p>structure_3d</p></td>
+<td><p>Structure</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Beta strand</p></td>
+<td><p>ft_strand</p></td>
+<td><p>Structure</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Helix</p></td>
+<td><p>ft_helix</p></td>
+<td><p>Structure</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Turn</p></td>
+<td><p>ft_turn</p></td>
+<td><p>Structure</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>PubMed ID</p></td>
+<td><p>lit_pubmed_id</p></td>
+<td><p>Publications</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Date of creation</p></td>
+<td><p>date_created</p></td>
+<td><p>Date of</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Date of last modification</p></td>
+<td><p>date_modified</p></td>
+<td><p>Date of</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Date of last sequence modification</p></td>
+<td><p>date_sequence_modified</p></td>
+<td><p>Date of</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Entry version</p></td>
+<td><p>version</p></td>
+<td><p>Date of</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Coiled coil</p></td>
+<td><p>ft_coiled</p></td>
+<td><p>Family &amp; Domains</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Compositional bias</p></td>
+<td><p>ft_compbias</p></td>
+<td><p>Family &amp; Domains</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Domain[CC]</p></td>
+<td><p>cc_domain</p></td>
+<td><p>Family &amp; Domains</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Domain[FT]</p></td>
+<td><p>ft_domain</p></td>
+<td><p>Family &amp; Domains</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Motif</p></td>
+<td><p>ft_motif</p></td>
+<td><p>Family &amp; Domains</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Protein families</p></td>
+<td><p>protein_families</p></td>
+<td><p>Family &amp; Domains</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Region</p></td>
+<td><p>ft_region</p></td>
+<td><p>Family &amp; Domains</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>Repeat</p></td>
+<td><p>ft_repeat</p></td>
+<td><p>Family &amp; Domains</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-even"><td><p>Zinc finger</p></td>
+<td><p>ft_zn_fing</p></td>
+<td><p>Family &amp; Domains</p></td>
+<td><p>yes</p></td>
+<td><p>uniprot_field</p></td>
+</tr>
+<tr class="row-odd"><td><p>CCDS</p></td>
+<td><p>xref_ccds</p></td>
+<td><p>Sequences</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>EMBL</p></td>
+<td><p>xref_embl</p></td>
+<td><p>Sequences</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>PIR</p></td>
+<td><p>xref_pir</p></td>
+<td><p>Sequences</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>RefSeq</p></td>
+<td><p>xref_refseq</p></td>
+<td><p>Sequences</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>BMRB</p></td>
+<td><p>xref_bmrb</p></td>
+<td><p>3D structure</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>EMDB</p></td>
+<td><p>xref_emdb</p></td>
+<td><p>3D structure</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>PCDDB</p></td>
+<td><p>xref_pcddb</p></td>
+<td><p>3D structure</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>PDB</p></td>
+<td><p>xref_pdb</p></td>
+<td><p>3D structure</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>PDBsum</p></td>
+<td><p>xref_pdbsum</p></td>
+<td><p>3D structure</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>SASBDB</p></td>
+<td><p>xref_sasbdb</p></td>
+<td><p>3D structure</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>SMR</p></td>
+<td><p>xref_smr</p></td>
+<td><p>3D structure</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>BioGRID</p></td>
+<td><p>xref_biogrid</p></td>
+<td><p>Protein-protein interaction</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>ComplexPortal</p></td>
+<td><p>xref_corum</p></td>
+<td><p>Protein-protein interaction</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>CORUM</p></td>
+<td><p>xref_complexportal</p></td>
+<td><p>Protein-protein interaction</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>DIP</p></td>
+<td><p>xref_dip</p></td>
+<td><p>Protein-protein interaction</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>ELM</p></td>
+<td><p>xref_elm</p></td>
+<td><p>Protein-protein interaction</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>IntAct</p></td>
+<td><p>xref_intact</p></td>
+<td><p>Protein-protein interaction</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>MINT</p></td>
+<td><p>xref_mint</p></td>
+<td><p>Protein-protein interaction</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>STRING</p></td>
+<td><p>xref_string</p></td>
+<td><p>Protein-protein interaction</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>BindingDB</p></td>
+<td><p>xref_bindingdb</p></td>
+<td><p>Chemistry</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>ChEMBL</p></td>
+<td><p>xref_chembl</p></td>
+<td><p>Chemistry</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>DrugBank</p></td>
+<td><p>xref_drugbank</p></td>
+<td><p>Chemistry</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>DrugCentral</p></td>
+<td><p>xref_drugcentral</p></td>
+<td><p>Chemistry</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>GuidetoPHARMACOLOGY</p></td>
+<td><p>xref_guidetopharmacology</p></td>
+<td><p>Chemistry</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>SwissLipids</p></td>
+<td><p>xref_swisslipids</p></td>
+<td><p>Chemistry</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>Allergome</p></td>
+<td><p>xref_allergome</p></td>
+<td><p>Protein family/group</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>CAZy</p></td>
+<td><p>xref_cazy</p></td>
+<td><p>Protein family/group</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>CLAE</p></td>
+<td><p>xref_clae</p></td>
+<td><p>Protein family/group</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>ESTHER</p></td>
+<td><p>xref_esther</p></td>
+<td><p>Protein family/group</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>IDEAL</p></td>
+<td><p>xref_ideal</p></td>
+<td><p>Protein family/group</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>IMGT_GENE-DB</p></td>
+<td><p>xref_imgt_gene-db</p></td>
+<td><p>Protein family/group</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>MEROPS</p></td>
+<td><p>xref_merops</p></td>
+<td><p>Protein family/group</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>MoonDB</p></td>
+<td><p>xref_moondb</p></td>
+<td><p>Protein family/group</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>MoonProt</p></td>
+<td><p>xref_moonprot</p></td>
+<td><p>Protein family/group</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>PeroxiBase</p></td>
+<td><p>xref_peroxibase</p></td>
+<td><p>Protein family/group</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>REBASE</p></td>
+<td><p>xref_rebase</p></td>
+<td><p>Protein family/group</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>TCDB</p></td>
+<td><p>xref_tcdb</p></td>
+<td><p>Protein family/group</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>UniLectin</p></td>
+<td><p>xref_unilectin</p></td>
+<td><p>Protein family/group</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>CarbonylDB</p></td>
+<td><p>xref_carbonyldb</p></td>
+<td><p>PTM</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>DEPOD</p></td>
+<td><p>xref_depod</p></td>
+<td><p>PTM</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>GlyConnect</p></td>
+<td><p>xref_glyconnect</p></td>
+<td><p>PTM</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>GlyGen</p></td>
+<td><p>xref_glygen</p></td>
+<td><p>PTM</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>iPTMnet</p></td>
+<td><p>xref_iptmnet</p></td>
+<td><p>PTM</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>MetOSite</p></td>
+<td><p>xref_metosite</p></td>
+<td><p>PTM</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>PhosphoSitePlus</p></td>
+<td><p>xref_phosphositeplus</p></td>
+<td><p>PTM</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>SwissPalm</p></td>
+<td><p>xref_swisspalm</p></td>
+<td><p>PTM</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>UniCarbKB</p></td>
+<td><p>xref_unicarbkb</p></td>
+<td><p>PTM</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>BioMuta</p></td>
+<td><p>xref_biomuta</p></td>
+<td><p>Genetic variation/Polymorphism and mutation</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>dbSNP</p></td>
+<td><p>xref_dbsnp</p></td>
+<td><p>Genetic variation/Polymorphism and mutation</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>DMDM</p></td>
+<td><p>xref_dmdm</p></td>
+<td><p>Genetic variation/Polymorphism and mutation</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>COMPLUYEAST-2DPAGE</p></td>
+<td><p>xref_compluyeast-2dpage</p></td>
+<td><p>2D gel</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>DOSAC-COBS-2DPAGE</p></td>
+<td><p>xref_dosac-cobs-2dpage</p></td>
+<td><p>2D gel</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>OGP</p></td>
+<td><p>xref_ogp</p></td>
+<td><p>2D gel</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>REPRODUCTION-2DPAGE</p></td>
+<td><p>xref_reproduction-2dpage</p></td>
+<td><p>2D gel</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>SWISS-2DPAGE</p></td>
+<td><p>xref_swiss-2dpage</p></td>
+<td><p>2D gel</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>UCD-2DPAGE</p></td>
+<td><p>xref_ucd-2dpage</p></td>
+<td><p>2D gel</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>World-2DPAGE</p></td>
+<td><p>xref_world-2dpage</p></td>
+<td><p>2D gel</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>CPTAC</p></td>
+<td><p>xref_cptac</p></td>
+<td><p>Proteomic</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>EPD</p></td>
+<td><p>xref_epd</p></td>
+<td><p>Proteomic</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>jPOST</p></td>
+<td><p>xref_massive</p></td>
+<td><p>Proteomic</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>MassIVE</p></td>
+<td><p>xref_maxqb</p></td>
+<td><p>Proteomic</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>MaxQB</p></td>
+<td><p>xref_pride</p></td>
+<td><p>Proteomic</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>PaxDb</p></td>
+<td><p>xref_paxdb</p></td>
+<td><p>Proteomic</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>PeptideAtlas</p></td>
+<td><p>xref_peptideatlas</p></td>
+<td><p>Proteomic</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>PRIDE</p></td>
+<td><p>xref_promex</p></td>
+<td><p>Proteomic</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>ProMEX</p></td>
+<td><p>xref_proteomicsdb</p></td>
+<td><p>Proteomic</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>ProteomicsDB</p></td>
+<td><p>xref_topdownproteomics</p></td>
+<td><p>Proteomic</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>TopDownProteomics</p></td>
+<td><p>xref_jpost</p></td>
+<td><p>Proteomic</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>ABCD</p></td>
+<td><p>xref_abcd</p></td>
+<td><p>Protocols and materials</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>Antibodypedia</p></td>
+<td><p>xref_antibodypedia</p></td>
+<td><p>Protocols and materials</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>CPTC</p></td>
+<td><p>xref_cptc</p></td>
+<td><p>Protocols and materials</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>DNASU</p></td>
+<td><p>xref_dnasu</p></td>
+<td><p>Protocols and materials</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ensembl</p></td>
+<td><p>xref_ensembl</p></td>
+<td><p>Genome annotation</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>EnsemblBacteria</p></td>
+<td><p>xref_ensemblbacteria</p></td>
+<td><p>Genome annotation</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>EnsemblFungi</p></td>
+<td><p>xref_ensemblfungi</p></td>
+<td><p>Genome annotation</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>EnsemblMetazoa</p></td>
+<td><p>xref_ensemblmetazoa</p></td>
+<td><p>Genome annotation</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>EnsemblPlants</p></td>
+<td><p>xref_ensemblplants</p></td>
+<td><p>Genome annotation</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>EnsemblProtists</p></td>
+<td><p>xref_ensemblprotists</p></td>
+<td><p>Genome annotation</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>GeneDB</p></td>
+<td><p>xref_genedb</p></td>
+<td><p>Genome annotation</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>GeneID</p></td>
+<td><p>xref_geneid</p></td>
+<td><p>Genome annotation</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>Gramene</p></td>
+<td><p>xref_gramene</p></td>
+<td><p>Genome annotation</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>KEGG</p></td>
+<td><p>xref_kegg</p></td>
+<td><p>Genome annotation</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>PATRIC</p></td>
+<td><p>xref_patric</p></td>
+<td><p>Genome annotation</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>UCSC</p></td>
+<td><p>xref_ucsc</p></td>
+<td><p>Genome annotation</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>VectorBase</p></td>
+<td><p>xref_vectorbase</p></td>
+<td><p>Genome annotation</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>WBParaSite</p></td>
+<td><p>xref_wbparasite</p></td>
+<td><p>Genome annotation</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>ArachnoServer</p></td>
+<td><p>xref_arachnoserver</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>Araport</p></td>
+<td><p>xref_araport</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>CGD</p></td>
+<td><p>xref_cgd</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>ConoServer</p></td>
+<td><p>xref_conoserver</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>CTD</p></td>
+<td><p>xref_ctd</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>dictyBase</p></td>
+<td><p>xref_dictybase</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>DisGeNET</p></td>
+<td><p>xref_disgenet</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>EchoBASE</p></td>
+<td><p>xref_echobase</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>euHCVdb</p></td>
+<td><p>xref_euhcvdb</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>FlyBase</p></td>
+<td><p>xref_flybase</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>GeneCards</p></td>
+<td><p>xref_genecards</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>GeneReviews</p></td>
+<td><p>xref_genereviews</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>HGNC</p></td>
+<td><p>xref_hgnc</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>HPA</p></td>
+<td><p>xref_hpa</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>JaponicusDB</p></td>
+<td><p>xref_japonicus_db</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>LegioList</p></td>
+<td><p>xref_legiolist</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>Leproma</p></td>
+<td><p>xref_leproma</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>MaizeGDB</p></td>
+<td><p>xref_maizegdb</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>MalaCards</p></td>
+<td><p>xref_malacards</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>MGI</p></td>
+<td><p>xref_mgi</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>MIM</p></td>
+<td><p>xref_mim</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>neXtProt</p></td>
+<td><p>xref_nextprot</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>NIAGADS</p></td>
+<td><p>xref_niagads</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>OpenTargets</p></td>
+<td><p>xref_opentargets</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>Orphanet</p></td>
+<td><p>xref_orphanet</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>PharmGKB</p></td>
+<td><p>xref_pharmgkb</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>PHI-base</p></td>
+<td><p>xref_phi-base</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>PomBase</p></td>
+<td><p>xref_pombase</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>PseudoCAP</p></td>
+<td><p>xref_pseudocap</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>RGD</p></td>
+<td><p>xref_rgd</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>SGD</p></td>
+<td><p>xref_sgd</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>TAIR</p></td>
+<td><p>xref_tair</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>TubercuList</p></td>
+<td><p>xref_tuberculist</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>VEuPathDB</p></td>
+<td><p>xref_veupathdb</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>VGNC</p></td>
+<td><p>xref_vgnc</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>WormBase</p></td>
+<td><p>xref_wormbase</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>Xenbase</p></td>
+<td><p>xref_xenbase</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>ZFIN</p></td>
+<td><p>xref_zfin</p></td>
+<td><p>Organism-specific</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>eggNOG</p></td>
+<td><p>xref_eggnog</p></td>
+<td><p>Phylogenomic</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>GeneTree</p></td>
+<td><p>xref_genetree</p></td>
+<td><p>Phylogenomic</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>HOGENOM</p></td>
+<td><p>xref_hogenom</p></td>
+<td><p>Phylogenomic</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>InParanoid</p></td>
+<td><p>xref_inparanoid</p></td>
+<td><p>Phylogenomic</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>KO</p></td>
+<td><p>xref_ko</p></td>
+<td><p>Phylogenomic</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>OMA</p></td>
+<td><p>xref_oma</p></td>
+<td><p>Phylogenomic</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>OrthoDB</p></td>
+<td><p>xref_orthodb</p></td>
+<td><p>Phylogenomic</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>PhylomeDB</p></td>
+<td><p>xref_phylomedb</p></td>
+<td><p>Phylogenomic</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>TreeFam</p></td>
+<td><p>xref_treefam</p></td>
+<td><p>Phylogenomic</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>BioCyc</p></td>
+<td><p>xref_biocyc</p></td>
+<td><p>Enzyme and pathway</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>BRENDA</p></td>
+<td><p>xref_brenda</p></td>
+<td><p>Enzyme and pathway</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>PathwayCommons</p></td>
+<td><p>xref_pathwaycommons</p></td>
+<td><p>Enzyme and pathway</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>PlantReactome</p></td>
+<td><p>xref_plantreactome</p></td>
+<td><p>Enzyme and pathway</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>Reactome</p></td>
+<td><p>xref_reactome</p></td>
+<td><p>Enzyme and pathway</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>SABIO-RK</p></td>
+<td><p>xref_sabio-rk</p></td>
+<td><p>Enzyme and pathway</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>SignaLink</p></td>
+<td><p>xref_signalink</p></td>
+<td><p>Enzyme and pathway</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>SIGNOR</p></td>
+<td><p>xref_signor</p></td>
+<td><p>Enzyme and pathway</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>UniPathway</p></td>
+<td><p>xref_unipathway</p></td>
+<td><p>Enzyme and pathway</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>BioGRID-ORCS</p></td>
+<td><p>xref_biogrid-orcs</p></td>
+<td><p>Miscellaneous</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>ChiTaRS</p></td>
+<td><p>xref_chitars</p></td>
+<td><p>Miscellaneous</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>EvolutionaryTrace</p></td>
+<td><p>xref_evolutionarytrace</p></td>
+<td><p>Miscellaneous</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>GeneWiki</p></td>
+<td><p>xref_genewiki</p></td>
+<td><p>Miscellaneous</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>GenomeRNAi</p></td>
+<td><p>xref_genomernai</p></td>
+<td><p>Miscellaneous</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>Pharos</p></td>
+<td><p>xref_pharos</p></td>
+<td><p>Miscellaneous</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>PRO</p></td>
+<td><p>xref_pro</p></td>
+<td><p>Miscellaneous</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>RNAct</p></td>
+<td><p>xref_rnact</p></td>
+<td><p>Miscellaneous</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>Bgee</p></td>
+<td><p>xref_bgee</p></td>
+<td><p>Gene expression</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>CollecTF</p></td>
+<td><p>xref_collectf</p></td>
+<td><p>Gene expression</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>ExpressionAtlas</p></td>
+<td><p>xref_expressionatlas</p></td>
+<td><p>Gene expression</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>Genevisible</p></td>
+<td><p>xref_genevisible</p></td>
+<td><p>Gene expression</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>CleanEx</p></td>
+<td><p>xref_cleanex</p></td>
+<td><p>Gene expression</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>CDD</p></td>
+<td><p>xref_cdd</p></td>
+<td><p>Family and domain</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>DisProt</p></td>
+<td><p>xref_disprot</p></td>
+<td><p>Family and domain</p></td>
+<td><p>no</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>Gene3D</p></td>
+<td><p>xref_gene3d</p></td>
+<td><p>Family and domain</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>HAMAP</p></td>
+<td><p>xref_hamap</p></td>
+<td><p>Family and domain</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>InterPro</p></td>
+<td><p>xref_interpro</p></td>
+<td><p>Family and domain</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>NCBIfam</p></td>
+<td><p>xref_ncbifam</p></td>
+<td><p>Family and domain</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>PANTHER</p></td>
+<td><p>xref_panther</p></td>
+<td><p>Family and domain</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>Pfam</p></td>
+<td><p>xref_pfam</p></td>
+<td><p>Family and domain</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>PIRSF</p></td>
+<td><p>xref_pirsf</p></td>
+<td><p>Family and domain</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>PRINTS</p></td>
+<td><p>xref_prints</p></td>
+<td><p>Family and domain</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>PROSITE</p></td>
+<td><p>xref_prosite</p></td>
+<td><p>Family and domain</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>SFLD</p></td>
+<td><p>xref_sfld</p></td>
+<td><p>Family and domain</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-even"><td><p>SMART</p></td>
+<td><p>xref_smart</p></td>
+<td><p>Family and domain</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>SUPFAM</p></td>
+<td><p>xref_supfam</p></td>
+<td><p>Family and domain</p></td>
+<td><p>yes</p></td>
+<td><p>cross_reference</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="specify-return-fields-with-id-mapping-api">
+<h2>Specify Return Fields with ID Mapping API<a class="headerlink" href="#specify-return-fields-with-id-mapping-api" title="Link to this heading"></a></h2>
+<p>Specify which fields to retrieve on a ID mapping request:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">UniProtMapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProtMapper</span>
+
+<span class="n">mapper</span> <span class="o">=</span> <span class="n">ProtMapper</span><span class="p">()</span>
+
+<span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;accession&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_names&quot;</span><span class="p">,</span> <span class="s2">&quot;organism_name&quot;</span><span class="p">]</span>
+<span class="n">result</span><span class="p">,</span> <span class="n">failed</span> <span class="o">=</span> <span class="n">mapper</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">&quot;P30542&quot;</span><span class="p">],</span>
+    <span class="n">fields</span><span class="o">=</span><span class="n">fields</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="specify-return-fields-with-uniprotkb-api">
+<h2>Specify Return Fields with UniProtKB API<a class="headerlink" href="#specify-return-fields-with-uniprotkb-api" title="Link to this heading"></a></h2>
+<p>Specify which fields to retrieve on a field-based query:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">UniProtMapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProtKB</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">UniProtMapper.uniprotkb_fields</span><span class="w"> </span><span class="kn">import</span> <span class="n">accession</span>
+
+<span class="n">protkb</span> <span class="o">=</span> <span class="n">ProtKB</span><span class="p">()</span>
+
+<span class="n">query</span> <span class="o">=</span> <span class="n">accession</span><span class="p">(</span><span class="s2">&quot;P30542&quot;</span><span class="p">)</span>
+<span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;accession&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_names&quot;</span><span class="p">,</span> <span class="s2">&quot;organism_name&quot;</span><span class="p">]</span>
+<span class="n">result</span><span class="p">,</span> <span class="n">failed</span> <span class="o">=</span> <span class="n">protkb</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+     <span class="n">query</span><span class="p">,</span>
+     <span class="n">fields</span><span class="o">=</span><span class="n">fields</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api/modules.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, David Araripe.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

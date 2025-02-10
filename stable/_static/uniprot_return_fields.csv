@@ -1,0 +1,281 @@
+label,returned_field,field_type,has_full_version,type
+Entry,accession,Names & Taxonomy,yes,uniprot_field
+Entry Name,id,Names & Taxonomy,yes,uniprot_field
+Gene Names,gene_names,Names & Taxonomy,yes,uniprot_field
+Gene Names (primary),gene_primary,Names & Taxonomy,yes,uniprot_field
+Gene Names (synonym),gene_synonym,Names & Taxonomy,yes,uniprot_field
+Gene Names (ordered locus),gene_oln,Names & Taxonomy,yes,uniprot_field
+Gene Names (ORF),gene_orf,Names & Taxonomy,yes,uniprot_field
+Organism,organism_name,Names & Taxonomy,yes,uniprot_field
+Organism (ID),organism_id,Names & Taxonomy,yes,uniprot_field
+Protein names,protein_name,Names & Taxonomy,yes,uniprot_field
+Proteomes,xref_proteomes,Names & Taxonomy,yes,uniprot_field
+Taxonomic lineage,lineage,Names & Taxonomy,yes,uniprot_field
+Taxonomic lineage (IDs),lineage_ids,Names & Taxonomy,yes,uniprot_field
+Virus hosts,virus_hosts,Names & Taxonomy,yes,uniprot_field
+Alternative products,cc_alternative_products,Sequences,yes,uniprot_field
+Alternative sequence,ft_var_seq,Sequences,yes,uniprot_field
+Erroneous gene model prediction,error_gmodel_pred,Sequences,yes,uniprot_field
+Fragment,fragment,Sequences,yes,uniprot_field
+Gene encoded by,organelle,Sequences,yes,uniprot_field
+Length,length,Sequences,yes,uniprot_field
+Mass,mass,Sequences,yes,uniprot_field
+Mass spectrometry,cc_mass_spectrometry,Sequences,yes,uniprot_field
+Natural variant,ft_variant,Sequences,yes,uniprot_field
+Non-adjacent residues,ft_non_cons,Sequences,yes,uniprot_field
+Non-standard residue,ft_non_std,Sequences,yes,uniprot_field
+Non-terminal residue,ft_non_ter,Sequences,yes,uniprot_field
+Polymorphism,cc_polymorphism,Sequences,yes,uniprot_field
+RNA editing,cc_rna_editing,Sequences,yes,uniprot_field
+Sequence,sequence,Sequences,yes,uniprot_field
+Sequence caution,cc_sequence_caution,Sequences,yes,uniprot_field
+Sequence conflict,ft_conflict,Sequences,yes,uniprot_field
+Sequence uncertainty,ft_unsure,Sequences,yes,uniprot_field
+Sequence version,sequence_version,Sequences,yes,uniprot_field
+Absorption,absorption,Function,yes,uniprot_field
+Active site,ft_act_site,Function,yes,uniprot_field
+Activity regulation,cc_activity_regulation,Function,yes,uniprot_field
+Binding site,ft_binding,Function,yes,uniprot_field
+Catalytic activity,cc_catalytic_activity,Function,yes,uniprot_field
+Cofactor,cc_cofactor,Function,yes,uniprot_field
+DNA binding,ft_dna_bind,Function,yes,uniprot_field
+EC number,ec,Function,yes,uniprot_field
+Function [CC],cc_function,Function,yes,uniprot_field
+Kinetics,kinetics,Function,yes,uniprot_field
+Pathway,cc_pathway,Function,yes,uniprot_field
+pH dependence,ph_dependence,Function,yes,uniprot_field
+Redox potential,redox_potential,Function,yes,uniprot_field
+Rhea ID,rhea,Function,yes,uniprot_field
+Site,ft_site,Function,yes,uniprot_field
+Temperature dependence,temp_dependence,Function,yes,uniprot_field
+Annotation,annotation_score,Miscellaneous,yes,uniprot_field
+Caution,cc_caution,Miscellaneous,yes,uniprot_field
+Comment Count,comment_count,Miscellaneous,yes,uniprot_field
+Features,feature_count,Miscellaneous,yes,uniprot_field
+Keyword ID,keywordid,Miscellaneous,yes,uniprot_field
+Keywords,keyword,Miscellaneous,yes,uniprot_field
+Miscellaneous [CC],cc_miscellaneous,Miscellaneous,yes,uniprot_field
+Protein existence,protein_existence,Miscellaneous,yes,uniprot_field
+Reviewed,reviewed,Miscellaneous,yes,uniprot_field
+Tools,tools,Miscellaneous,yes,uniprot_field
+UniParc,uniparc_id,Miscellaneous,yes,uniprot_field
+Interacts with,cc_interaction,Interaction,yes,uniprot_field
+Subunit structure [CC],cc_subunit,Interaction,yes,uniprot_field
+Developmental stage,cc_developmental_stage,Expression,yes,uniprot_field
+Induction,cc_induction,Expression,yes,uniprot_field
+Tissue specificity,cc_tissue_specificity,Expression,yes,uniprot_field
+Gene Ontology (biological process),go_p,Gene Ontology (GO),yes,uniprot_field
+Gene Ontology (cellular component),go_c,Gene Ontology (GO),yes,uniprot_field
+Gene Ontology (GO),go,Gene Ontology (GO),yes,uniprot_field
+Gene Ontology (molecular function),go_f,Gene Ontology (GO),yes,uniprot_field
+Gene Ontology IDs,go_id,Gene Ontology (GO),yes,uniprot_field
+Allergenic properties,cc_allergen,Pathology & Biotech,yes,uniprot_field
+Biotechnological use,cc_biotechnology,Pathology & Biotech,yes,uniprot_field
+Disruption phenotype,cc_disruption_phenotype,Pathology & Biotech,yes,uniprot_field
+Involvement in disease,cc_disease,Pathology & Biotech,yes,uniprot_field
+Mutagenesis,ft_mutagen,Pathology & Biotech,yes,uniprot_field
+Pharmaceutical use,cc_pharmaceutical,Pathology & Biotech,yes,uniprot_field
+Toxic dose,cc_toxic_dose,Pathology & Biotech,yes,uniprot_field
+Intramembrane,ft_intramem,Subcellular location,yes,uniprot_field
+Subcellular location [CC],cc_subcellular_location,Subcellular location,yes,uniprot_field
+Topological domain,ft_topo_dom,Subcellular location,yes,uniprot_field
+Transmembrane,ft_transmem,Subcellular location,yes,uniprot_field
+Chain,ft_chain,PTM / Processsing,yes,uniprot_field
+Cross-link,ft_crosslnk,PTM / Processsing,yes,uniprot_field
+Disulfide bond,ft_disulfid,PTM / Processsing,yes,uniprot_field
+Glycosylation,ft_carbohyd,PTM / Processsing,yes,uniprot_field
+Initiator methionine,ft_init_met,PTM / Processsing,yes,uniprot_field
+Lipidation,ft_lipid,PTM / Processsing,yes,uniprot_field
+Modified residue,ft_mod_res,PTM / Processsing,yes,uniprot_field
+Peptide,ft_peptide,PTM / Processsing,yes,uniprot_field
+Post-translational modification,cc_ptm,PTM / Processsing,yes,uniprot_field
+Propeptide,ft_propep,PTM / Processsing,yes,uniprot_field
+Signal peptide,ft_signal,PTM / Processsing,yes,uniprot_field
+Transit peptide,ft_transit,PTM / Processsing,yes,uniprot_field
+3D,structure_3d,Structure,yes,uniprot_field
+Beta strand,ft_strand,Structure,yes,uniprot_field
+Helix,ft_helix,Structure,yes,uniprot_field
+Turn,ft_turn,Structure,yes,uniprot_field
+PubMed ID,lit_pubmed_id,Publications,yes,uniprot_field
+Date of creation,date_created,Date of,yes,uniprot_field
+Date of last modification,date_modified,Date of,yes,uniprot_field
+Date of last sequence modification,date_sequence_modified,Date of,yes,uniprot_field
+Entry version,version,Date of,yes,uniprot_field
+Coiled coil,ft_coiled,Family & Domains,yes,uniprot_field
+Compositional bias,ft_compbias,Family & Domains,yes,uniprot_field
+Domain[CC],cc_domain,Family & Domains,yes,uniprot_field
+Domain[FT],ft_domain,Family & Domains,yes,uniprot_field
+Motif,ft_motif,Family & Domains,yes,uniprot_field
+Protein families,protein_families,Family & Domains,yes,uniprot_field
+Region,ft_region,Family & Domains,yes,uniprot_field
+Repeat,ft_repeat,Family & Domains,yes,uniprot_field
+Zinc finger,ft_zn_fing,Family & Domains,yes,uniprot_field
+CCDS,xref_ccds,Sequences,no,cross_reference
+EMBL,xref_embl,Sequences,yes,cross_reference
+PIR,xref_pir,Sequences,yes,cross_reference
+RefSeq,xref_refseq,Sequences,yes,cross_reference
+BMRB,xref_bmrb,3D structure,no,cross_reference
+EMDB,xref_emdb,3D structure,no,cross_reference
+PCDDB,xref_pcddb,3D structure,no,cross_reference
+PDB,xref_pdb,3D structure,yes,cross_reference
+PDBsum,xref_pdbsum,3D structure,no,cross_reference
+SASBDB,xref_sasbdb,3D structure,no,cross_reference
+SMR,xref_smr,3D structure,no,cross_reference
+BioGRID,xref_biogrid,Protein-protein interaction,yes,cross_reference
+ComplexPortal,xref_corum,Protein-protein interaction,no,cross_reference
+CORUM,xref_complexportal,Protein-protein interaction,yes,cross_reference
+DIP,xref_dip,Protein-protein interaction,no,cross_reference
+ELM,xref_elm,Protein-protein interaction,no,cross_reference
+IntAct,xref_intact,Protein-protein interaction,yes,cross_reference
+MINT,xref_mint,Protein-protein interaction,no,cross_reference
+STRING,xref_string,Protein-protein interaction,no,cross_reference
+BindingDB,xref_bindingdb,Chemistry,no,cross_reference
+ChEMBL,xref_chembl,Chemistry,no,cross_reference
+DrugBank,xref_drugbank,Chemistry,yes,cross_reference
+DrugCentral,xref_drugcentral,Chemistry,no,cross_reference
+GuidetoPHARMACOLOGY,xref_guidetopharmacology,Chemistry,no,cross_reference
+SwissLipids,xref_swisslipids,Chemistry,no,cross_reference
+Allergome,xref_allergome,Protein family/group,yes,cross_reference
+CAZy,xref_cazy,Protein family/group,yes,cross_reference
+CLAE,xref_clae,Protein family/group,no,cross_reference
+ESTHER,xref_esther,Protein family/group,yes,cross_reference
+IDEAL,xref_ideal,Protein family/group,no,cross_reference
+IMGT_GENE-DB,xref_imgt_gene-db,Protein family/group,no,cross_reference
+MEROPS,xref_merops,Protein family/group,no,cross_reference
+MoonDB,xref_moondb,Protein family/group,yes,cross_reference
+MoonProt,xref_moonprot,Protein family/group,no,cross_reference
+PeroxiBase,xref_peroxibase,Protein family/group,yes,cross_reference
+REBASE,xref_rebase,Protein family/group,yes,cross_reference
+TCDB,xref_tcdb,Protein family/group,yes,cross_reference
+UniLectin,xref_unilectin,Protein family/group,no,cross_reference
+CarbonylDB,xref_carbonyldb,PTM,no,cross_reference
+DEPOD,xref_depod,PTM,no,cross_reference
+GlyConnect,xref_glyconnect,PTM,yes,cross_reference
+GlyGen,xref_glygen,PTM,yes,cross_reference
+iPTMnet,xref_iptmnet,PTM,no,cross_reference
+MetOSite,xref_metosite,PTM,no,cross_reference
+PhosphoSitePlus,xref_phosphositeplus,PTM,no,cross_reference
+SwissPalm,xref_swisspalm,PTM,no,cross_reference
+UniCarbKB,xref_unicarbkb,PTM,no,cross_reference
+BioMuta,xref_biomuta,Genetic variation/Polymorphism and mutation,no,cross_reference
+dbSNP,xref_dbsnp,Genetic variation/Polymorphism and mutation,no,cross_reference
+DMDM,xref_dmdm,Genetic variation/Polymorphism and mutation,no,cross_reference
+COMPLUYEAST-2DPAGE,xref_compluyeast-2dpage,2D gel,no,cross_reference
+DOSAC-COBS-2DPAGE,xref_dosac-cobs-2dpage,2D gel,no,cross_reference
+OGP,xref_ogp,2D gel,no,cross_reference
+REPRODUCTION-2DPAGE,xref_reproduction-2dpage,2D gel,no,cross_reference
+SWISS-2DPAGE,xref_swiss-2dpage,2D gel,no,cross_reference
+UCD-2DPAGE,xref_ucd-2dpage,2D gel,no,cross_reference
+World-2DPAGE,xref_world-2dpage,2D gel,no,cross_reference
+CPTAC,xref_cptac,Proteomic,no,cross_reference
+EPD,xref_epd,Proteomic,no,cross_reference
+jPOST,xref_massive,Proteomic,no,cross_reference
+MassIVE,xref_maxqb,Proteomic,no,cross_reference
+MaxQB,xref_pride,Proteomic,no,cross_reference
+PaxDb,xref_paxdb,Proteomic,no,cross_reference
+PeptideAtlas,xref_peptideatlas,Proteomic,no,cross_reference
+PRIDE,xref_promex,Proteomic,no,cross_reference
+ProMEX,xref_proteomicsdb,Proteomic,no,cross_reference
+ProteomicsDB,xref_topdownproteomics,Proteomic,no,cross_reference
+TopDownProteomics,xref_jpost,Proteomic,no,cross_reference
+ABCD,xref_abcd,Protocols and materials,yes,cross_reference
+Antibodypedia,xref_antibodypedia,Protocols and materials,yes,cross_reference
+CPTC,xref_cptc,Protocols and materials,yes,cross_reference
+DNASU,xref_dnasu,Protocols and materials,no,cross_reference
+Ensembl,xref_ensembl,Genome annotation,yes,cross_reference
+EnsemblBacteria,xref_ensemblbacteria,Genome annotation,yes,cross_reference
+EnsemblFungi,xref_ensemblfungi,Genome annotation,yes,cross_reference
+EnsemblMetazoa,xref_ensemblmetazoa,Genome annotation,yes,cross_reference
+EnsemblPlants,xref_ensemblplants,Genome annotation,yes,cross_reference
+EnsemblProtists,xref_ensemblprotists,Genome annotation,yes,cross_reference
+GeneDB,xref_genedb,Genome annotation,no,cross_reference
+GeneID,xref_geneid,Genome annotation,no,cross_reference
+Gramene,xref_gramene,Genome annotation,yes,cross_reference
+KEGG,xref_kegg,Genome annotation,no,cross_reference
+PATRIC,xref_patric,Genome annotation,yes,cross_reference
+UCSC,xref_ucsc,Genome annotation,yes,cross_reference
+VectorBase,xref_vectorbase,Genome annotation,yes,cross_reference
+WBParaSite,xref_wbparasite,Genome annotation,yes,cross_reference
+ArachnoServer,xref_arachnoserver,Organism-specific,yes,cross_reference
+Araport,xref_araport,Organism-specific,no,cross_reference
+CGD,xref_cgd,Organism-specific,yes,cross_reference
+ConoServer,xref_conoserver,Organism-specific,yes,cross_reference
+CTD,xref_ctd,Organism-specific,no,cross_reference
+dictyBase,xref_dictybase,Organism-specific,yes,cross_reference
+DisGeNET,xref_disgenet,Organism-specific,no,cross_reference
+EchoBASE,xref_echobase,Organism-specific,no,cross_reference
+euHCVdb,xref_euhcvdb,Organism-specific,no,cross_reference
+FlyBase,xref_flybase,Organism-specific,yes,cross_reference
+GeneCards,xref_genecards,Organism-specific,no,cross_reference
+GeneReviews,xref_genereviews,Organism-specific,no,cross_reference
+HGNC,xref_hgnc,Organism-specific,yes,cross_reference
+HPA,xref_hpa,Organism-specific,yes,cross_reference
+JaponicusDB,xref_japonicus_db,Organism-specific,yes,cross_reference
+LegioList,xref_legiolist,Organism-specific,no,cross_reference
+Leproma,xref_leproma,Organism-specific,no,cross_reference
+MaizeGDB,xref_maizegdb,Organism-specific,no,cross_reference
+MalaCards,xref_malacards,Organism-specific,no,cross_reference
+MGI,xref_mgi,Organism-specific,yes,cross_reference
+MIM,xref_mim,Organism-specific,yes,cross_reference
+neXtProt,xref_nextprot,Organism-specific,no,cross_reference
+NIAGADS,xref_niagads,Organism-specific,no,cross_reference
+OpenTargets,xref_opentargets,Organism-specific,no,cross_reference
+Orphanet,xref_orphanet,Organism-specific,yes,cross_reference
+PharmGKB,xref_pharmgkb,Organism-specific,no,cross_reference
+PHI-base,xref_phi-base,Organism-specific,no,cross_reference
+PomBase,xref_pombase,Organism-specific,no,cross_reference
+PseudoCAP,xref_pseudocap,Organism-specific,no,cross_reference
+RGD,xref_rgd,Organism-specific,yes,cross_reference
+SGD,xref_sgd,Organism-specific,yes,cross_reference
+TAIR,xref_tair,Organism-specific,yes,cross_reference
+TubercuList,xref_tuberculist,Organism-specific,no,cross_reference
+VEuPathDB,xref_veupathdb,Organism-specific,no,cross_reference
+VGNC,xref_vgnc,Organism-specific,yes,cross_reference
+WormBase,xref_wormbase,Organism-specific,yes,cross_reference
+Xenbase,xref_xenbase,Organism-specific,yes,cross_reference
+ZFIN,xref_zfin,Organism-specific,yes,cross_reference
+eggNOG,xref_eggnog,Phylogenomic,yes,cross_reference
+GeneTree,xref_genetree,Phylogenomic,no,cross_reference
+HOGENOM,xref_hogenom,Phylogenomic,no,cross_reference
+InParanoid,xref_inparanoid,Phylogenomic,no,cross_reference
+KO,xref_ko,Phylogenomic,no,cross_reference
+OMA,xref_oma,Phylogenomic,yes,cross_reference
+OrthoDB,xref_orthodb,Phylogenomic,no,cross_reference
+PhylomeDB,xref_phylomedb,Phylogenomic,no,cross_reference
+TreeFam,xref_treefam,Phylogenomic,no,cross_reference
+BioCyc,xref_biocyc,Enzyme and pathway,no,cross_reference
+BRENDA,xref_brenda,Enzyme and pathway,yes,cross_reference
+PathwayCommons,xref_pathwaycommons,Enzyme and pathway,no,cross_reference
+PlantReactome,xref_plantreactome,Enzyme and pathway,yes,cross_reference
+Reactome,xref_reactome,Enzyme and pathway,no,cross_reference
+SABIO-RK,xref_sabio-rk,Enzyme and pathway,no,cross_reference
+SignaLink,xref_signalink,Enzyme and pathway,no,cross_reference
+SIGNOR,xref_signor,Enzyme and pathway,no,cross_reference
+UniPathway,xref_unipathway,Enzyme and pathway,yes,cross_reference
+BioGRID-ORCS,xref_biogrid-orcs,Miscellaneous,yes,cross_reference
+ChiTaRS,xref_chitars,Miscellaneous,yes,cross_reference
+EvolutionaryTrace,xref_evolutionarytrace,Miscellaneous,no,cross_reference
+GeneWiki,xref_genewiki,Miscellaneous,no,cross_reference
+GenomeRNAi,xref_genomernai,Miscellaneous,no,cross_reference
+Pharos,xref_pharos,Miscellaneous,no,cross_reference
+PRO,xref_pro,Miscellaneous,no,cross_reference
+RNAct,xref_rnact,Miscellaneous,yes,cross_reference
+Bgee,xref_bgee,Gene expression,yes,cross_reference
+CollecTF,xref_collectf,Gene expression,no,cross_reference
+ExpressionAtlas,xref_expressionatlas,Gene expression,yes,cross_reference
+Genevisible,xref_genevisible,Gene expression,yes,cross_reference
+CleanEx,xref_cleanex,Gene expression,no,cross_reference
+CDD,xref_cdd,Family and domain,yes,cross_reference
+DisProt,xref_disprot,Family and domain,no,cross_reference
+Gene3D,xref_gene3d,Family and domain,yes,cross_reference
+HAMAP,xref_hamap,Family and domain,yes,cross_reference
+InterPro,xref_interpro,Family and domain,yes,cross_reference
+NCBIfam,xref_ncbifam,Family and domain,yes,cross_reference
+PANTHER,xref_panther,Family and domain,yes,cross_reference
+Pfam,xref_pfam,Family and domain,yes,cross_reference
+PIRSF,xref_pirsf,Family and domain,yes,cross_reference
+PRINTS,xref_prints,Family and domain,yes,cross_reference
+PROSITE,xref_prosite,Family and domain,yes,cross_reference
+SFLD,xref_sfld,Family and domain,yes,cross_reference
+SMART,xref_smart,Family and domain,yes,cross_reference
+SUPFAM,xref_supfam,Family and domain,yes,cross_reference

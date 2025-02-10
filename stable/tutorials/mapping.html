@@ -1,0 +1,184 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ID Mapping Tutorial &mdash; UniProtMapper 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Field-Based Querying Tutorial" href="field_querying.html" />
+    <link rel="prev" title="UniProtMapper package" href="../api/UniProtMapper.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            UniProtMapper
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../field_reference.html">Return Fields Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/modules.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">ID Mapping Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#basic-mapping">Basic Mapping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mapping-through-cross-referenced-fields">Mapping Through Cross-Referenced Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#available-databases">Available Databases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#handling-failed-mappings">Handling Failed Mappings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#batch-processing">Batch Processing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="field_querying.html">Field-Based Querying Tutorial</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UniProtMapper</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">ID Mapping Tutorial</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id-mapping-tutorial">
+<h1>ID Mapping Tutorial<a class="headerlink" href="#id-mapping-tutorial" title="Link to this heading"></a></h1>
+<p>This tutorial demonstrates how to use UniProtMapper to map between different types of identifiers.</p>
+<section id="basic-mapping">
+<h2>Basic Mapping<a class="headerlink" href="#basic-mapping" title="Link to this heading"></a></h2>
+<p>Here’s a simple example of mapping UniProt accession IDs to Ensembl IDs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">UniProtMapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProtMapper</span>
+
+<span class="n">mapper</span> <span class="o">=</span> <span class="n">ProtMapper</span><span class="p">()</span>
+
+<span class="n">result</span><span class="p">,</span> <span class="n">failed</span> <span class="o">=</span> <span class="n">mapper</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+    <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;P30542&quot;</span><span class="p">,</span> <span class="s2">&quot;Q16678&quot;</span><span class="p">,</span> <span class="s2">&quot;Q02880&quot;</span><span class="p">],</span>
+    <span class="n">from_db</span><span class="o">=</span><span class="s2">&quot;UniProtKB_AC-ID&quot;</span><span class="p">,</span>
+    <span class="n">to_db</span><span class="o">=</span><span class="s2">&quot;Ensembl&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">result</span></code> is a <cite>pandas.DataFrame</cite> containing the query and mapped IDs (column names <cite>From</cite> and <cite>To</cite>, respectively), while <code class="docutils literal notranslate"><span class="pre">failed</span></code> is a list of IDs that couldn’t be mapped.</p>
+</section>
+<section id="mapping-through-cross-referenced-fields">
+<h2>Mapping Through Cross-Referenced Fields<a class="headerlink" href="#mapping-through-cross-referenced-fields" title="Link to this heading"></a></h2>
+<p>Ensembl is also cross-referenced in UniProt entries. In case you’re interested in checking all cross-referenced Ensembl IDs for a given UniProt entry, you can do so by:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">UniProtMapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProtMapper</span>
+
+<span class="n">mapper</span> <span class="o">=</span> <span class="n">ProtMapper</span><span class="p">()</span>
+
+<span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;xref_ensembl&quot;</span><span class="p">]</span>
+<span class="n">result</span><span class="p">,</span> <span class="n">failed</span> <span class="o">=</span> <span class="n">mapper</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+    <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;P30542&quot;</span><span class="p">,</span> <span class="s2">&quot;Q16678&quot;</span><span class="p">,</span> <span class="s2">&quot;Q02880&quot;</span><span class="p">],</span>
+    <span class="n">fields</span><span class="o">=</span><span class="n">fields</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For a full list of the supported fields, check the <a class="reference internal" href="../field_reference.html#supported-fields"><span class="std std-ref">Supported fields</span></a> section of the docs. Here, result is again a <cite>pandas.DataFrame</cite> containing the query and mapped IDs (column names <cite>From</cite> and <cite>Ensembl</cite>, following the <cite>label</cite> column in the reference table).</p>
+</div>
+</section>
+<section id="available-databases">
+<h2>Available Databases<a class="headerlink" href="#available-databases" title="Link to this heading"></a></h2>
+<p>UniProtMapper supports mapping between numerous databases. You can view the complete list of supported databases in <code class="docutils literal notranslate"><span class="pre">ProtMapper()._supported_dbs</span></code> or check UniProt’s documentation.</p>
+</section>
+<section id="handling-failed-mappings">
+<h2>Handling Failed Mappings<a class="headerlink" href="#handling-failed-mappings" title="Link to this heading"></a></h2>
+<p>Some IDs might fail to map if the identifier you’re working with is not listed on the cross-references of a certain UniProt entry. Therefore, <cite>ProtMapper.get</cite> method will always return two values, with the first being the result and the second, a list of IDs that failed to be mapped (an empty list if all IDs were successfully mapped). Here’s how to handle failed mappings:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check if there were any failed mappings</span>
+<span class="k">if</span> <span class="n">failed</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to map </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">failed</span><span class="p">)</span><span class="si">}</span><span class="s2"> IDs:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;- </span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="batch-processing">
+<h2>Batch Processing<a class="headerlink" href="#batch-processing" title="Link to this heading"></a></h2>
+<p>For large sets of IDs, UniProtMapper automatically handles batch processing:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Large list of IDs</span>
+<span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;P30542&quot;</span><span class="p">,</span> <span class="s2">&quot;Q16678&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="s2">&quot;Q02880&quot;</span><span class="p">]</span>
+
+<span class="c1"># UniProtMapper will handle batching automatically</span>
+<span class="n">result</span><span class="p">,</span> <span class="n">failed</span> <span class="o">=</span> <span class="n">mapper</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+    <span class="n">ids</span><span class="o">=</span><span class="n">ids</span><span class="p">,</span>
+    <span class="n">from_db</span><span class="o">=</span><span class="s2">&quot;UniProtKB_AC-ID&quot;</span><span class="p">,</span>
+    <span class="n">to_db</span><span class="o">=</span><span class="s2">&quot;Ensembl&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../api/UniProtMapper.html" class="btn btn-neutral float-left" title="UniProtMapper package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="field_querying.html" class="btn btn-neutral float-right" title="Field-Based Querying Tutorial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, David Araripe.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
