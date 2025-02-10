@@ -18,12 +18,31 @@ Here's a simple example of mapping UniProt accession IDs to Ensembl IDs::
         to_db="Ensembl"
     )
 
-The result is a pandas DataFrame containing the mapped IDs, and failed is a list of IDs that couldn't be mapped.
+The ``result`` is a `pandas.DataFrame` containing the query and mapped IDs (column names `From` and `To`, respectively), while ``failed`` is a list of IDs that couldn't be mapped.
+
+Mapping Through Cross-Referenced Fields
+---------------------------------------
+
+Ensembl is also cross-referenced in UniProt entries. In case you're interested in checking all cross-referenced Ensembl IDs for a given UniProt entry, you can do so by::
+
+    from UniProtMapper import ProtMapper
+    
+    mapper = ProtMapper()
+    
+    fields = ["xref_ensembl"]
+    result, failed = mapper.get(
+        ids=["P30542", "Q16678", "Q02880"],
+        fields=fields,
+    )
+
+.. note::
+
+    For a full list of the supported fields, check the :ref:`supported_fields` section of the docs. Here, result is again a `pandas.DataFrame` containing the query and mapped IDs (column names `From` and `Ensembl`, following the `label` column in the reference table).
 
 Available Databases
 -------------------
 
-UniProtMapper supports mapping between numerous databases. You can view the complete list of supported databases in the mapping_dbs.json file or check UniProt's documentation.
+UniProtMapper supports mapping between numerous databases. You can view the complete list of supported databases in ``ProtMapper()._supported_dbs`` or check UniProt's documentation.
 
 Handling Failed Mappings
 ------------------------
