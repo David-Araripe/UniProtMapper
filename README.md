@@ -75,7 +75,7 @@ The `result` is a pandas DataFrame containing the mapped IDs (see below), while 
 
 ## Retrieving Information
 
-All [supported return fields](https://david-araripe.github.io/UniProtMapper/stable/field_reference.html#supported-fields) are both accessible through the attribute `ProtMapper.fields_table`:
+A DataFrame with the [supported return fields](https://david-araripe.github.io/UniProtMapper/stable/field_reference.html#supported-fields) is accessible through the attribute `ProtMapper.fields_table`:
 
 ```Python
 from UniProtMapper import ProtMapper
@@ -103,6 +103,23 @@ result, failed = mapper.get(["Q02880"])
 fields = ["accession", "organism_name", "structure_3d"]
 result, failed = mapper.get(["Q02880"], fields=fields)
 >>> Fetched: 1 / 1
+```
+
+Further, for the cross-referenced fields that have `has_full_version` set to `yes`, returning the same field with extra information is supported by passing `<field_name>_full`, such as `xref_pdb_full`.
+
+All available return fields are also accessible through the attribute `ProtMapper.supported_return_fields`:
+
+```python
+from UniProtMapper import ProtMapper
+mapper = ProtMapper()
+print(mapper.supported_return_fields)
+
+>>> ['accession',
+>>>  'id',
+>>>  'gene_names',
+>>>  ...
+>>>  'xref_smart_full',
+>>>  'xref_supfam_full']
 ```
 
 ## Field-based Querying
