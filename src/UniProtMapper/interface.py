@@ -22,6 +22,22 @@ class BaseUniProt(ABC):
     - BaseUniProt -> ProtKB (UniProtKB API)
     """
 
+    fields_table = read_fields_table()
+    default_fields = (
+        "accession",
+        "id",
+        "gene_names",
+        "protein_name",
+        "organism_name",
+        "organism_id",
+        "go_id",
+        "go_p",
+        "go_c",
+        "go_f",
+        "cc_subcellular_location",
+        "sequence",
+    )
+
     def __init__(
         self,
         pooling_interval: int = 3,
@@ -44,10 +60,20 @@ class BaseUniProt(ABC):
         self.session = requests.Session()
         self._setup_session()
         self._re_next_link = re.compile(r'<(.+)>; rel="next"')
+        self._cached_supported_return_fields = None
 
     @property
-    def fields_table(self) -> None:
-        return read_fields_table()
+    def supported_return_fields(self) -> list:
+        """Return a list of the supported fields in UniProtKB & ID mapping API."""
+        if self._cached_supported_return_fields is None:
+            full_version_fields = (
+                self.fields_table.query('has_full_version == "yes"')["returned_field"]
+                + "_full"
+            ).tolist()
+            self._cached_supported_return_fields = (
+                self.fields_table["returned_field"].tolist() + full_version_fields
+            )
+        return self._cached_supported_return_fields
 
     def _setup_retries(self, total_retries, backoff_factor) -> None:
         return Retry(
