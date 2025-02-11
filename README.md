@@ -86,11 +86,11 @@ df.head()
 ```
 |    | label                | returned_field   | field_type       | has_full_version   | type          |
 |---:|:---------------------|:-----------------|:-----------------|:-------------------|:--------------|
-|  0 | Entry                | accession        | Names & Taxonomy | yes                | uniprot_field |
-|  1 | Entry Name           | id               | Names & Taxonomy | yes                | uniprot_field |
-|  2 | Gene Names           | gene_names       | Names & Taxonomy | yes                | uniprot_field |
-|  3 | Gene Names (primary) | gene_primary     | Names & Taxonomy | yes                | uniprot_field |
-|  4 | Gene Names (synonym) | gene_synonym     | Names & Taxonomy | yes                | uniprot_field |
+|  0 | Entry                | accession        | Names & Taxonomy | -                  | uniprot_field |
+|  1 | Entry Name           | id               | Names & Taxonomy | -                  | uniprot_field |
+|  2 | Gene Names           | gene_names       | Names & Taxonomy | -                  | uniprot_field |
+|  3 | Gene Names (primary) | gene_primary     | Names & Taxonomy | -                  | uniprot_field |
+|  4 | Gene Names (synonym) | gene_synonym     | Names & Taxonomy | -                  | uniprot_field |
 
 From the DataFrame, all `return_field` entries can be used to access UniProt data programmatically:
 
