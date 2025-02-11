@@ -24,10 +24,10 @@ The supported return fields are listed below. The columns contain different info
 - **label**: The label used by UniProt to represent this field. Also used as column names on the `pd.DataFrame` returned from `get` methods implemented on both APIs.
 - **returned_field**: Name used to specify which information to retrieve by the APIs. For examples, check below.
 - **field_type**: The category of the field, as listed above under `Field Categories`. Note that for `type=='cross_reference'`, the field_type is the category of the cross-referenced database.
-- **has_full_version**: Always `yes` for `type=='uniprot_field'`. Is used by UniProt to indicate whether a cross-referenced database is fully integrated.
+- **has_full_version**: Not available for `type=='uniprot_field'`. If `yes`, a "full" version of the return field is accessible by using ``<field_name>_full``.
 - **type**: Either "uniprot_field" or "cross_reference". The former indicates a field that is directly related to the protein, while the latter indicates a field that is a cross-reference to another database and not native to UniProt.
 
-For more up-to-date information on `has_full_version` of cross-referenced fields, check the official UniProt documentation: `Return Fields <https://www.uniprot.org/help/return_fields_databases>`_
+For more up-to-date information on `has_full_version` of cross-referenced fields, check the official UniProt documentation: `Return Fields <https://www.uniprot.org/help/return_fields_databases>`_. In case of discrepancies, issues or pull requests are welcome!
 
 .. csv-table:: Supported Return Fields
    :header-rows: 1

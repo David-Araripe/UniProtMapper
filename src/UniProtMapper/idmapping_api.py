@@ -60,20 +60,6 @@ class ProtMapper(BaseUniProt):
             backoff_factor,
             api_url,
         )
-        self.default_fields = (
-            "accession",
-            "id",
-            "gene_names",
-            "protein_name",
-            "organism_name",
-            "organism_id",
-            "go_id",
-            "go_p",
-            "go_c",
-            "go_f",
-            "cc_subcellular_location",
-            "sequence",
-        )
 
     @property
     def _supported_dbs(self) -> list:
@@ -170,7 +156,7 @@ class ProtMapper(BaseUniProt):
     def get(
         self,
         ids: Union[List[str], str],
-        fields: Optional[Union[str, List]] = "default",
+        fields: Optional[Union[str, List]] = None,
         from_db: str = "UniProtKB_AC-ID",
         to_db: str = "UniProtKB-Swiss-Prot",
         compressed: bool = True,
@@ -181,9 +167,10 @@ class ProtMapper(BaseUniProt):
 
         Args:
             ids: list of IDs to be mapped or single string.
-            fields: list of UniProt fields to be retrieved. If None, will return the API's
-                default fields. `Note:` parameter not supported for datasets that aren't
-                strictly UniProtKB, e.g.: UniParc, UniRef... Defaults to None.
+            fields: list of UniProt return fields to be retrieved. If None, will return the
+                API's default fields. `default` can also be passsed to access `self.default_fields`.
+                **Note** parameter not supported for datasets that aren't strictly UniProtKB,
+                e.g.: UniParc, UniRef... Defaults to None.
             from_db: database for the ids. Defaults to "UniProtKB_AC-ID".
             to_db: UniProtDB to query to. For reviewed-only accessions, use default. If
                 you want to include unreviewed accessions, use "UniProtKB". Defaults to
@@ -207,10 +194,10 @@ class ProtMapper(BaseUniProt):
                 fields = self.default_fields
             else:
                 fields = np.char.lower(np.array(fields))
-                if not np.isin(fields, self.fields_table["returned_field"]).all():
+                if not np.isin(fields, self.supported_return_fields).all():
                     raise ValueError(
                         "Invalid fields. Valid fields are: "
-                        f"{self.fields_table['returned_field'].values}"
+                        f"{self.supported_return_fields}"
                     )
         if to_db not in ["UniProtKB-Swiss-Prot", "UniProtKB"]:
             if fields is not None:

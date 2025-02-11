@@ -4,6 +4,7 @@ field classes found in `UniProtMapper.uniprotkb_fields`."""
 from logging import info
 from typing import Generator, List, Optional, Tuple, Union
 
+import numpy as np
 import pandas as pd
 import requests
 from tqdm import tqdm
@@ -138,7 +139,7 @@ class ProtKB(BaseUniProt):
     def get(
         self,
         query: Union[QueryBuilder, str],
-        fields: Optional[List[str]] = None,
+        fields: Optional[Union[str, List]] = None,
         include_isoform: bool = False,
         compressed: bool = False,
         size: int = 500,
@@ -149,7 +150,11 @@ class ProtKB(BaseUniProt):
         An example of this would be:
 
         Args:
-            fields: string or QueryBuilder object with the fields to retrieve.
+            query: Query string or QueryBuilder object (UniProtMapper.uniprot_kb_fields).
+            fields: list of UniProt return fields to be retrieved. If None, will return the
+                API's default fields. `default` can also be passsed to access `self.default_fields`.
+                **Note** parameter not supported for datasets that aren't strictly UniProtKB,
+                e.g.: UniParc, UniRef... Defaults to None.
             include_isoform: Whether to include isoforms. Defaults to False
             compressed: Whether to request compressed response. Defaults to False
             size: Batch size for pagination. Defaults to 500
@@ -157,6 +162,16 @@ class ProtKB(BaseUniProt):
         Returns:
             - DataFrame with the retrieved data
         """
+        if fields is not None:
+            if fields == "default":
+                fields = self.default_fields
+            else:
+                fields = np.char.lower(np.array(fields))
+                if not np.isin(fields, self.supported_return_fields).all():
+                    raise ValueError(
+                        "Invalid fields. Valid fields are: "
+                        f"{self.supported_return_fields}"
+                    )
         if fields is None:
             info(
                 f"No fields provided. Using default fields: {', '.join(self.default_fields)}"
