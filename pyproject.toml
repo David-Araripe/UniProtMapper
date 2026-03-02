@@ -7,22 +7,21 @@ name = "uniprot-id-mapper"
 dynamic = ["version"]
 description = "A Python wrapper for the UniProt Mapping RESTful API."
 readme = { file = "README.md", content-type = "text/markdown" }
-requires-python = ">=3.7"
+requires-python = ">=3.9"
 license = { file = "LICENSE" }
 keywords = ["uniprot", "database", "protein ID", "gene ID", "parser"]
-authors = [{ name = "David Araripe", email = "david.araripe17@gmail.com" }]
-maintainers = [{ name = "David Araripe", email = "david.araripe17@gmail.com" }]
+authors = [{ name = "David Araripe", email = "david@araripe.nl" }]
+maintainers = [{ name = "David Araripe", email = "david@araripe.nl" }]
 classifiers = [
   "Development Status :: 5 - Production/Stable",
   "License :: OSI Approved :: MIT License",
   "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3.14",
   "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.9",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.7",
 ]
 
 dependencies = ["requests", "pandas", "numpy", "tqdm"]

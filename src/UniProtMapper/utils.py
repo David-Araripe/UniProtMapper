@@ -11,14 +11,9 @@ import requests
 
 
 def get_resource_file(filename: str) -> str:
-    try:
-        import pkg_resources
+    from importlib.resources import files
 
-        return pkg_resources.resource_filename("UniProtMapper", filename)
-    except ImportError:
-        from importlib import resources
-
-        return str(resources.files("UniProtMapper") / filename)
+    return str(files("UniProtMapper") / filename)
 
 
 def get_resources_root() -> Path:
